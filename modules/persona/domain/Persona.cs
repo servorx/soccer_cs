@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using soccer_csharp;
+using soccer_cs;
 
-namespace soccer_cs.models;
+namespace soccer_cs;
 
 public class Persona
 {

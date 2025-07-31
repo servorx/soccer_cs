@@ -65,7 +65,7 @@ public class MenuPrincipal
       switch (opcion)
       {
         case "0":
-          MenuTorneos menuTorneos = new MenuTorneos();
+          MenuTorneo menuTorneos = new MenuTorneo();
           menuTorneos.Mostrar();
           break;
         case "1":

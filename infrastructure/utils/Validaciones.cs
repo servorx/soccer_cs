@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace soccer_cs;
+
 public class Validaciones
 {
   public string ValidarTexto(string? text)
@@ -61,4 +62,6 @@ public class Validaciones
       boleano = Console.ReadLine();
     }
   }
+  // TODO: hacer validacion de si la base de datos esta creada o no, si no esta creada, crearla a traves del ddl con comandos de consola 
+  
 }

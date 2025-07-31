@@ -13,3 +13,4 @@
 /home/camper/soccer_cs/obj/Debug/net9.0/soccer_cs.pdb
 /home/camper/soccer_cs/obj/Debug/net9.0/soccer_cs.genruntimeconfig.cache
 /home/camper/soccer_cs/obj/Debug/net9.0/ref/soccer_cs.dll
+/home/camper/soccer_cs/obj/Debug/net9.0/soccer_cs.csproj.AssemblyReference.cache
