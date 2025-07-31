@@ -2,140 +2,125 @@ DROP DATABASE IF EXISTS soccer_scharp;
 CREATE DATABASE IF NOT EXISTS soccer_scharp;
 USE soccer_scharp;
 
-CREATE TABLE IF NOT EXISTS Persona (
-  Id INT PRIMARY KEY AUTO_INCREMENT,
-  Nombre VARCHAR(255),
-  Apellido VARCHAR(255),
-  Edad INT,
-  Nacionalidad VARCHAR(255),
-  DocumentoIdentidad INT UNIQUE,
-  Genero VARCHAR(50)
-);
+CREATE TABLE IF NOT EXISTS personas (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(80),
+  apellido VARCHAR(80),
+  edad INT,
+  nacionalidad VARCHAR(50),
+  documento_identidad INT UNIQUE,
+  genero VARCHAR(50)
+) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS CuerpoMedico (
-  Id INT PRIMARY KEY,
-  Especialidad VARCHAR(255),
-  AniosExperiencia INT,
-  CONSTRAINT fk_id_cuerpomedico FOREIGN KEY (Id) REFERENCES Persona(Id) 
-);
+CREATE TABLE IF NOT EXISTS cuerpo_medico (
+  id INT PRIMARY KEY,
+  especialidad VARCHAR(100),
+  anios_experiencia INT,
+  CONSTRAINT fk_id_cuerpomedico FOREIGN KEY (id) REFERENCES personas(id) 
+) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS CuerpoTecnico (
-  Id INT PRIMARY KEY,
-  Rol VARCHAR(255),
-  AniosExperiencia INT,
-  FOREIGN KEY (Id) REFERENCES Persona(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS cuerpo_tecnico (
+  id INT PRIMARY KEY,
+  rol VARCHAR(40),
+  anios_experiencia INT,
+  CONSTRAINT fk_id_cuerpotecnico FOREIGN KEY (id) REFERENCES personas(id)
+) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS EstadisticaJugador (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
-    Goles INT,
-    Asistencias INT,
-    PartidosJugados INT,
-    Estatura FLOAT,
-    Peso FLOAT,
-    TarjetasAmarillas INT,
-    TarjetasRojas INT
-);
+CREATE TABLE IF NOT EXISTS estadistica_jugador (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  goles INT,
+  asistencias INT,
+  partidosJugados INT,
+  estatura DECIMAL(4,2),
+  peso DECIMAL(5,2),
+  tarjetas_amarillas INT,
+  tarjetas_rojas INT,
+  CONSTRAINT fk_est_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
+) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS Jugador (
-    Id INT PRIMARY KEY,
-    Posicion VARCHAR(255),
-    NumeroDorsal INT,
-    PieHabil VARCHAR(50),
-    ValorMercado FLOAT,
-    -- EquipoActual VARCHAR(255), -- Esto se manejará con una relación en la tabla Equipo
-    FOREIGN KEY (Id) REFERENCES Persona(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS jugadores (
+  id INT PRIMARY KEY,
+  posicion VARCHAR(40),
+  numero_dorsal INT,
+  pie_habil VARCHAR(50),
+  valor_mercado DECIMAL(12,2),
+  CONSTRAINT fk_id_jugadores FOREIGN KEY (id) REFERENCES personas(id)
+) ENGINE=INNODB;
 
--- Table: JugadorEstadistica
-CREATE TABLE IF NOT EXISTS JugadorEstadistica (
-    JugadorId INT,
-    EstadisticaId INT,
-    PRIMARY KEY (JugadorId, EstadisticaId),
-    FOREIGN KEY (JugadorId) REFERENCES Jugador(Id) ON DELETE CASCADE,
-    FOREIGN KEY (EstadisticaId) REFERENCES EstadisticaJugador(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS equipos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) UNIQUE,
+  ciudad VARCHAR(50),
+  pais VARCHAR(40),
+  estadio VARCHAR(180),
+  tipo_equipo VARCHAR(30),
+  cantidad_titulos INT
+) ENGINE=INNODB;
 
--- Table: Equipo
-CREATE TABLE IF NOT EXISTS Equipo (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre VARCHAR(255) UNIQUE,
-    Ciudad VARCHAR(255),
-    Pais VARCHAR(255),
-    Estadio VARCHAR(255),
-    TipoEquipo VARCHAR(255),
-    CantidadTitulos INT DEFAULT 0
-);
+CREATE TABLE IF NOT EXISTS equipo_jugador (
+  id_equipo INT,
+  id_jugador INT,
+  fecha_inicio DATE,
+  fecha_fin DATE,    
+  PRIMARY KEY (id_equipo, id_jugador),
+  CONSTRAINT fk_id_equipo_equipo_jugador FOREIGN KEY (id_equipo) REFERENCES equipos(id),
+  CONSTRAINT fk_id_jugador_equipo_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
+) ENGINE=INNODB;
 
--- Table: EquipoCuerpoTecnico (Tabla de unión para la relación N:M)
-CREATE TABLE IF NOT EXISTS EquipoCuerpoTecnico (
-    EquipoId INT,
-    CuerpoTecnicoId INT,
-    PRIMARY KEY (EquipoId, CuerpoTecnicoId),
-    FOREIGN KEY (EquipoId) REFERENCES Equipo(Id) ON DELETE CASCADE,
-    FOREIGN KEY (CuerpoTecnicoId) REFERENCES CuerpoTecnico(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS equipo_cuerpo_tecnico (
+  id_equipo INT,
+  id_cuerpo_tecnico INT,
+  PRIMARY KEY (id_equipo, id_cuerpo_tecnico),
+  CONSTRAINT fk_ie_ect FOREIGN KEY (id_equipo) REFERENCES equipos(id),
+  CONSTRAINT fk_iect_ect FOREIGN KEY (id_cuerpo_tecnico) REFERENCES cuerpo_tecnico(id)
+) ENGINE=INNODB;
 
--- Table: EquipoCuerpoMedico (Tabla de unión para la relación N:M)
-CREATE TABLE IF NOT EXISTS EquipoCuerpoMedico (
-    EquipoId INT,
-    CuerpoMedicoId INT,
-    PRIMARY KEY (EquipoId, CuerpoMedicoId),
-    FOREIGN KEY (EquipoId) REFERENCES Equipo(Id) ON DELETE CASCADE,
-    FOREIGN KEY (CuerpoMedicoId) REFERENCES CuerpoMedico(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS equipo_cuerpo_medico (
+  id_equipo INT,
+  id_cuerpo_medico INT,
+  PRIMARY KEY (id_equipo, id_cuerpo_medico),
+  CONSTRAINT fk_ie_ecm FOREIGN KEY (id_equipo) REFERENCES equipos(id),
+  CONSTRAINT fk_icm_ecm FOREIGN KEY (id_cuerpo_medico) REFERENCES cuerpo_medico(id)
+) ENGINE=INNODB;
 
--- Table: EquipoJugador (Tabla de unión para la relación N:M, o 1:N si un jugador solo juega para un equipo a la vez)
-CREATE TABLE IF NOT EXISTS EquipoJugador (
-    EquipoId INT,
-    JugadorId INT,
-    FechaInicio DATE, -- Para saber cuándo el jugador se unió al equipo
-    FechaFin DATE,    -- Para saber cuándo el jugador dejó el equipo (puede ser NULL)
-    PRIMARY KEY (EquipoId, JugadorId),
-    FOREIGN KEY (EquipoId) REFERENCES Equipo(Id) ON DELETE CASCADE,
-    FOREIGN KEY (JugadorId) REFERENCES Jugador(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS estadistica_equipo (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  id_equipo INT,
+  partidos_ganados INT,
+  partidos_empatados INT,
+  partidos_perdidos INT,
+  goles_a_favor INT,
+  goles_en_contra INT,
+  CONSTRAINT fk_id_equipo_ee FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+) ENGINE=INNODB;
 
--- Table: EstadisticaEquipo
-CREATE TABLE IF NOT EXISTS EstadisticaEquipo (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
-    EquipoId INT,
-    PartidosGanados INT DEFAULT 0,
-    PartidosEmpatados INT DEFAULT 0,
-    PartidosPerdidos INT DEFAULT 0,
-    GolesAFavor INT DEFAULT 0,
-    GolesEnContra INT DEFAULT 0,
-    FOREIGN KEY (EquipoId) REFERENCES Equipo(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS torneos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(255) UNIQUE,
+  tipo VARCHAR(30),
+  ubicacion VARCHAR(255),
+  fecha_creacion VARCHAR(40), 
+  duracion_dias INT,
+  premio DECIMAL(12,2)
+) ENGINE=INNODB;
 
--- Table: Torneo
-CREATE TABLE IF NOT EXISTS Torneo (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre VARCHAR(255) UNIQUE,
-    Tipo VARCHAR(255),
-    Ubicacion VARCHAR(255),
-    FechaCreacion DATE, -- Cambiado a DATE para mejor manejo de fechas
-    DuracionDias INT,
-    Premio VARCHAR(255)
-);
+CREATE TABLE IF NOT EXISTS torneo_equipo (
+  id_torneo INT,
+  id_equipo INT,
+  PRIMARY KEY (id_torneo, id_equipo),
+  CONSTRAINT fk_id_torneo_te FOREIGN KEY (id_torneo) REFERENCES torneos(id),
+  CONSTRAINT fk_id_equipo_te FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+) ENGINE=INNODB;
 
--- Table: TorneoEquipo (Tabla de unión para la relación N:M)
-CREATE TABLE IF NOT EXISTS TorneoEquipo (
-    TorneoId INT,
-    EquipoId INT,
-    PRIMARY KEY (TorneoId, EquipoId),
-    FOREIGN KEY (TorneoId) REFERENCES Torneo(Id) ON DELETE CASCADE,
-    FOREIGN KEY (EquipoId) REFERENCES Equipo(Id) ON DELETE CASCADE
-);
-
--- Table: Transferencia
-CREATE TABLE IF NOT EXISTS Transferencia (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
-    JugadorId INT,
-    EquipoOrigen VARCHAR(255), -- Podríamos usar IDs de equipos aquí para una mejor normalización
-    EquipoDestino VARCHAR(255), -- Podríamos usar IDs de equipos aquí para una mejor normalización
-    TipoTransferencia VARCHAR(255),
-    ValorTransferencia FLOAT,
-    FechaTransferencia DATE DEFAULT (CURRENT_DATE), -- Añadida columna para la fecha de la transferencia
-    FOREIGN KEY (JugadorId) REFERENCES Jugador(Id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS transferencia (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  id_jugador INT,
+  id_equipo_origen INT,
+  id_equipo_destino INT, 
+  tipo_transferencia VARCHAR(120),
+  valor_transferencia DECIMAL(12,2),
+  fecha_transferencia DATE,
+  CONSTRAINT fk_id_jugador_transferencia FOREIGN KEY (id_jugador) REFERENCES jugadores(id),
+  CONSTRAINT fk_id_equipo_origen_transferencia FOREIGN KEY (id_equipo_origen) REFERENCES equipos(id),
+  CONSTRAINT fk_id_equipo_destino_transferencia FOREIGN KEY (id_equipo_destino) REFERENCES equipos(id)
+) ENGINE=INNODB;

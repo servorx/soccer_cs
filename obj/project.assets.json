@@ -1548,24 +1548,25 @@
     ]
   },
   "packageFolders": {
-    "/home/camper/.nuget/packages/": {}
+    "/home/angel/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/camper/soccer_cs/soccer_cs.csproj",
+      "projectUniqueName": "/home/angel/Desktop/formacion/I_love_code/C#/campus/soccer_cs/soccer_cs.csproj",
       "projectName": "soccer_cs",
-      "projectPath": "/home/camper/soccer_cs/soccer_cs.csproj",
-      "packagesPath": "/home/camper/.nuget/packages/",
-      "outputPath": "/home/camper/soccer_cs/obj/",
+      "projectPath": "/home/angel/Desktop/formacion/I_love_code/C#/campus/soccer_cs/soccer_cs.csproj",
+      "packagesPath": "/home/angel/.nuget/packages/",
+      "outputPath": "/home/angel/Desktop/formacion/I_love_code/C#/campus/soccer_cs/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/camper/.nuget/NuGet/NuGet.Config"
+        "/home/angel/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1584,7 +1585,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -1611,7 +1612,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.108/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
