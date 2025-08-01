@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS cuerpo_tecnico (
   CONSTRAINT fk_id_cuerpotecnico FOREIGN KEY (id) REFERENCES personas(id)
 ) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS jugadores (
-  id INT PRIMARY KEY,
-  posicion VARCHAR(40),
-  numero_dorsal INT,
-  pie_habil VARCHAR(50),
-  valor_mercado DECIMAL(12,2),
-  CONSTRAINT fk_id_jugadores FOREIGN KEY (id) REFERENCES personas(id)
-) ENGINE=INNODB;
+-- CREATE TABLE IF NOT EXISTS jugadores (
+--   id INT PRIMARY KEY,
+--   posicion VARCHAR(40),
+--   numero_dorsal INT,
+--   pie_habil VARCHAR(50),
+--   valor_mercado DECIMAL(12,2),
+--   CONSTRAINT fk_id_jugadores FOREIGN KEY (id) REFERENCES personas(id)
+-- ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS estadistica_jugador (
   id INT PRIMARY KEY AUTO_INCREMENT,

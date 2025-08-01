@@ -15,4 +15,20 @@ public class Persona
   public string? Nacionalidad { get; set; }
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
+  // define el constructor de la clase Persona para poder declararla como subclase de CuerpoMedico y otras clases
+  public Persona(int id, string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
+  {
+    Id = id;
+    Nombre = nombre;
+    Apellido = apellido;
+    Edad = edad;
+    Nacionalidad = nacionalidad;
+    DocumentoIdentidad = documento_identidad;
+    Genero = genero;
+  }
+  public Persona() { }
+  public override string ToString()
+  {
+    return $"{Nombre} {Apellido}, Edad: {Edad}, Nacionalidad: {Nacionalidad}, ID: {DocumentoIdentidad}, Género: {Genero}";
+  }
 }
