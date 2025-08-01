@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer_cs.infrastructure.utils;
 
 namespace soccer_cs.ui;
 public class MenuPrincipal
@@ -51,7 +52,8 @@ public class MenuPrincipal
     Console.WriteLine("1. Equipos");
     Console.WriteLine("2. Jugadores");
     Console.WriteLine("3. Estadisticas");
-    Console.WriteLine("4. Salir\n");
+    Console.WriteLine("4. Borrar Base de Datos");
+    Console.WriteLine("5. Salir\n");
     Console.Write("Selecciona una opción: ");
   }
   public void EjecutarMenuMain()
@@ -81,6 +83,10 @@ public class MenuPrincipal
           menuEstadisticas.Mostrar();
           break;
         case "4":
+          DbInstaller dbInstaller = new DbInstaller();
+          dbInstaller.BorrarBaseDeDatos("Server=localhost;Uid=root;Pwd=s1e2r3v0or;", "soccer_cs");
+          break;
+        case "5":
           validation_program = false;
           Console.Clear();
           Console.ForegroundColor = ConsoleColor.Cyan;

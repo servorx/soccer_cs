@@ -224,7 +224,6 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   |   ├── IGenericRepository.cs
 │   │   └── ddl.sql
 │   └── Utils/
-│       ├── IdGenerator.cs
 │       └── Validaciones.cs
 │
 ├── ui/       

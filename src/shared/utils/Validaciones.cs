@@ -62,9 +62,5 @@ public class Validaciones
       boleano = Console.ReadLine();
     }
   }
-  // TODO: hacer validacion de si la base de datos esta creada o no, si no esta creada, crearla a traves del ddl con comandos de consola 
-  public void ValidarBaseDatosCreada()
-  {
-    
-  }
+
 }
