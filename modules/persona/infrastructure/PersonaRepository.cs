@@ -8,7 +8,7 @@ namespace soccer_cs;
 
 public class PersonaRepository : IGenericRepository<Persona>, IPersonaRepository
 {
-  public readonly ConexionSingleton _conexion;
+  private readonly ConexionSingleton _conexion;
   public PersonaRepository(string conecctionString)
   {
     _conexion = ConexionSingleton.Instancia(conecctionString);

@@ -7,6 +7,7 @@ using soccer_cs.infrastructure.data;
 using soccer_cs.models;
 
 namespace soccer_cs.infrastructure.data;
+
 public class MySqlDbFactory : IDbFactory
 {
   private readonly string _connectionString;
@@ -22,44 +23,52 @@ public class MySqlDbFactory : IDbFactory
   {
     return new CuerpoMedicoRepository(_connectionString);
   }
-
   public ICuerpoTecnicoRepository CrearCuerpoTecnicoRepository()
   {
     return new CuerpoTecnicoRepository(_connectionString);
   }
-
   public IEquipoRepository CrearEquipoRepository()
   {
     return new EquipoRepository(_connectionString);
   }
-
+  public IEquipoCuerpoMedicoRepository CrearEquipoCuerpoMedicoRepository()
+  {
+    return new EquipoCuerpoMedicoRepository(_connectionString);
+  }
+  public IEquipoCuerpoTecnicoRepository CrearEquipoCuerpoTecnicoRepository()
+  {
+    return new EquipoCuerpoTecnicoRepository(_connectionString);
+  }
+  public IEquipoJugadorRepository CrearEquipoJugadorRepository()
+  {
+    return new EquipoJugadorRepository(_connectionString);
+  }
   public IEstadisticaEquipoRepository CrearEstadisticaEquipoRepository()
   {
     return new EstadisticaEquipoRepository(_connectionString);
   }
-
   public IEstadisticaJugadorRepository CrearEstadisticaJugadorRepository()
   {
     return new EstadisticaJugadorRepository(_connectionString);
   }
-
   public IJugadorRepository CrearJugadorRepository()
   {
     return new JugadorRepository(_connectionString);
   }
-
   public IPersonaRepository CrearPersonaRepository()
   {
     return new PersonaRepository(_connectionString);
   }
-
   public ITorneoRepository CrearTorneoRepository()
   {
     return new TorneoRepository(_connectionString);
   }
-
-  public ITransferenciaRepository CrearTransferenciaRepository()
+  public ITorneoEquipoService CrearTorneoEquipoService()
   {
+    return new TorneoEquipoService(_connectionString);
+  }
+  public ITransferenciaRepository CrearTransferenciaRepository()
+  { 
     return new TransferenciaRepository(_connectionString);
   }
 }

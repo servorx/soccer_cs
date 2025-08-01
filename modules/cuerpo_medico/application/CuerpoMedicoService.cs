@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace soccer_cs;
-public class CuerpoMedicoService
+
+public class CuerpoMedicoService : IGenericRepository<CuerpoMedico>
 {
+  List<CuerpoMedico> cuerpoMedicos = new List<CuerpoMedico>();
   
 }
