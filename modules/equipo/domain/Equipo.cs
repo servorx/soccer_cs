@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer.modules;
+using soccer_cs;
+using soccer_cs.models;
 
-namespace soccer;
+namespace soccer.modules.equipo.domain;
 
 public class Equipo
 {

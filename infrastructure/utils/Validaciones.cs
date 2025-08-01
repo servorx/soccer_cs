@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace soccer_cs;
+namespace soccer_cs.infrastructure.utils;
 
 public class Validaciones
 {
@@ -63,5 +63,8 @@ public class Validaciones
     }
   }
   // TODO: hacer validacion de si la base de datos esta creada o no, si no esta creada, crearla a traves del ddl con comandos de consola 
-  
+  public void ValidarBaseDatosCreada()
+  {
+    
+  }
 }

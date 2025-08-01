@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using soccer_cs;
+using soccer_cs.infrastructure.utils;
+using soccer_cs.infrastructure.data;
+using soccer_cs.application;
 
-namespace soccer_cs.models;
+
+namespace soccer_cs.application;
 public class PersonaService
 {
+  private readonly IPersonaRepository? _personaRepository;
   private readonly Validaciones validate_input = new();
-  private readonly IdUtil id_util = new();
   public void CrearPersona()
   {
     Console.Clear();
     Console.WriteLine("=== CREAR NUEVA PERSONA ===");
-
-    int id_nuevo = id_util.GenerarID();
 
     System.Console.Write("Ingrese el nombre de la persona: ");
     string nombre = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
@@ -35,7 +37,7 @@ public class PersonaService
     string genero = validate_input.ValidarTexto(Console.ReadLine());
 
     System.Console.WriteLine("\nIngresaste los siguientes datos:");
-    Persona nueva_persona = new Persona(id_nuevo, nombre, apellido, edad, nacionalidad, documento_identidad, genero);
+    Persona nueva_persona = new Persona();
     nueva_persona.ToString();
     System.Console.WriteLine("deseas guardar los datos? (s/n): ");
 
@@ -43,7 +45,7 @@ public class PersonaService
     // agregar los datos a la lista de Personas
     if (validate_data)
     {
-      AppData.Personas.Add(nueva_persona);
+      _personaRepository.Crear(nueva_persona);
       Console.Clear();
       System.Console.WriteLine("Persona creada exitosamente :)");
       System.Console.WriteLine("presione una tecla para continuar...");

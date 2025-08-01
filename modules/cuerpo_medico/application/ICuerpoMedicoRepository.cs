@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace soccer_cs;
-public interface ICuerpoMedicoRepository
+public interface ICuerpoMedicoRepository : IGenericRepository<CuerpoMedico>
 {
-  
+  List<CuerpoMedico> ObtenerTodosLosCuerposMedicos();
 }

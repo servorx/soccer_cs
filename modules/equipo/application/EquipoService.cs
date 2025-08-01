@@ -4,11 +4,12 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Org.BouncyCastle.Asn1;
-using soccer_csharp.utils;
-using soccer_csharp.services;
-using soccer_csharp.models;
-using soccer_csharp.data;
+using soccer_cs.infrastructure.utils;
 using System.Runtime.CompilerServices;
+using soccer_cs.services;
+using soccer.modules.equipo.domain;
+using soccer_cs.models;
+
 
 namespace soccer_cs;
 

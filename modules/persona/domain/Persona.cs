@@ -8,7 +8,7 @@ namespace soccer_cs;
 
 public class Persona
 {
-  public int Id { get; set; }
+  public int? Id { get; set; }
   public string? Nombre { get; set; }
   public string? Apellido { get; set; }
   public int Edad { get; set; }
@@ -16,7 +16,7 @@ public class Persona
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
   // define el constructor de la clase Persona para poder declararla como subclase de CuerpoMedico y otras clases
-  public Persona(int id, string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
+  public Persona(int? id, string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
   {
     Id = id;
     Nombre = nombre;
