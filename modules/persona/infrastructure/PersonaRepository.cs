@@ -18,8 +18,7 @@ public class PersonaRepository : IGenericRepository<Persona>, IPersonaRepository
   public void Crear(Persona persona)
   {
     // Implementación para crear una persona en la base de datos
-    using var connection = _conexion.ObtenerConexion(connectionString);
-    connection.Open();
+    var connection = _conexion.ObtenerConexion();
     // creacion del insert que se va a usar en consola para crear una persona
     string query = "INSERT INTO personas (nombre, apellido, edad, nacionalidad, documento_identidad, genero) VALUES (@Nombre, @Apellido, @Edad, @Nacionalidad, @DocumentoIdentidad, @Genero)";
     // colocar los parametros en el comando
@@ -32,7 +31,6 @@ public class PersonaRepository : IGenericRepository<Persona>, IPersonaRepository
     command.Parameters.AddWithValue("@Genero", persona.Genero);
     // ejecutar el comando
     command.ExecuteNonQuery();
-    persona
   }
   public void Actualizar(Persona persona)
   {

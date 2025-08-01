@@ -39,4 +39,9 @@ public class ConexionSingleton
 
     return _conexion;
   }
+
+    internal MySqlConnection ObtenerConexion(object connectionString)
+    {
+        throw new NotImplementedException();
+    }
 }

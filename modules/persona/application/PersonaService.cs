@@ -11,8 +11,13 @@ using soccer_cs.application;
 namespace soccer_cs.application;
 public class PersonaService
 {
-  private readonly IPersonaRepository? _personaRepository;
+  private readonly IPersonaRepository _personaRepository;
   private readonly Validaciones validate_input = new();
+  // creacion del constructor de la clase PersonaService 
+  public PersonaService(IPersonaRepository personaRepository)
+  {
+    _personaRepository = personaRepository;
+  }
   public void CrearPersona()
   {
     Console.Clear();
