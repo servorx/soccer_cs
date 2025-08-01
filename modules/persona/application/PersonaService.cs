@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using soccer_csharp.data;
-using soccer_csharp.models;
-using soccer_csharp.utils;
+using soccer_cs;
 
-namespace soccer_cs.services;
+namespace soccer_cs.models;
 public class PersonaService
 {
   private readonly Validaciones validate_input = new();

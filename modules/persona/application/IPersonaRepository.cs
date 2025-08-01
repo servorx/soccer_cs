@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace soccer_cs;
-public interface IPersonaRepository
+public interface IPersonaRepository : IGenericRepository<Persona>
 {
-  
+  List<Persona> ObtenerTodasLasPersonas();
 }

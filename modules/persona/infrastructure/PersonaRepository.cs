@@ -2,9 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer_cs.infrastructure.data;
 
 namespace soccer_cs;
-public class PersonaRepository
+
+public class PersonaRepository : IGenericRepository<Persona>, IPersonaRepository
 {
-  
+  public readonly ConexionSingleton _conexion;
+  public PersonaRepository(string conecctionString)
+  {
+    _conexion = ConexionSingleton.Instancia(conecctionString);
+  }
+  public void Crear(Persona entity)
+  {
+    // Implementación para crear una persona en la base de datos
+    throw new NotImplementedException();
+  }
+  public void Actualizar(Persona entity)
+  {
+    // aqui tambien
+    throw new NotImplementedException();
+  }
+  public void Eliminar(int id)
+  {
+    // Implementación para eliminar una persona por ID
+    throw new NotImplementedException();
+  }
+  public List<Persona> ObtenerTodasLasPersonas()
+  {
+    // Implementación para obtener todas las personas de la base de datos
+    throw new NotImplementedException();
+  }
 }
