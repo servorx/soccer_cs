@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS torneos (
   nombre VARCHAR(255) UNIQUE,
   tipo VARCHAR(30),
   ubicacion VARCHAR(255),
-  fecha_creacion DATA, 
+  fecha_creacion DATE, 
   duracion_dias INT,
   premio DECIMAL(12,2)
 ) ENGINE=INNODB;

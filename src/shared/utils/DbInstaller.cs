@@ -13,7 +13,7 @@ public class DbInstaller
   public void CrearBaseDeDatos(string connectionStringNoDB, string db_name)
   {
     Console.Clear();
-    string query = $"""
+    string tablas_query = $"""
     CREATE DATABASE IF NOT EXISTS `{db_name}`;
     USE `{db_name}`;
 
@@ -143,9 +143,24 @@ public class DbInstaller
     using var connection = new MySqlConnection(connectionStringNoDB);
     connection.Open();
 
-    using var command = new MySqlCommand(query, connection);
+    // TODO: Realizar un bloque de dcodigo que verifieque si la base de datos ya existe, en caso de que exista, no la cree 
+    using var verificar_command = new MySqlCommand(
+      $"SHOW DATABASES LIKE '{db_name}'", connection);
+    using var lector_basedatos = verificar_command.ExecuteReader();
+    // verfica si el show muestra alguna base de datos 
+    if (lector_basedatos.HasRows)
+    {
+      Console.WriteLine($"la base de datos '{db_name}' ya existe.");
+      Console.WriteLine("Presione una tecla para continuar...");
+      Console.ReadLine();
+      return;
+    }
+    lector_basedatos.Close();
+    
+    using var command = new MySqlCommand(tablas_query, connection);
     command.ExecuteNonQuery();
     Console.WriteLine("Base de datos creada :D");
+    Console.ReadLine();
   }
   public void BorrarBaseDeDatos(string connectionStringNoDB, string db_name)
   {
@@ -154,12 +169,12 @@ public class DbInstaller
     string? confirmacion = validate_data.ValidarTexto(Console.ReadLine());
     if (validate_data.ValidarBoleano(confirmacion))
     {
-      string query = $"DROP DATABASE IF EXISTS `{db_name};";
+      string tablas_query = $"DROP DATABASE IF EXISTS `{db_name};";
 
       using var connection = new MySqlConnection(connectionStringNoDB);
       connection.Open();
 
-      using var command = new MySqlCommand(query, connection);
+      using var command = new MySqlCommand(tablas_query, connection);
       command.ExecuteNonQuery();
       Console.WriteLine("Base de datos borrada :D");
     }

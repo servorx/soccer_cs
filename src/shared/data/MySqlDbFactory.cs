@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using soccer_cs.application;
 using soccer_cs.infrastructure.data;
 using soccer_cs.models;
 

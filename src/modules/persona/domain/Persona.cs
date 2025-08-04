@@ -16,9 +16,9 @@ public class Persona
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
   // define el constructor de la clase Persona para poder declararla como subclase de CuerpoMedico y otras clases
-  public Persona(int? id, string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
+  public Persona(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
   {
-    Id = id;
+    // Id = id;
     Nombre = nombre;
     Apellido = apellido;
     Edad = edad;
