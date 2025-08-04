@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace soccer_cs;
-public class MenuEstadisticas
+public class MenuEstadistica
 {
   private readonly EstadisticaService estadisticaService = new EstadisticaService();
   public void MostrarMenuEstadisticas()

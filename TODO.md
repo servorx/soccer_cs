@@ -1,6 +1,9 @@
 // TODO: crear todas las clases que me faltan y crear los repositorios que me faltan, y finalizar la conexion con la base de datos
 
 
+<!-- TODO: revisar la parte de los menus, sus errores y terminar la estructura general del proyecto con sus nuevas entidades y funcionalidades como las estadisticas y las notificaciones  -->
+
+
 
 # ✅ TODO – Proyecto `soccer_csharp`
 

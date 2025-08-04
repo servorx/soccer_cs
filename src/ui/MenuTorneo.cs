@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer_cs.infrastructure.utils;
+using soccer_cs.services;
 
 namespace soccer_cs;
 public class MenuTorneo
 {
    // instanciar el objeto que se usa a lo largo de los cases como propiedad de la clase MenuTorneos porque el metodo no es static y poruqe no quiero crear un nuevo metodo por cada case
   private readonly TorneoService torneoService = new TorneoService();
+  private readonly Validaciones validate_data = new Validaciones();
   public void MostrarMenuTorneos()
   {
     Console.Clear();
@@ -25,7 +28,7 @@ public class MenuTorneo
     do
     {
       MostrarMenuTorneos();
-      string? opcion = Console.ReadLine();
+      string? opcion = validate_data.ValidarTexto(Console.ReadLine());
       switch (opcion)
       {
         case "1":

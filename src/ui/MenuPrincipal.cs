@@ -71,15 +71,15 @@ public class MenuPrincipal
           menuTorneos.Mostrar();
           break;
         case "1":
-          MenuEquipos menuEquipos = new MenuEquipos();
+          MenuEquipo menuEquipos = new MenuEquipo();
           menuEquipos.Mostrar();
           break;
         case "2":
-          MenuJugadores menuJugadores = new MenuJugadores();
+          MenuJugador menuJugadores = new MenuJugador();
           menuJugadores.Mostrar();
           break;
         case "3":
-          MenuEstadisticas menuEstadisticas = new MenuEstadisticas();
+          MenuEstadistica menuEstadisticas = new MenuEstadistica();
           menuEstadisticas.Mostrar();
           break;
         case "4":
@@ -99,8 +99,6 @@ public class MenuPrincipal
           Console.WriteLine("\n¡Johlver coloqueme buena nota porfa 🙏!");
           Console.WriteLine("\nPresiona cualquier tecla para salir...");
           Console.ReadKey();
-          break;
-        case "":
           break;
         default:
           Console.Clear();

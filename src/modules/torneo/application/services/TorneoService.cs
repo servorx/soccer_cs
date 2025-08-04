@@ -4,9 +4,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Globalization;
-using soccer_csharp.utils;
-using soccer_csharp.models;
-using soccer_csharp.data;
+using soccer_cs.infrastructure.utils;
+using soccer.modules.equipo.domain;
 
 namespace soccer_cs.services;
 
@@ -14,13 +13,10 @@ public class TorneoService
 {
   // esto se tiene que crear para que puedan funcionar las validaciones en el TorneoService. reandonly indica que la asignación al campo solo puede producirse como parte de la declaración o en un constructor de la misma clase.
   private readonly Validaciones validate_input = new();
-  private readonly IdUtil id_util = new();
   public void CrearTorneo()
   {
     Console.Clear();
     System.Console.WriteLine("=== CREAR NUEVO TORNEO ===");
-
-    int id_nuevo = id_util.GenerarID();
 
     System.Console.Write("Ingrese el nombre del torneo: ");
     string nombre = validate_input.ValidarTexto(Console.ReadLine()).ToLower();

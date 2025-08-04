@@ -7,7 +7,7 @@ using soccer_cs.modules.equipo.domain;
 
 namespace soccer_cs;
 
-public class MenuEquipos
+public class MenuEquipo
 {
   // se crean las instancias de los servicios necesarios de forma privada por conveniencia en esta parte del codigo para que no se pueda acceder a ellos desde fuera de esta clase.
   private readonly EquipoService equipoService = new EquipoService();

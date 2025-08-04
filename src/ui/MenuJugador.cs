@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using soccer_cs.services;
 
 namespace soccer_cs;
-public class MenuNotificaciones
+public class MenuJugador
 {
   private readonly JugadorService jugadorService = new JugadorService();
   public void MostrarMenuJugadores()
