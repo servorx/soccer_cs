@@ -6,14 +6,10 @@ using soccer_cs.infrastructure.data;
 using soccer_cs;
 
 namespace soccer_cs.application;
-
-public interface IPersonaRepository : IGenericRepository<Persona>
+// este archivo como tal es la puerta de salida del dominio persona hacia el exterior, es decir, es la interfaz que se usa para interactuar con el dominio persona
+// se usa para declarar metodos que se van a usar en PersonaRepository.cs y PersonaService.cs
+public interface IPersonaRepository
 {
-  // como tal todas estas funcioanlidades son inescesarias pero se usan para realizar un copy paste para todas las entidades
-  List<Persona> ObtenerTodasLasPersonas();
-  Task<List<Persona>> ObtenerTodasAsync();
-  Task<Persona?> ObtenerPorIdAsync(int id);
-  Task CrearAsync(Persona persona);
-  Task ActualizarAsync(Persona persona);
-  Task EliminarAsync(int id);
+  void InsertarPersona(Persona persona);
+  List<Persona> ObtenerTodas();
 }

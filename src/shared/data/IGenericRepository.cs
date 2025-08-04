@@ -10,4 +10,5 @@ public interface IGenericRepository<T>
   void Crear(T entity);
   void Actualizar(T entity);
   void Eliminar(int id);
+  void VerTodo(T entity);
 }

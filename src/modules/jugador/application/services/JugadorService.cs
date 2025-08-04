@@ -7,13 +7,14 @@ using System.Globalization;
 using soccer_csharp.data;
 using soccer_csharp.models;
 using soccer_csharp.utils;
+using soccer_cs.infrastructure.utils;
+using soccer_cs.application;
 
 namespace soccer_cs.services;
 
 public class JugadorService
 {
   private readonly Validaciones validate_input = new();
-  private readonly IdUtil id_util = new();
   public void CrearJugador()
   {
     Console.Clear();
@@ -22,8 +23,6 @@ public class JugadorService
     personaService.CrearPersona();
 
     Console.WriteLine("=== CREAR NUEVO JUGADOR ===");
-
-    int id_nuevo = id_util.GenerarID();
 
     System.Console.Write("ingrese la posicion del jugador: ");
     string posicion = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
