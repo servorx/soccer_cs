@@ -9,29 +9,27 @@ namespace soccer_cs;
 public class DbContextFactory
 {
   public static AppDbContext Create()
-  { 
-    var configuration = new ConfigurationBuilder()
-      .SetBasePath(AppContext.BaseDirectory)
+  {
+    var config = new ConfigurationBuilder()
+      .SetBasePath(Directory.GetCurrentDirectory())
       .AddJsonFile("appsettings.json", optional: true)
       .AddEnvironmentVariables()
       .Build();
-    string? connectionString = Environment.GetEnvironmentVariable("MysqlConnection")
-      ?? configuration.GetConnectionString("MysqlConnection");
+    string? connectionString = Environment.GetEnvironmentVariable("MYSQL_CONNECTION")
+                    ?? config.GetConnectionString("MySqlDB");
 
-    if (string.IsNullOrEmpty(connectionString))
-    {
-      throw new InvalidOperationException("Connection string 'MysqlConnection' is not configured.");
-    }
+    if (string.IsNullOrWhiteSpace(connectionString))
+      throw new InvalidOperationException("No se encontró una cadena de conexión válida.");
+    // Detectar versión MySQL 
     var detectedVersion = MySqlVersionResolver.DetectVersion(connectionString);
-    var minversion = new Version(8, 0, 0);
-    if (detectedVersion < minversion)
-    {
-      throw new InvalidOperationException($"MySQL version {detectedVersion} is not supported. Minimum required version is {minversion}.");
-    }
-    Console.WriteLine($"Mysql detectado: {detectedVersion} :D");
+    var minVersion = new Version(8, 0, 0);
+    if (detectedVersion < minVersion)
+      throw new NotSupportedException($"Versión de MySQL no soportada: {detectedVersion}. Requiere {minVersion} o superior.");
+    Console.WriteLine($"🔍 MySQL detectado: {detectedVersion}");
     var options = new DbContextOptionsBuilder<AppDbContext>()
       .UseMySql(connectionString, new MySqlServerVersion(detectedVersion))
       .Options;
-    return new AppDbContext(options);
+    return new AppDbContext(options); 
+
   }
 }

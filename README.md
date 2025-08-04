@@ -316,10 +316,7 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 │   │   ├── context/
 │   │   |   └── AppDbContext.cs
 │   │   ├── data/
-│   │   │   ├── ddl.sqk
-│   │   │   ├── IDbFactory.cs
-│   │   │   ├── IGenericRepository.cs
-│   │   │   └── MySqlDbFactory.cs
+│   │   │   ├── ddl.sql
 │   │   ├── helpers/
 │   │   │   ├── DbContextFactory.cs
 │   |   |   └── MySqlVersionResolver.cs
@@ -332,6 +329,7 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   |   ├── MenuEstadisticas.cs     
 |   |   ├── MenuJugadores.cs  
 |   |   ├── MenuNotificaciones.cs                      
+|   |   ├── MenuPersonas.cs 
 |   │   ├── MenuPrincipal.cs      # Menú general
 |   │   └── MenuTorneos.cs
 ```

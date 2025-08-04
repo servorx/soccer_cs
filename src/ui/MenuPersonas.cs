@@ -65,7 +65,7 @@ namespace persona.ui
                 Genero = genero
             };
 
-            _personaService.CrearPersona(nuevaPersona);
+            _personaService.RegistrarPersona(nuevaPersona);
 
             Console.WriteLine("✅ Persona registrada con éxito.");
         }
@@ -75,7 +75,7 @@ namespace persona.ui
             Console.Clear();
             Console.WriteLine("---- Lista de Personas ----");
 
-            var personas = _personaService.ObtenerPersonas();
+            var personas = _personaService.ListarPersonas();
 
             foreach (var p in personas)
             {

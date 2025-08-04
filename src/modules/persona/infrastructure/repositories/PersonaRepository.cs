@@ -4,15 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using soccer_cs.application;
-using soccer_cs.infrastructure.data;
+using soccer_cs.infrastructure;
 
 namespace soccer_cs;
 // // este archivo es el adaptador de la infraestructura, implementa lo declarado en IPersonaRepository, usando AppDbContext, IDbFactory, o MySqlDbFactory para acceder a la base de datos.using persona.domain;
-using persona.infrastructure.interfaces;
-using MySql.Data.MySqlClient;
-using shared.context;
-using System.Collections.Generic;
-
 
 public class PersonaRepository : IPersonaRepository
 {
@@ -23,42 +18,32 @@ public class PersonaRepository : IPersonaRepository
     _dbContext = dbContext;
   }
 
-  public void InsertarPersona(Persona persona)
+  public void AgregarPersona(Persona persona)
   {
-    using var connection = _dbContext.CreateConnection();
-    connection.Open();
-
-    var command = connection.CreateCommand();
-    command.CommandText = "INSERT INTO personas (nombre, edad, genero) VALUES (@nombre, @edad, @genero)";
-    command.Parameters.AddWithValue("@nombre", persona.Nombre);
-    command.Parameters.AddWithValue("@edad", persona.Edad);
-    command.Parameters.AddWithValue("@genero", persona.Genero);
-    command.ExecuteNonQuery();
+    _dbContext.Set<Persona>().Add(persona);
+    _dbContext.SaveChanges();
   }
-
+  public Persona? ObtenerPorId(int id)
+  {
+    return _dbContext.Set<Persona>().Find(id);
+  }
   public List<Persona> ObtenerTodas()
   {
-    var personas = new List<Persona>();
+      return _dbContext.Set<Persona>().ToList();
+  }
 
-    using var connection = _dbContext.CreateConnection();
-    connection.Open();
+  public List<Persona> ObtenerPorId()
+  {
+      throw new NotImplementedException();
+  }
+  public void ActualizarPersona(Persona persona)
+  {
+      throw new NotImplementedException();
+  }
 
-    var command = connection.CreateCommand();
-    command.CommandText = "SELECT id, nombre, edad, genero FROM personas";
-
-    using var reader = command.ExecuteReader();
-    while (reader.Read())
-    {
-      personas.Add(new Persona
-      {
-        Id = reader.GetInt32("id"),
-        Nombre = reader.GetString("nombre"),
-        Edad = reader.GetInt32("edad"),
-        Genero = reader.GetString("genero")
-      });
-    }
-
-    return personas;
+  public void EliminarPersona(Persona persona)
+  {
+      throw new NotImplementedException();
   }
 }
 

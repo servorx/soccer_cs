@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using soccer_cs.infrastructure.data;
 using soccer_cs;
 
 namespace soccer_cs.application;
@@ -10,6 +9,10 @@ namespace soccer_cs.application;
 // se usa para declarar metodos que se van a usar en PersonaRepository.cs y PersonaService.cs
 public interface IPersonaRepository
 {
-  void InsertarPersona(Persona persona);
+  // TODO: revisar si es necesario el metodo insertar persona ya uqe se usa el metodo CrearPersona
+  void AgregarPersona(Persona persona);
+  Persona? ObtenerPorId(int id);
   List<Persona> ObtenerTodas();
+  void ActualizarPersona(Persona persona);
+  void EliminarPersona(Persona persona);
 }
