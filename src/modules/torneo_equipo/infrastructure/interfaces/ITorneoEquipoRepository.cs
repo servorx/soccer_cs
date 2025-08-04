@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace soccer_cs
 {
-    public interface IITorneoEquipoRepository
+    public interface ITorneoEquipoRepository
     {
         
     }

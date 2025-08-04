@@ -10,11 +10,38 @@ namespace soccer_cs;
 
 public class PersonaRepository : IGenericRepository<Persona>, IPersonaRepository
 {
-  private readonly ConexionSingleton _conexion;
-  public PersonaRepository(string conecctionString)
+  private readonly IDbFactory _dbFactory;
+
+  public PersonaRepository(IDbFactory dbFactory)
   {
-    _conexion = ConexionSingleton.Instancia(conecctionString);
+    _dbFactory = dbFactory;
   }
+
+  public async Task<List<Persona>> ObtenerTodasAsync()
+  {
+    using var context = _dbFactory.CrearPersonaRepository();
+    var personas = new List<Persona>();
+
+    using var command = context.CreateCommand();
+    command.CommandText = "SELECT * FROM personas";
+
+    using var reader = await command.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+      personas.Add(new Persona
+      {
+        Id = reader.GetInt32("id"),
+        Edad = reader.GetInt32("edad"),
+        Nacionalidad = reader.GetString("nacionalidad"),
+        DocumentoIdentidad = reader.GetInt32("documento_identidad"),
+        Genero = reader.GetString("genero")
+      });
+    }
+
+    return personas;
+  }
+
+  // Implementa los demás métodos igual (Crear, ObtenerPorId, Actualizar, Eliminar)
   public void Crear(Persona persona)
   {
     // Implementación para crear una persona en la base de datos
@@ -72,14 +99,31 @@ public class PersonaRepository : IGenericRepository<Persona>, IPersonaRepository
   }
   public List<Persona> ObtenerTodasLasPersonas()
   {
-    // Implementación para actualizar una persona en la base de datos 
+    // implementacion de un metodo que obtiene las personas de la base de datos
+    var personas = new List<Persona>();
+    // genera una conexion para obtener las personas de la base de datos
     var connection = _conexion.ObtenerConexion();
-    // creacion del update que se va a usar en consola para actualizar los atributos de una persona
     string query = "SELECT * FROM personas";
-    // colocar los parametros en el comando para la seleccion de todo las personas
+    // ejecutar el comando de arriba
     using var command = new MySqlCommand(query, connection);
-    command.Parameters.AddWithValue("@Id", 0);
-    // ejecutar el comando
-    command.ExecuteNonQuery();
+    // ejecutar el comando y leer los datos con el metodo executeReader
+    using var reader = command.ExecuteReader();
+    // leer los datos y agregarlos a la lista de personas 
+    while (reader.Read())
+    {
+      // agregar cada persona a la lista de personas
+      personas.Add(new Persona
+      {
+        Id = reader.GetInt32("id"),
+        Nombre = reader.GetString("nombre"),
+        Apellido = reader.GetString("apellido"),
+        Edad = reader.GetInt32("edad"),
+        Nacionalidad = reader.GetString("nacionalidad"),
+        DocumentoIdentidad = reader.GetInt32("documento_identidad"),
+        Genero = reader.GetString("genero")
+      });
+    }
+    // devuelve la lista de personas obtenidas de la consulta
+    return personas;
   }
 }

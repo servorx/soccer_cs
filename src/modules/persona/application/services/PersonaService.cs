@@ -11,6 +11,37 @@ using soccer_cs.application;
 namespace soccer_cs.application;
 public class PersonaService
 {
+  //  private readonly IPersonaRepository _personaRepository;
+
+  //   public PersonaService(IPersonaRepository personaRepository)
+  //   {
+  //       _personaRepository = personaRepository;
+  //   }
+
+  //   public Task<List<Persona>> ListarPersonasAsync()
+  //   {
+  //       return _personaRepository.ObtenerTodasAsync();
+  //   }
+
+  //   public Task<Persona?> ObtenerPersonaPorIdAsync(int id)
+  //   {
+  //       return _personaRepository.ObtenerPorIdAsync(id);
+  //   }
+
+  //   public Task CrearPersonaAsync(Persona persona)
+  //   {
+  //       return _personaRepository.CrearAsync(persona);
+  //   }
+
+  //   public Task EditarPersonaAsync(Persona persona)
+  //   {
+  //       return _personaRepository.ActualizarAsync(persona);
+  //   }
+
+  //   public Task EliminarPersonaAsync(int id)
+  //   {
+  //       return _personaRepository.EliminarAsync(id);
+  //   }
   private readonly IPersonaRepository _personaRepository;
   private readonly Validaciones validate_input = new();
   // creacion del constructor de la clase PersonaService 
@@ -47,6 +78,7 @@ public class PersonaService
     System.Console.WriteLine("deseas guardar los datos? (s/n): ");
 
     bool validate_data = validate_input.ValidarBoleano(Console.ReadLine());
+    nueva_persona = new Persona(nombre, apellido, edad, nacionalidad, documento_identidad, genero);
     // agregar los datos a la lista de Personas
     if (validate_data)
     {

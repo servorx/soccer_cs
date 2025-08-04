@@ -68,6 +68,7 @@ Está diseñado como una herramienta educativa para consolidar habilidades en pr
 ---
 
 ## 🧭 Estructura del Menú Principal
+<!-- TODO: revisar todos los menus para tratar de implementar todas las funcionalidades del CRUD que se tienen pensado implementar en todas las entidades -->
 0. Registro torneos
 1. Registro de equipos
 2. Registros jugadores
@@ -116,6 +117,7 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 ---
 
 ## 🧱 Estructura General del Proyecto
+
 ```code
 /soccer_cs/
 │
@@ -129,134 +131,186 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 ├── src/                        
 │   ├── modules/
 |   │   ├── cuerpo_medico/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── ICuerpoMedicoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── CuerpoMedicoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── CuerpoMedico.cs
-|   │   │   ├── application/
-|   │   │   │   ├── ICuerpoMedicoService.cs
-|   │   │   │   ├── ICuerpoMedicoRepository.cs
-|   │   │   │   └── CuerpoMedicoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── CuerpoMedicoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── ICuerpoMedicoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── CuerpoMedicoRepository.cs
 |   |
 |   │   ├── cuerpo_tecnico/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── ICuerpoTecnicoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── CuerpoTecnicoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── CuerpoTecnico.cs
-|   │   │   ├── application/
-|   │   │   │   ├── ICuerpoTecnicoService.cs
-|   │   │   │   ├── ICuerpoTecnicoRepository.cs
-|   │   │   │   └── CuerpoTecnicoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── CuerpoTecnicoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── ICuerpoTecnicoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── CuerpoTecnicoRepository.cs
 |   |
 |   │   ├── equipo/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IEquipoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── EquipoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── Equipo.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IEquipoService.cs
-|   │   │   │   ├── IEquipoRepository.cs
-|   │   │   │   └── EquipoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── EquipoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IEquipoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── EquipoRepository.cs
 |   |
 |   │   ├── equipo_cuerpo_medico/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IEquipoCuerpoMedicoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── EquipoCuerpoMedicoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── EquipoCuerpoMedico.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IEquipoCuerpoMedicoService.cs
-|   │   │   │   ├── IEquipoCuerpoMedicoRepository.cs
-|   │   │   │   └── EquipoCuerpoMedicoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── EquipoCuerpoMedicoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IEquipoCuerpoMedicoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── EquipoCuerpoMedicoRepository.cs
 |   |
 |   │   ├── equipo_cuerpo_tecnico/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IEquipoCuerpoTecnicoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── EquipoCuerpoTecnicoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── EquipoCuerpoTecnico.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IEquipoCuerpoTecnicoService.cs
-|   │   │   │   ├── IEquipoCuerpoTecnicoRepository.cs
-|   │   │   │   └── EquipoCuerpoTecnicoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── EquipoCuerpoTecnicoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IEquipoCuerpoTecnicoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── EquipoCuerpoTecnicoRepository.cs
 |   |
 |   │   ├── equipo_jugador/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IEquipoJugadorService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── EquipoJugadorService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── EquipoJugador.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IEquipoJugadorService.cs
-|   │   │   │   ├── IEquipoJugadorRepository.cs
-|   │   │   │   └── EquipoJugadorService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── EquipoJugadorRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IEquipoJugadorRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── EquipoJugadorRepository.cs
 |   |
 |   │   ├── estadistica_equipo/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IEstadisticaEquipoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── EstadisticaEquipoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── EstadisticaEquipo.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IEstadisticaEquipoService.cs
-|   │   │   │   ├── IEstadisticaEquipoRepository.cs
-|   │   │   │   └── EstadisticaEquipoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── EstadisticaEquipoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IEstadisticaEquipoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── EstadisticaEquipoRepository.cs
 |   |
 |   │   ├── estadistica_jugador/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IEstadisticaJugadorService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── EstadisticaJugadorService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── EstadisticaJugador.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IEstadisticaJugadorService.cs
-|   │   │   │   ├── IEstadisticaJugadorRepository.cs
-|   │   │   │   └── EstadisticaJugadorService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── EstadisticaJugadorRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IEstadisticaJugadorRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── EstadisticaJugadorRepository.cs
 |   |
 |   │   ├── jugador/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IJugadorService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── JugadorService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── Jugador.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IJugadorService.cs
-|   │   │   │   ├── IJugadorRepository.cs
-|   │   │   │   └── JugadorService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── JugadorRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IJugadorRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── JugadorRepository.cs
 |   |
 |   │   ├── persona/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── IPersonaService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── PersonaService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── Persona.cs
-|   │   │   ├── application/
-|   │   │   │   ├── IPersonaService.cs
-|   │   │   │   ├── IPersonaRepository.cs
-|   │   │   │   └── PersonaService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── PersonaRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── IPersonaRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── PersonaRepository.cs
 |   |
 |   │   ├── torneo/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── ITorneoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── TorneoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── Torneo.cs
-|   │   │   ├── application/
-|   │   │   │   ├── ITorneoService.cs
-|   │   │   │   ├── ITorneoRepository.cs
-|   │   │   │   └── TorneoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── TorneoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── ITorneoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── TorneoRepository.cs
 |   |
 |   │   ├── torneo_equipo/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── ITorneoEquipoService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── TorneoEquipoService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── TorneoEquipo.cs
-|   │   │   ├── application/
-|   │   │   │   ├── ITorneoEquipoService.cs
-|   │   │   │   ├── ITorneoEquipoRepository.cs
-|   │   │   │   └── TorneoEquipoService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── TorneoEquipoRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── ITorneoEquipoRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── TorneoEquipoRepository.cs
 |   |   
 |   │   ├── transferencia/
+|   │   │   ├── application/
+|   |   |   |   ├── interfaces/
+|   |   |   |   │   └── ITransferenciaService.cs
+|   |   |   |   └── services/
+|   |   |   |       └── TransferenciaService.cs
 |   │   │   ├── domain/
 |   │   │   |   └── Transferencia.cs
-|   │   │   ├── application/
-|   │   │   │   ├── ITransferenciaService.cs
-|   │   │   │   ├── ITransferenciaRepository.cs
-|   │   │   │   └── TransferenciaService.cs
 |   │   │   ├── infrastructure/
-|   │   │   │   └── TransferenciaRepository.cs
+│   |   |   |   ├── interfaces/
+│   |   |   |   │   └── ITransferenciaRepository.cs
+│   |   |   |   └── repositories/
+|   │   │   │       └── TransferenciaRepository.cs
 |
 │   ├── shared/
 │   │   ├── context/

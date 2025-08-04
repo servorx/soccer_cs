@@ -125,3 +125,7 @@ Cada módulo debe tener:
 3. [ ] Crea menú de navegación funcional
 4. [ ] Termina conexión a MySQL y verificación de existencia de datos
 5. [ ] Repite flujo para las demás entidades
+
+
+
+<!-- TODO: revisar todos los menus para tratar de implementar todas las funcionalidades del CRUD que se tienen pensado implementar en todas las entidades (en los menus) --> 
