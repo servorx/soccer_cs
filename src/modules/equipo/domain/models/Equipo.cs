@@ -18,6 +18,7 @@ public class Equipo
   public string? TipoEquipo { get; set; }
   public int? CantidadTitulos { get; set; }
   // relaciones
+  public ICollection<CuerpoMedico>? CuerpoMedicos { get; set; }
   // tengo que experimentar con esto pero basicamente es la composicion de anidarlo con otras listas como cuerpo tecnico, cuerpo medico y jugadores
   public List<Jugador?> Jugadores { get; set; } = new();
   public List<CuerpoTecnico?> CuerpoTecnico { get; set; } = new();

@@ -14,6 +14,8 @@ public class CuerpoMedico : Persona
   // relaciones de clases foraneas 
   public int PersonaId { get; set; }
   public Persona? Persona { get; set; }
+  public int EquipoId { get; set; }
+  public Equipo? Equipo { get; set; }
   public CuerpoMedico(string? nombre, string? apellido, int edad, string? nacionalidad, int documentoIdentidad, string? genero, string? especialidad, int aniosExperiencia)
     : base(nombre, apellido, edad, nacionalidad, documentoIdentidad, genero)
   {

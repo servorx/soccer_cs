@@ -68,22 +68,6 @@ CREATE TABLE IF NOT EXISTS equipo_jugador (
   CONSTRAINT fk_id_jugador_equipo_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
 ) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS equipo_cuerpo_tecnico (
-  id_equipo INT,
-  id_cuerpo_tecnico INT,
-  PRIMARY KEY (id_equipo, id_cuerpo_tecnico),
-  CONSTRAINT fk_ie_ect FOREIGN KEY (id_equipo) REFERENCES equipos(id),
-  CONSTRAINT fk_iect_ect FOREIGN KEY (id_cuerpo_tecnico) REFERENCES cuerpo_tecnico(id)
-) ENGINE=INNODB;
-
-CREATE TABLE IF NOT EXISTS equipo_cuerpo_medico (
-  id_equipo INT,
-  id_cuerpo_medico INT,
-  PRIMARY KEY (id_equipo, id_cuerpo_medico),
-  CONSTRAINT fk_ie_ecm FOREIGN KEY (id_equipo) REFERENCES equipos(id),
-  CONSTRAINT fk_icm_ecm FOREIGN KEY (id_cuerpo_medico) REFERENCES cuerpo_medico(id)
-) ENGINE=INNODB;
-
 CREATE TABLE IF NOT EXISTS estadistica_equipo (
   id INT PRIMARY KEY AUTO_INCREMENT,
   id_equipo INT,

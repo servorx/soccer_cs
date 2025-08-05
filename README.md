@@ -178,34 +178,6 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   |   |   ├── ui/       
 |   |   |       └── MenuEquipo.cs  
 |   |
-|   │   ├── equipo_cuerpo_medico/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IEquipoCuerpoMedicoRepository.cs
-|   |   |   |   │   └── IEquipoCuerpoMedicoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── EquipoCuerpoMedicoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── EquipoCuerpoMedico.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── EquipoCuerpoMedicoRepository.cs
-|   |
-|   │   ├── equipo_cuerpo_tecnico/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IEquipoCuerpoTecnicoRepository.cs
-|   |   |   |   │   └── IEquipoCuerpoTecnicoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── EquipoCuerpoTecnicoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── EquipoCuerpoTecnico.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── EquipoCuerpoTecnicoRepository.cs
-|   |
 |   │   ├── equipo_jugador/
 |   │   │   ├── application/
 |   |   |   |   ├── interfaces/

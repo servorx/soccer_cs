@@ -113,22 +113,6 @@ INSERT INTO equipo_jugador (id_equipo, id_jugador, fecha_inicio, fecha_fin) VALU
 (5, 14, '2015-07-01', '2025-06-30'), -- Son en Dragones Rojos
 (2, 15, '2018-07-01', '2026-06-30'); -- Popp en Águilas Negras
 
--- Inserts para la tabla 'equipo_cuerpo_tecnico'
-INSERT INTO equipo_cuerpo_tecnico (id_equipo, id_cuerpo_tecnico) VALUES
-(5, 16), -- Guardiola en Dragones Rojos
-(5, 17), -- Klopp en Dragones Rojos (como asistente, por ejemplo)
-(2, 18), -- Hayes en Águilas Negras
-(1, 19), -- Ancelotti en Los Leones FC
-(3, 20); -- Deschamps en Rayos Azules
-
--- Inserts para la tabla 'equipo_cuerpo_medico'
-INSERT INTO equipo_cuerpo_medico (id_equipo, id_cuerpo_medico) VALUES
-(1, 21), -- Dr. Pérez en Los Leones FC
-(2, 22), -- Dra. González en Águilas Negras
-(5, 23), -- Fisiot. Ramírez en Dragones Rojos
-(3, 24), -- Nutric. Silva en Rayos Azules
-(4, 25); -- Psic. Castro en Tigres del Sur
-
 -- Inserts para la tabla 'estadistica_equipo'
 INSERT INTO estadistica_equipo (id_equipo, partidos_ganados, partidos_empatados, partidos_perdidos, goles_a_favor, goles_en_contra) VALUES
 (1, 800, 200, 150, 2500, 1000),
