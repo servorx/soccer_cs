@@ -3,8 +3,9 @@
 
 <!-- TODO: revisar la parte de los menus, sus errores y terminar la estructura general del proyecto con sus nuevas entidades y funcionalidades como las estadisticas y las notificaciones  -->
 
+<!-- definir todo el config de las entidades y tener claro la parte de las tablas y sus llaves foraneas -->
 
-
+<!-- tengo que primero cambiar toda la estructura de las clases para poder hacer las configuraciones de la mejor forma  -->
 # ✅ TODO – Proyecto `soccer_csharp`
 
 Este documento organiza todas las tareas necesarias para completar el proyecto, dividiéndolas por categorías clave. Sigue este plan paso a paso para mantenerte enfocado y avanzar con claridad.
