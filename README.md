@@ -143,6 +143,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └──  repositories/
 |   |   |   |       └── CuerpoMedicoRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuCuerpoMedico.cs 
 |   |
 |   │   ├── cuerpo_tecnico/
 |   │   │   ├── application/
@@ -157,6 +159,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   |       └── CuerpoTecnicoRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuCuerpoTecnico.cs 
 |   |
 |   │   ├── equipo/
 |   │   │   ├── application/
@@ -171,6 +175,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── EquipoRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuEquipo.cs  
 |   |
 |   │   ├── equipo_cuerpo_medico/
 |   │   │   ├── application/
@@ -227,6 +233,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── EstadisticaEquipoRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuEstadisticaEquipo.cs 
 |   |
 |   │   ├── estadistica_jugador/
 |   │   │   ├── application/
@@ -241,6 +249,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── EstadisticaJugadorRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuEstadisticaJugador.cs 
 |   |
 |   │   ├── jugador/
 |   │   │   ├── application/
@@ -255,6 +265,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── JugadorRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuJugador.cs 
 |   |
 |   │   ├── persona/
 |   │   │   ├── application/
@@ -269,6 +281,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── PersonaRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuPersona.cs 
 |   |
 |   │   ├── torneo/
 |   │   │   ├── application/
@@ -283,6 +297,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── TorneoRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuTorneo.cs 
 |   |
 |   │   ├── torneo_equipo/
 |   │   │   ├── application/
@@ -311,6 +327,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── instrastructure/
 │   |   |   |   └── repositories/
 |   │   │   │       └── TransferenciaRepository.cs
+|   |   |   ├── ui/       
+|   |   |       └── MenuNotificacion.cs 
 |
 │   ├── shared/
 |   |   ├── configurations/
@@ -336,18 +354,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 │   |   |   └── MySqlVersionResolver.cs
 │   │   ├── utils/
 │   │   │   ├── DbInstaller.cs
-│   │   │   └── Validaciones.cs
-│   
-|   ├── ui/       
-|   |   ├── MenuCuerpoMedico.cs 
-|   |   ├── MenuCuerpoTecnico.cs     
-|   |   ├── MenuEquipo.cs   
-|   |   ├── MenuEstadistica.cs     
-|   |   ├── MenuJugador.cs  
-|   |   ├── MenuNotificacion.cs                      
-|   |   ├── MenuPersonas.cs 
-|   │   ├── MenuPrincipal.cs      # Menú general
-|   │   └── MenuTorneos.cs
+│   │   │   └── Validaciones.cs 
+|   ├── ui/
+|   │   └── MenuPrincipal.cs      # Menú general
 ```
 
 ---

@@ -12,11 +12,14 @@ public class Jugador : Persona
   public string? PieHabil { get; set; }
   public float ValorMercado { get; set; }
   public string? EquipoActual { get; set; }
+  // relaciones de clases foraneas, persona
+  public int PersonaId { get; set; }
+  public Persona? Persona { get; set; }
   // composicion de estadisticas por jugador
   public List<EstadisticaJugador?> EstadisticaJugadores { get; set; } = new();
-  public Jugador(int id, string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero,
+  public Jugador(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero,
     string? posicion, int numeroDorsal, string? pieHabil, float valorMercado, string? equipoActual, List<EstadisticaJugador?> estadisticaJugadores)
-    : base(id, nombre, apellido, edad, nacionalidad, documento_identidad, genero)
+    : base(nombre, apellido, edad, nacionalidad, documento_identidad, genero)
   {
     // Atributos especificos de Jugador 
     Posicion = posicion;

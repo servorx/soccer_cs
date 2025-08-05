@@ -6,8 +6,9 @@ public class CuerpoTecnico : Persona
 {
   public string? Rol { get; set; }
   public int AniosExperiencia { get; set; }
+  public int PersonaId { get; set; }
+  public Persona? Persona { get; set; }
   public CuerpoTecnico(
-    int id,
     string? nombre,
     string? apellido,
     int edad,
@@ -16,7 +17,7 @@ public class CuerpoTecnico : Persona
     string? genero,
     string? rol,
     int aniosExperiencia
-  ) : base(id, nombre, apellido, edad, nacionalidad, documentoIdentidad, genero)
+  ) : base(nombre, apellido, edad, nacionalidad, documentoIdentidad, genero)
   {
     Rol = rol;
     AniosExperiencia = aniosExperiencia;

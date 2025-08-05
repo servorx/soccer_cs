@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using soccer_cs;
+using soccer_cs.models;
 
 namespace soccer_cs;
 
@@ -15,6 +16,10 @@ public class Persona
   public string? Nacionalidad { get; set; }
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
+  // relaciones con CuerpoMedico y CuerpoTecnico
+  public CuerpoMedico? CuerpoMedico { get; set; }
+  public CuerpoTecnico? CuerpoTecnico { get; set; }
+  public Jugador? Jugador { get; set; }
   // define el constructor de la clase Persona para poder declararla como subclase de CuerpoMedico y otras clases
   public Persona(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
   {
