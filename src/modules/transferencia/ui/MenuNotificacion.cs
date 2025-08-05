@@ -6,7 +6,7 @@ using soccer_cs.infrastructure.utils;
 using soccer_cs.services;
 
 namespace soccer_cs;
-public class MenueTransferencias
+public class MenuTransferencias
 {
   private Validaciones validate_data = new Validaciones();
   private readonly TransferenciaService transferenciaService = new TransferenciaService();

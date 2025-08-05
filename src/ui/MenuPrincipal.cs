@@ -51,9 +51,10 @@ public class MenuPrincipal
     Console.WriteLine("0. Torneos");
     Console.WriteLine("1. Equipos");
     Console.WriteLine("2. Jugadores");
-    Console.WriteLine("3. Estadisticas");
-    Console.WriteLine("4. Borrar Base de Datos");
-    Console.WriteLine("5. Salir\n");
+    Console.WriteLine("3. Estadisticas Jugadores");
+    Console.WriteLine("4. Estadisticas Equipos");
+    Console.WriteLine("5. Borrar Base de Datos");
+    Console.WriteLine("6. Salir\n");
     Console.Write("Selecciona una opción: ");
   }
   public void EjecutarMenuMain()
@@ -79,14 +80,18 @@ public class MenuPrincipal
           menuJugadores.Mostrar();
           break;
         case "3":
-          MenuEstadistica menuEstadisticas = new MenuEstadistica();
-          menuEstadisticas.Mostrar();
+          MenuEstadisticaJugador menuEstadisticaJugador = new MenuEstadisticaJugador();
+          menuEstadisticaJugador.Mostrar();
           break;
         case "4":
+          MenuEstadisticaEquipo menuEstadisticaEquipo = new MenuEstadisticaEquipo();
+          menuEstadisticaEquipo.Mostrar();
+          break;
+        case "5":
           DbInstaller dbInstaller = new DbInstaller();
           dbInstaller.BorrarBaseDeDatos("Server=localhost;Uid=root;Pwd=s1e2r3v0or;", "soccer_cs");
           break;
-        case "5":
+        case "6":
           validation_program = false;
           Console.Clear();
           Console.ForegroundColor = ConsoleColor.Cyan;
