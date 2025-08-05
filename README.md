@@ -142,8 +142,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── CuerpoMedico.cs
-
-|   |  
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── CuerpoMedicoConfig.cs
 |   |
 |   │   ├── cuerpo_tecnico/
 |   │   │   ├── application/
@@ -157,6 +158,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── CuerpoTecnico.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── CuerpoTecnicoConfig.cs
 |   |
 |   │   ├── equipo/
 |   │   │   ├── application/
@@ -170,6 +174,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── Equipo.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── EquipoConfig.cs
 |   |
 |   │   ├── equipo_cuerpo_medico/
 |   │   │   ├── application/
@@ -183,6 +190,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── EquipoCuerpoMedico.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── EquipoCuerpoMedicoConfig.cs
 |   |
 |   │   ├── equipo_cuerpo_tecnico/
 |   │   │   ├── application/
@@ -196,6 +206,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── EquipoCuerpoTecnico.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── EquipoCuerpoTecnicoConfig.cs
 |   |
 |   │   ├── equipo_jugador/
 |   │   │   ├── application/
@@ -209,6 +222,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── EquipoJugador.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── EquipoJugadorConfig.cs
 |   |
 |   │   ├── estadistica_equipo/
 |   │   │   ├── application/
@@ -222,6 +238,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── EstadisticaEquipo.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── EstadisticaEquipoConfig.cs
 |   |
 |   │   ├── estadistica_jugador/
 |   │   │   ├── application/
@@ -235,6 +254,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── EstadisticaJugador.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── EstadisticaJugadorConfig.cs
 |   |
 |   │   ├── jugador/
 |   │   │   ├── application/
@@ -248,6 +270,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── Jugador.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── JugadorConfig.cs
 |   |
 |   │   ├── persona/
 |   │   │   ├── application/
@@ -261,6 +286,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── Persona.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── PersonaConfig.cs
 |   |
 |   │   ├── torneo/
 |   │   │   ├── application/
@@ -274,6 +302,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── Torneo.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── TorneoConfig.cs
 |   |
 |   │   ├── torneo_equipo/
 |   │   │   ├── application/
@@ -287,6 +318,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── TorneoEquipo.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── TorneoEquipoConfig.cs
 |   |   
 |   │   ├── transferencia/
 |   │   │   ├── application/
@@ -300,6 +334,9 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 |   │   │   ├── domain/
 |   |   |   |   └── models/
 |   │   │   |       └── Transferencia.cs
+|   │   │   ├── instrastructure/
+|   |   |   |   └── configurations/
+|   │   │   |       └── TransferenciaConfig.cs
 |
 │   ├── shared/
 │   │   ├── context/

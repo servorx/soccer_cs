@@ -18,7 +18,7 @@ public class PersonaRepository : IPersonaRepository
     _dbContext = dbContext;
   }
 
-  public void AgregarPersona(Persona persona)
+  public void CrearPersona(Persona persona)
   {
     _dbContext.Set<Persona>().Add(persona);
     _dbContext.SaveChanges();
@@ -30,11 +30,6 @@ public class PersonaRepository : IPersonaRepository
   public List<Persona> ObtenerTodas()
   {
       return _dbContext.Set<Persona>().ToList();
-  }
-
-  public List<Persona> ObtenerPorId()
-  {
-      throw new NotImplementedException();
   }
   public void ActualizarPersona(Persona persona)
   {
