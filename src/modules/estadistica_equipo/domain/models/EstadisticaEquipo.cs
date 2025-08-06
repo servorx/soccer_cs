@@ -14,15 +14,13 @@ public class EstadisticaEquipo
   public int PartidosPerdidos { get; set; }
   public int GolesAFavor { get; set; }
   public int GolesEnContra { get; set; }
-  // relaciones foraneas 
+  // relaciones foraneas, en este caso de uno a muchos
   public int EquipoId { get; set; }
   public Equipo? Equipo { get; set; }
-  public EstadisticaEquipo(int id, int? equipoId,
+  public EstadisticaEquipo(
     int partidosGanados, int partidosEmpatados, int partidosPerdidos,
     int golesAFavor, int golesEnContra)
   {
-    Id = id;
-    EquipoId = equipoId;
     PartidosGanados = partidosGanados;
     PartidosEmpatados = partidosEmpatados;
     PartidosPerdidos = partidosPerdidos;

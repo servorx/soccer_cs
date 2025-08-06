@@ -16,7 +16,7 @@ public class Persona
   public string? Nacionalidad { get; set; }
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
-  // relaciones con CuerpoMedico y CuerpoTecnico
+  // relaciones con CuerpoMedico, CuerpoTecnico y jugadores
   public CuerpoMedico? CuerpoMedico { get; set; }
   public CuerpoTecnico? CuerpoTecnico { get; set; }
   public Jugador? Jugador { get; set; }

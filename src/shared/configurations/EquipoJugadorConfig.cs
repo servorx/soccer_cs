@@ -14,16 +14,19 @@ public class EquipoJugadorConfig : IEntityTypeConfiguration<EquipoJugador>
 
     builder.HasKey(ej => new { ej.EquipoId, ej.JugadorId });
 
-    builder.Property(ej => ej.FechaIngreso)
+    builder.Property(ej => ej.FechaInicio)
+            .IsRequired();
+
+    builder.Property(ej => ej.FechaFin)
             .IsRequired();
 
     builder.HasOne(ej => ej.Equipo)
-            .WithMany(e => e.EquipoJugador)
+            .WithMany(e => e.EquipoJugadors)
             .HasForeignKey(ej => ej.EquipoId)
             .OnDelete(DeleteBehavior.Cascade);
 
     builder.HasOne(ej => ej.Jugador)
-            .WithMany(j => j.EquipoJugador)
+            .WithMany(j => j.EquipoJugadors)
             .HasForeignKey(ej => ej.JugadorId)
             .OnDelete(DeleteBehavior.Cascade);
   }

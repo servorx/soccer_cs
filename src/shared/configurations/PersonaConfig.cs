@@ -28,17 +28,15 @@ public class PersonaConfig : IEntityTypeConfiguration<Persona>
     builder.HasIndex(p => p.DocumentoIdentidad).IsUnique();
     builder.Property(p => p.Genero).HasMaxLength(50).HasColumnType("varchar");
 
-    // configuracion de llave foranea hacia cuerpo_medico
-    builder.HasOne(p => p.CuerpoMedico)
-        .WithOne(cm => cm.Persona)
-        .HasForeignKey<CuerpoMedico>(cm => cm.PersonaId);
-    // cuerpo tecnico
-    builder.HasOne(p => p.CuerpoTecnico)
-        .WithOne(ct => ct.Persona)
-        .HasForeignKey<CuerpoTecnico>(ct => ct.PersonaId);
-    // jugador
-    builder.HasOne(p => p.Jugador)
-        .WithOne(j => j.Persona)
-        .HasForeignKey<Jugador>(j => j.PersonaId);
+    // no se colocan relaciones ya que las clases heredan directamente de persona
+    // // configuracion de llave foranea hacia cuerpo_medico
+    // builder.HasOne(p => p.CuerpoMedico)
+    //     .WithOne(cm => cm.Persona)
+    //     .HasForeignKey<CuerpoMedico>(cm => cm.PersonaId);
+    // // cuerpo tecnico
+    // builder.HasOne(p => p.CuerpoTecnico)
+    //     .WithOne(ct => ct.Persona)
+    //     .HasForeignKey<CuerpoTecnico>(ct => ct.PersonaId);
+    // // en jugador no hay persona porque directamente se hereda la clase
   }
 }

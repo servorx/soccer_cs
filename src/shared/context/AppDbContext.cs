@@ -35,7 +35,8 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<Jugador>().ToTable("jugadores");
     modelBuilder.Entity<CuerpoMedico>().ToTable("cuerpo_medico");
     modelBuilder.Entity<CuerpoTecnico>().ToTable("cuerpo_tecnico");
-    modelBuilder.Entity<Persona>().ToTable("personas"); 
-    modelBuilder.Entity<Transferencia>().ToTable("transferencias"); 
+    modelBuilder.Entity<Persona>().ToTable("personas");
+    modelBuilder.Entity<Transferencia>().ToTable("transferencias");
+    modelBuilder.Entity<EquipoJugador>().ToTable("equipo_jugador");
   }
 }

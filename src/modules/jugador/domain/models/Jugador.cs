@@ -13,15 +13,14 @@ public class Jugador : Persona
   public int NumeroDorsal { get; set; }
   public string? PieHabil { get; set; }
   public float ValorMercado { get; set; }
-  public string? EquipoActual { get; set; }
   // relaciones de clases foraneas, persona
-  public int PersonaId { get; set; }
-  public Persona? Persona { get; set; }
-  public int EquipoId { get; set; }
-  public Equipo? Equipo { get; set; }
-    public ICollection<Transferencia>? Transferencias { get; set; }
+  // esta es por relacion de muchos a muchos 
+  public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
+  // estas son relaciones de uno a muchos
+  public ICollection<EstadisticaJugador>? EstadisticaJugadors { get; set; }
+  public ICollection<Transferencia>? Transferencias { get; set; }
   public Jugador(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero,
-    string? posicion, int numeroDorsal, string? pieHabil, float valorMercado, string? equipoActual)
+    string? posicion, int numeroDorsal, string? pieHabil, float valorMercado)
     : base(nombre, apellido, edad, nacionalidad, documento_identidad, genero)
   {
     // Atributos especificos de Jugador 
@@ -29,7 +28,6 @@ public class Jugador : Persona
     NumeroDorsal = numeroDorsal;
     PieHabil = pieHabil;
     ValorMercado = valorMercado;
-    EquipoActual = equipoActual;
   }
   public Jugador() { }
   public override string ToString()

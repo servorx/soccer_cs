@@ -15,11 +15,13 @@ public class EstadisticaJugador
   public float Peso { get; set; }
   public int TarjetasAmarillas { get; set; }
   public int TarjetasRojas { get; set; }
-  public EstadisticaJugador(int id,
+  // relaciones con las claves foraneas, en este caos de uno a muchos
+  public int JugadorId { get; set; }
+  public Jugador? Jugador { get; set; }
+  public EstadisticaJugador(
     int goles, int asistencias, int partidosJugados, float estatura, float peso,
     int tarjetasAmarillas, int tarjetasRojas)
   {
-    Id = id;
     Goles = goles;
     Asistencias = asistencias;
     PartidosJugados = partidosJugados;
@@ -28,9 +30,7 @@ public class EstadisticaJugador
     TarjetasAmarillas = tarjetasAmarillas;
     TarjetasRojas = tarjetasRojas;
   }
-
   public EstadisticaJugador() { }
-
   public void MostrarResumen()
   {
     Console.WriteLine($"Goles: {Goles}, Asistencias: {Asistencias}, Partidos Jugados: {PartidosJugados}");
