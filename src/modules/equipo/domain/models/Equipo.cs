@@ -19,14 +19,15 @@ public class Equipo
   public int? CantidadTitulos { get; set; }
   // relaciones
   public ICollection<CuerpoMedico>? CuerpoMedicos { get; set; }
-  // tengo que experimentar con esto pero basicamente es la composicion de anidarlo con otras listas como cuerpo tecnico, cuerpo medico y jugadores
-  public List<Jugador?> Jugadores { get; set; } = new();
-  public List<CuerpoTecnico?> CuerpoTecnico { get; set; } = new();
-  public List<CuerpoMedico?> CuerpoMedico { get; set; } = new();
-  public List<Torneo?> TorneosInscritos { get; set; } = new();
-  public List<EstadisticaEquipo?> EstadisticaEquipos { get; set; } = new();
+  public ICollection<CuerpoTecnico>? CuerpoTecnicos { get; set; }
+  public ICollection<Jugador>? Jugadors { get; set; }
+  public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
+  public ICollection<EstadisticaEquipo>? EstadisticaEquipos { get; set; }
+  public ICollection<TorneoEquipo>? TorneoEquipos { get; set; }
+  public ICollection<Transferencia>? TransferenciasOrigen { get; set; }
+  public ICollection<Transferencia>?TransferenciasDestino { get; set; }
 
-  public Equipo(int id, string? nombre, string? ciudad, string? pais, string? estadio, string? tipoEquipo, int? cantidadTitulos, List<Jugador?> jugadores, List<CuerpoTecnico?> cuerpoTecnico, List<CuerpoMedico?> cuerpoMedico, List<Torneo?> torneosInscritos, List<EstadisticaEquipo?> estadisticaEquipos)
+  public Equipo(int id, string? nombre, string? ciudad, string? pais, string? estadio, string? tipoEquipo, int? cantidadTitulos)
   {
     Id = id;
     Nombre = nombre;
@@ -35,18 +36,11 @@ public class Equipo
     Estadio = estadio;
     TipoEquipo = tipoEquipo;
     CantidadTitulos = cantidadTitulos;
-    Jugadores = jugadores;
-    CuerpoTecnico = cuerpoTecnico;
-    CuerpoMedico = cuerpoMedico;
-    TorneosInscritos = torneosInscritos;
-    EstadisticaEquipos = estadisticaEquipos;
   }
   public Equipo() { }
   public override string ToString()
   {
     return $"🏟️ Equipo: {Nombre} | Ciudad: {Ciudad}, País: {Pais} | Estadio: {Estadio}\n" +
-          $"🏆 Títulos ganados: {CantidadTitulos}\n" +
-          $"👥 Jugadores: {Jugadores.Count} | 🎓 Técnicos: {CuerpoTecnico.Count} | 🏥 Médicos: {CuerpoMedico.Count}\n" +
-          $"📋 Torneos inscritos: {TorneosInscritos.Count}";
+          $"🏆 Títulos ganados: {CantidadTitulos}\n";
   }
 }

@@ -14,11 +14,10 @@ public class AppDbContext : DbContext
   {
   }
   // declaracion de todos los dbset para las entidades del proyecto
+  // TODO: revisar detalladamente si es con Set o con { get; set; }
   public DbSet<CuerpoMedico> CuerpoMedicos => Set<CuerpoMedico>();
   public DbSet<CuerpoTecnico> CuerpoTecnicos => Set<CuerpoTecnico>();
   public DbSet<Equipo> Equipos => Set<Equipo>();
-  public DbSet<EquipoCuerpoMedico> EquiposCuerpoMedico => Set<EquipoCuerpoMedico>();
-  public DbSet<EquipoCuerpoTecnico> EquiposCuerpoTecnico => Set<EquipoCuerpoTecnico>();
   public DbSet<EquipoJugador> EquiposJugadores => Set<EquipoJugador>();
   public DbSet<EstadisticaEquipo> EstadisticasEquipos => Set<EstadisticaEquipo>();
   public DbSet<EstadisticaJugador> EstadisticasJugadores => Set<EstadisticaJugador>();
@@ -30,11 +29,13 @@ public class AppDbContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-      base.OnModelCreating(modelBuilder);
-      modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-      
-      modelBuilder.Entity<Persona>().ToTable("personas");
-      modelBuilder.Entity<CuerpoMedico>().ToTable("cuerpo_medico"); // Tiene FK-PK a personas
+    base.OnModelCreating(modelBuilder);
+    modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+    // configuracion TPT para tener una tabla por tipo de clave 
+    modelBuilder.Entity<Jugador>().ToTable("jugadores");
+    modelBuilder.Entity<CuerpoMedico>().ToTable("cuerpo_medico");
+    modelBuilder.Entity<CuerpoTecnico>().ToTable("cuerpo_tecnico");
+    modelBuilder.Entity<Persona>().ToTable("personas"); 
+    modelBuilder.Entity<Transferencia>().ToTable("transferencias"); 
   }
-  
 }

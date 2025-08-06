@@ -13,8 +13,53 @@ public class EquipoConfig : IEntityTypeConfiguration<Equipo>
   {
     builder.ToTable("equipos");
     // tiene que heredar la clave principal de persona
-    builder.HasKey(ct => ct.Id);
+    builder.HasKey(e => e.Id);
+    builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
-
+    // definicion de las columnas 
+    builder.Property(e => e.Nombre).IsRequired().HasColumnType("varchar").HasMaxLength(100);
+    builder.Property(e => e.Ciudad).IsRequired().HasColumnType("varchar").HasMaxLength(50);
+    builder.Property(e => e.Pais).IsRequired().HasColumnType("varchar").HasMaxLength(40);
+    builder.Property(e => e.Estadio).IsRequired().HasColumnType("varchar").HasMaxLength(180);
+    builder.Property(e => e.TipoEquipo).IsRequired().HasColumnType("varchar").HasMaxLength(30);
+    builder.Property(e => e.CantidadTitulos).IsRequired();
+    // definicion de las relaciones con cuerpo medico
+    builder.HasMany(e => e.CuerpoMedicos)
+        .WithOne(cm => cm.Equipo)
+        .HasForeignKey(cm => cm.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    // con cuerpo tecnico
+    builder.HasMany(e => e.CuerpoTecnicos)
+        .WithOne(ct => ct.Equipo)
+        .HasForeignKey(ct => ct.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    // con jugadores
+    builder.HasMany(e => e.Jugadors)
+        .WithOne(j => j.Equipo)
+        .HasForeignKey(j => j.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    // con equipo_jugador
+    builder.HasMany(e => e.EquipoJugadors)
+        .WithOne(ej => ej.Equipo)
+        .HasForeignKey(ct => ct.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    // con estadistica equipo
+    builder.HasMany(e => e.EstadisticaEquipos)
+        .WithOne(ee => ee.Equipo)
+        .HasForeignKey(ee => ee.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    // con torneo equipo
+    builder.HasMany(e => e.TorneoEquipos)
+        .WithOne(te => te.Equipo)
+        .HasForeignKey(ct => ct.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    builder.HasMany(e => e.Transferencia)
+        .WithOne(te => te.Equipo)
+        .HasForeignKey(ct => ct.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
+    builder.HasMany(e => e.TorneoEquipos)
+        .WithOne(te => te.Equipo)
+        .HasForeignKey(ct => ct.EquipoId)
+        .OnDelete(DeleteBehavior.Cascade);
   }
 }

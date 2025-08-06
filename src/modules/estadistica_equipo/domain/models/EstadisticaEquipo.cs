@@ -2,19 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer.modules.equipo.domain;
 
 namespace soccer_cs;
 
 public class EstadisticaEquipo
 {
   public int Id { get; set; }
-  public int? EquipoId { get; set; }
   public int PartidosGanados { get; set; }
   public int PartidosEmpatados { get; set; }
   public int PartidosPerdidos { get; set; }
   public int GolesAFavor { get; set; }
   public int GolesEnContra { get; set; }
-
+  // relaciones foraneas 
+  public int EquipoId { get; set; }
+  public Equipo? Equipo { get; set; }
   public EstadisticaEquipo(int id, int? equipoId,
     int partidosGanados, int partidosEmpatados, int partidosPerdidos,
     int golesAFavor, int golesEnContra)

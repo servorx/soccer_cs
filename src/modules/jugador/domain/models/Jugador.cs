@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Prng;
+using soccer.modules.equipo.domain;
 
 namespace soccer_cs.models;
 
@@ -15,10 +17,11 @@ public class Jugador : Persona
   // relaciones de clases foraneas, persona
   public int PersonaId { get; set; }
   public Persona? Persona { get; set; }
-  // composicion de estadisticas por jugador
-  public List<EstadisticaJugador?> EstadisticaJugadores { get; set; } = new();
+  public int EquipoId { get; set; }
+  public Equipo? Equipo { get; set; }
+    public ICollection<Transferencia>? Transferencias { get; set; }
   public Jugador(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero,
-    string? posicion, int numeroDorsal, string? pieHabil, float valorMercado, string? equipoActual, List<EstadisticaJugador?> estadisticaJugadores)
+    string? posicion, int numeroDorsal, string? pieHabil, float valorMercado, string? equipoActual)
     : base(nombre, apellido, edad, nacionalidad, documento_identidad, genero)
   {
     // Atributos especificos de Jugador 
@@ -27,7 +30,6 @@ public class Jugador : Persona
     PieHabil = pieHabil;
     ValorMercado = valorMercado;
     EquipoActual = equipoActual;
-    EstadisticaJugadores = estadisticaJugadores;
   }
   public Jugador() { }
   public override string ToString()

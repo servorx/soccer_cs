@@ -6,6 +6,7 @@ using soccer.modules.equipo.domain;
 using soccer_cs.models;
 
 namespace soccer_cs;
+
 public class EquipoJugador
 {
   public int EquipoId { get; set; }
@@ -14,5 +15,6 @@ public class EquipoJugador
   public int JugadorId { get; set; }
   public Jugador? Jugador { get; set; }
 
-  public DateTime FechaIngreso { get; set; }
+  public DateTime FechaInicio { get; set; }
+  public DateTime FechaFin { get; set; }
 }
