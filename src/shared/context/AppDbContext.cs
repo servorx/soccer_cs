@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using soccer.modules.equipo.domain;
+using soccer_cs.configurations;
 using soccer_cs.models;
 
 namespace soccer_cs;
@@ -14,29 +15,24 @@ public class AppDbContext : DbContext
   {
   }
   // declaracion de todos los dbset para las entidades del proyecto
-  // TODO: revisar detalladamente si es con Set o con { get; set; }
-  public DbSet<CuerpoMedico> CuerpoMedicos => Set<CuerpoMedico>();
-  public DbSet<CuerpoTecnico> CuerpoTecnicos => Set<CuerpoTecnico>();
-  public DbSet<Equipo> Equipos => Set<Equipo>();
-  public DbSet<EquipoJugador> EquiposJugadores => Set<EquipoJugador>();
-  public DbSet<EstadisticaEquipo> EstadisticasEquipos => Set<EstadisticaEquipo>();
-  public DbSet<EstadisticaJugador> EstadisticasJugadores => Set<EstadisticaJugador>();
-  public DbSet<Jugador> Jugadores => Set<Jugador>();
-  public DbSet<Persona> Personas => Set<Persona>();
-  public DbSet<Torneo> Torneos => Set<Torneo>();
-  public DbSet<TorneoEquipo> TorneosEquipos => Set<TorneoEquipo>();
-  public DbSet<Transferencia> Transferencias => Set<Transferencia>();
+  // // revisar detalladamente si es con Set o con { get; set; }
+  // en realidad es mas preferible trabajarlo con { get; set; }
+  public DbSet<CuerpoMedico> CuerpoMedicos { get; set; }
+  public DbSet<CuerpoTecnico> CuerpoTecnicos {get; set;}
+  public DbSet<Equipo> Equipos {get; set;}
+  public DbSet<EquipoJugador> EquiposJugadores {get; set;}
+  public DbSet<EstadisticaEquipo> EstadisticasEquipos {get; set;}
+  public DbSet<EstadisticaJugador> EstadisticasJugadores {get; set;}
+  public DbSet<Jugador> Jugadores {get; set;}
+  public DbSet<Persona> Personas {get; set;}
+  public DbSet<Torneo> Torneos {get; set;}  
+  public DbSet<TorneoEquipo> TorneosEquipos {get; set;}
+  public DbSet<Transferencia> Transferencias {get; set;}
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    // con la parte de de las configuracions automaticas no es necesario que se declare cada una de las entidades
     base.OnModelCreating(modelBuilder);
     modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-    // configuracion TPT para tener una tabla por tipo de clave 
-    modelBuilder.Entity<Jugador>().ToTable("jugadores");
-    modelBuilder.Entity<CuerpoMedico>().ToTable("cuerpo_medico");
-    modelBuilder.Entity<CuerpoTecnico>().ToTable("cuerpo_tecnico");
-    modelBuilder.Entity<Persona>().ToTable("personas");
-    modelBuilder.Entity<Transferencia>().ToTable("transferencias");
-    modelBuilder.Entity<EquipoJugador>().ToTable("equipo_jugador");
   }
 }

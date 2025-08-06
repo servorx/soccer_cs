@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using Org.BouncyCastle.Crypto.Prng;
 using soccer.modules.equipo.domain;
@@ -14,6 +15,8 @@ public class Jugador : Persona
   public string? PieHabil { get; set; }
   public float ValorMercado { get; set; }
   // relaciones de clases foraneas, persona
+  // public int PersonaId { get; set; }
+  // public Persona? Persona { get; set; }
   // esta es por relacion de muchos a muchos 
   public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
   // estas son relaciones de uno a muchos
