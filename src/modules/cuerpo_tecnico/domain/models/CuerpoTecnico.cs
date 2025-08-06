@@ -10,6 +10,8 @@ public class CuerpoTecnico : Persona
   // relaciones foraneas
   public int EquipoId { get; set; }
   public Equipo? Equipo { get; set; }
+  public int PersonaId { get; set; }
+  public Persona? Persona { get; set; }
   public CuerpoTecnico(
     string? nombre,
     string? apellido,

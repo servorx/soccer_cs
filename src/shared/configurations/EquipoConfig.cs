@@ -33,7 +33,7 @@ public class EquipoConfig : IEntityTypeConfiguration<Equipo>
         .WithOne(ct => ct.Equipo)
         .HasForeignKey(ct => ct.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
-    // con equipo_jugador
+    // con equipo_jugador porque la tabla debe de ser intermedia al haber una relacion de muchos a muchos
     builder.HasMany(e => e.EquipoJugadors)
         .WithOne(ej => ej.Equipo)
         .HasForeignKey(ct => ct.EquipoId)
@@ -53,7 +53,6 @@ public class EquipoConfig : IEntityTypeConfiguration<Equipo>
         .WithOne(t => t.EquipoOrigen)
         .HasForeignKey(t => t.EquipoOrigenId)
         .OnDelete(DeleteBehavior.Restrict);
-
     // con transferencias (destino)
     builder.HasMany(e => e.TransferenciasDestino)
         .WithOne(t => t.EquipoDestino)

@@ -14,7 +14,7 @@ public class CuerpoTecnicoConfig : IEntityTypeConfiguration<CuerpoTecnico>
     // tiene que heredar la clave principal de persona
     builder.HasKey(ct => ct.Id);
 
-    builder.Property(ct => ct.Rol).HasMaxLength(40).IsRequired();
+    builder.Property(ct => ct.Rol).HasMaxLength(40).IsRequired().IsRequired().HasColumnType("varchar");
     builder.Property(ct => ct.AniosExperiencia).IsRequired();
     // configuracion de la clave foranea hacia equipo 
     builder.HasOne(ct => ct.Equipo)

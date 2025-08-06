@@ -30,21 +30,21 @@ public class PersonaConfig : IEntityTypeConfiguration<Persona>
 
     // TODO: revisar la parte de las relaciona a pesar de que herede de persona ya que es una relacion de uno a uno 
     // ? no se colocan relaciones ya que las clases heredan directamente de persona
-    // // configuracion de llave foranea hacia cuerpo_medico
-    // builder.HasOne(p => p.CuerpoMedico)
-    //     .WithOne(cm => cm.Persona)
-    //     .HasForeignKey<CuerpoMedico>(cm => cm.PersonaId)
-    //     .OnDelete(DeleteBehavior.Cascade); 
-    // // cuerpo tecnico
-    // builder.HasOne(p => p.CuerpoTecnico)
-    //     .WithOne(ct => ct.Persona)
-    //     .HasForeignKey<CuerpoTecnico>(ct => ct.PersonaId)
-    //     .OnDelete(DeleteBehavior.Cascade); 
-    // // en jugador no hay persona porque directamente se hereda la clase
-    // builder.HasOne(p => p.Jugador)
-    //     .WithOne(j => j.Persona)
-    //     .HasForeignKey<Jugador>(j => j.PersonaId)
-    //     .OnDelete(DeleteBehavior.Cascade);
+    // configuracion de llave foranea hacia cuerpo_medico
+    builder.HasOne(p => p.CuerpoMedico)
+        .WithOne(cm => cm.Persona)
+        .HasForeignKey<CuerpoMedico>(cm => cm.PersonaId)
+        .OnDelete(DeleteBehavior.Cascade); 
+    // cuerpo tecnico
+    builder.HasOne(p => p.CuerpoTecnico)
+        .WithOne(ct => ct.Persona)
+        .HasForeignKey<CuerpoTecnico>(ct => ct.PersonaId)
+        .OnDelete(DeleteBehavior.Cascade); 
+    // en jugador no hay persona porque directamente se hereda la clase
+    builder.HasOne(p => p.Jugador)
+        .WithOne(j => j.Persona)
+        .HasForeignKey<Jugador>(j => j.PersonaId)
+        .OnDelete(DeleteBehavior.Cascade);
 
   }
 }
