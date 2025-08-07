@@ -4,11 +4,10 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Globalization;
-using soccer_csharp.data;
-using soccer_csharp.models;
-using soccer_csharp.utils;
 using soccer_cs.infrastructure.utils;
 using soccer_cs.application;
+using soccer_cs.application.services;
+using soccer_cs.models;
 
 namespace soccer_cs.services;
 
@@ -62,7 +61,7 @@ public class JugadorService
     {
       // agregar los datos de persona y estadisticas al jugador
       // se usa AppData.Personas.Last() y el nombre de la variable asociada para obtener la ultima persona creada
-      var last_person = AppData.Personas.Last();
+      // // var last_person = AppData.Personas.Last();
 
       Jugador nuevo_jugador = new Jugador(id_nuevo, 
       last_person.Nombre, 

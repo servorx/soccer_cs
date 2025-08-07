@@ -7,7 +7,6 @@ namespace soccer_cs.models;
 public class EstadisticaJugador
 {
   public int Id { get; set; }
-  // public int? JugadorId { get; set; }
   public int Goles { get; set; }
   public int Asistencias { get; set; }
   public int PartidosJugados { get; set; }
@@ -15,12 +14,13 @@ public class EstadisticaJugador
   public float Peso { get; set; }
   public int TarjetasAmarillas { get; set; }
   public int TarjetasRojas { get; set; }
+  public DateTime FechaCreacion { get; set; }
   // relaciones con las claves foraneas, en este caos de uno a muchos
   public int JugadorId { get; set; }
   public Jugador? Jugador { get; set; }
   public EstadisticaJugador(
     int goles, int asistencias, int partidosJugados, float estatura, float peso,
-    int tarjetasAmarillas, int tarjetasRojas)
+    int tarjetasAmarillas, int tarjetasRojas, DateTime fechaCreacion)
   {
     Goles = goles;
     Asistencias = asistencias;
@@ -29,6 +29,7 @@ public class EstadisticaJugador
     Peso = peso;
     TarjetasAmarillas = tarjetasAmarillas;
     TarjetasRojas = tarjetasRojas;
+    FechaCreacion = fechaCreacion;
   }
   public EstadisticaJugador() { }
   public void MostrarResumen()

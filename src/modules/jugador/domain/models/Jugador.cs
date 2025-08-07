@@ -17,10 +17,9 @@ public class Jugador : Persona
   // relaciones de clases foraneas, persona
   public int PersonaId { get; set; }
   public Persona? Persona { get; set; }
-  // esta es por relacion de muchos a muchos 
-  public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
-  // estas son relaciones de uno a muchos
+  // estas son relaciones de uno a muchos 
   public ICollection<EstadisticaJugador>? EstadisticaJugadors { get; set; }
+  public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
   public ICollection<Transferencia>? Transferencias { get; set; }
   public Jugador(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero,
     string? posicion, int numeroDorsal, string? pieHabil, float valorMercado)

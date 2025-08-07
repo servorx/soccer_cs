@@ -15,7 +15,6 @@ public class TransferenciaConfig : IEntityTypeConfiguration<Transferencia>
     builder.HasKey(t => t.Id);
     builder.Property(t => t.Id).ValueGeneratedOnAdd();
 
-
     // creacion de la columnas
     builder.Property(t => t.TipoTransferencia).IsRequired().HasMaxLength(120);
     builder.Property(t => t.ValorTransferencia).HasColumnType("decimal(12,2)");

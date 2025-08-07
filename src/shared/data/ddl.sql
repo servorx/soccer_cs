@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS estadistica_jugador (
   peso DECIMAL(5,2),
   tarjetas_amarillas INT,
   tarjetas_rojas INT,
+  fecha_creacion DATE,
   CONSTRAINT fk_est_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
 ) ENGINE=INNODB;
 
@@ -72,6 +73,7 @@ CREATE TABLE IF NOT EXISTS estadistica_equipo (
   partidos_perdidos INT,
   goles_a_favor INT,
   goles_en_contra INT,
+  fecha_creacion DATE,
   CONSTRAINT fk_id_equipo_ee FOREIGN KEY (id_equipo) REFERENCES equipos(id)
 ) ENGINE=INNODB;
 
@@ -90,9 +92,9 @@ CREATE TABLE IF NOT EXISTS torneos (
   nombre VARCHAR(255) UNIQUE,
   tipo VARCHAR(30),
   ubicacion VARCHAR(255),
-  fecha_creacion DATE, 
-  duracion_dias INT,
-  premio DECIMAL(12,2)
+  fecha_inicio DATE,
+  fecha_final DATE,
+  premio DECIMAL(15,2)
 ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS torneo_equipo (
@@ -108,7 +110,7 @@ CREATE TABLE IF NOT EXISTS transferencia (
   id_jugador INT,
   id_equipo_origen INT,
   id_equipo_destino INT, 
-  tipo_transferencia VARCHAR(120),
+  tipo_transferencia VARCHAR(120), 
   valor_transferencia DECIMAL(12,2),
   fecha_transferencia DATE,
   CONSTRAINT fk_id_jugador_transferencia FOREIGN KEY (id_jugador) REFERENCES jugadores(id),

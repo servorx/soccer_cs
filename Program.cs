@@ -1,5 +1,4 @@
 ﻿using soccer_cs;
-using soccer_cs.infrastructure.data;
 using soccer_cs.ui;
 
 internal class Program

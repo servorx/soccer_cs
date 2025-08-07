@@ -23,7 +23,7 @@ public class Equipo
   public ICollection<Jugador>? Jugadors { get; set; }
   public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
   public ICollection<EstadisticaEquipo>? EstadisticaEquipos { get; set; }
-  public ICollection<TorneoEquipo>? TorneoEquipos { get; set; }
+  public ICollection<TorneoEquipo>? TorneosEquipos { get; set; }
   public ICollection<Transferencia>? TransferenciasOrigen { get; set; }
   public ICollection<Transferencia>?TransferenciasDestino { get; set; }
 

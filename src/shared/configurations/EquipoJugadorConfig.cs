@@ -10,21 +10,23 @@ public class EquipoJugadorConfig : IEntityTypeConfiguration<EquipoJugador>
 {
   public void Configure(EntityTypeBuilder<EquipoJugador> builder)
   {
+    // definicion de la tabla
     builder.ToTable("equipo_jugador");
 
+    // definicion de la llave primaria, en este caso es compuesta
     builder.HasKey(ej => new { ej.EquipoId, ej.JugadorId });
 
-    builder.Property(ej => ej.FechaInicio)
-            .IsRequired();
+    // defincion de las columnas de la tabla
+    builder.Property(ej => ej.FechaInicio).IsRequired();
+    builder.Property(ej => ej.FechaFin).IsRequired();
 
-    builder.Property(ej => ej.FechaFin)
-            .IsRequired();
-
+    // definicion de las llaves FK
+    // Equipos
     builder.HasOne(ej => ej.Equipo)
             .WithMany(e => e.EquipoJugadors)
             .HasForeignKey(ej => ej.EquipoId)
             .OnDelete(DeleteBehavior.Cascade);
-
+    // Jugadores
     builder.HasOne(ej => ej.Jugador)
             .WithMany(j => j.EquipoJugadors)
             .HasForeignKey(ej => ej.JugadorId)

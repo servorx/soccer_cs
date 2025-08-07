@@ -11,36 +11,28 @@ public class Torneo
   public string? Nombre { get; set; }
   public string? Tipo { get; set; }
   public string? Ubicacion { get; set; }
-  public string? FechaCreacion { get; set; }
-  public int DuracionDias { get; set; }
-  public string? Premio { get; set; }
-  public List<Equipo?> EquiposParticipantes { get; set; } = new();
-  public Torneo(int id, string? nombre, string? tipo, string? ubicacion, string? fechaCreacion, int duracionDias, string? premio, List<Equipo?> equiposParticipantes)
+  public DateTime FechaInicio { get; set; }
+  public DateTime FechaFinal { get; set; }
+  public float? Premio { get; set; }
+  // deficion de que forma parte de la fk de TorneoEquipo
+  public ICollection<TorneoEquipo> TorneosEquipos { get; set; } = new List<TorneoEquipo>();
+  public Torneo(int id, string? nombre, string? tipo, string? ubicacion, DateTime fechaInicio, DateTime fechaFinal, float? premio)
   {
     Id = id;
     Nombre = nombre;
     Tipo = tipo;
     Ubicacion = ubicacion;
-    FechaCreacion = fechaCreacion;
-    DuracionDias = duracionDias;
+    FechaInicio = fechaInicio;
+    FechaFinal = fechaFinal;
     Premio = premio;
-    EquiposParticipantes = equiposParticipantes;
   }
   public Torneo() { }
   public void MostrarResumen()
   {
     Console.WriteLine($"Torneo: {Nombre}");
     Console.WriteLine($"Ubicación: {Ubicacion}");
-    Console.WriteLine($"Fecha de Creación: {FechaCreacion}");
-    Console.WriteLine($"Duración: {DuracionDias} días");
+    Console.WriteLine($"Fecha de Creación: {FechaInicio}");
+    Console.WriteLine($"Fecha final: {FechaFinal}");
     Console.WriteLine($"Premio: {Premio}");
-    Console.WriteLine("Equipos Participantes:");
-    foreach (var equipo in EquiposParticipantes)
-    {
-      if (equipo != null)
-      {
-        Console.WriteLine($"- {equipo.Nombre}");
-      }
-    }
   }
 }

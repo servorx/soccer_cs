@@ -24,17 +24,17 @@ public class JugadorConfig : IEntityTypeConfiguration<Jugador>
     builder.Property(j => j.ValorMercado).IsRequired();
     builder.Property(j => j.NumeroDorsal).IsRequired();
     // definir relaciones de las tablas
-    builder.HasOne( => ct.Equipo)
+    builder.HasOne(j => j.Equipo)
         .WithMany(e => e.CuerpoTecnicos)
-        .HasForeignKey(ct => ct.EquipoId)
+        .HasForeignKey(j => j.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
-    builder.HasOne( => ct.Equipo)
+    builder.HasOne(j => j.Equipo)
         .WithMany(e => e.CuerpoTecnicos)
-        .HasForeignKey(ct => ct.EquipoId)
+        .HasForeignKey(j => j.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
-    builder.HasOne( => ct.Equipo)
+    builder.HasOne(j => j.Equipo)
         .WithMany(e => e.CuerpoTecnicos)
-        .HasForeignKey(ct => ct.EquipoId)
+        .HasForeignKey(j => j.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
   }
 }
