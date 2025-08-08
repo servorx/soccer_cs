@@ -7,47 +7,48 @@ namespace soccer_cs;
 
 public class CuerpoMedicoService : ICuerpoMedicoService
 {
-private readonly ICityRepository _cityRepository;
+  // ? revisar si todo esto esta bien
+  // en esta parte de define la interfaz del repositorio que se va a utilizar a lo largo de la clase
+  private readonly ICuerpoMedicoRepository _cuerpoMedicoRepository;
+  // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
 
-  public CityService(ICityRepository countryRepository)
+  public CuerpoMedicoService(ICuerpoMedicoRepository cuerpoMedicoRepository)
   {
-      _cityRepository = countryRepository;
+    _cuerpoMedicoRepository = cuerpoMedicoRepository;
   }
-  public async Task AddCityAsync(City city)
+  public async Task AddCuerpoMedicoAsync(CuerpoMedico cuerpoMedico)
   {
-      _cityRepository.Add(city);
-      await _cityRepository.SaveAsync();
+    _cuerpoMedicoRepository.Add(cuerpoMedico);
+    await _cuerpoMedicoRepository.SaveAsync();
+  }
+  public async Task UpdateCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico)
+  {
+    var existingCuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
+    if (existingCuerpoMedico != null)
+    {
+      existingCuerpoMedico.Nombre = cuerpoMedico.Nombre;
+      existingCuerpoMedico.Id = cuerpoMedico.Id;
+      _cuerpoMedicoRepository.Update(existingCuerpoMedico);
+      await _cuerpoMedicoRepository.SaveAsync();
+    }
+  }
+  public async Task RemoveCuerpoMedicoAsync(int id)
+  {
+    var cuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
+    if (cuerpoMedico != null)
+    {
+      _cuerpoMedicoRepository.Remove(cuerpoMedico);
+      await _cuerpoMedicoRepository.SaveAsync();
+    }
+  }
+  // estas son las partes de las consultas trabajandolas con LINQ
+  public async Task<IEnumerable<CuerpoMedico?>> GetAllCuerpoMedicos()
+  {
+    return await _cuerpoMedicoRepository.GetAllAsync();
   }
 
-  public async Task<IEnumerable<City?>> GetAllCities()
+  public async Task<CuerpoMedico?> GetCuerpoMedicoById(int id)
   {
-      return await _cityRepository.GetAllAsync();
-  }
-
-  public async Task<City?> GetCityById(int id)
-  {
-      return await _cityRepository.GetByIdAsync(id);
-  }
-
-  public async Task RemoveCityAsync(int id)
-  {
-      var city = await _cityRepository.GetByIdAsync(id);
-      if (city != null)
-      {
-          _cityRepository.Remove(city);
-          await _cityRepository.SaveAsync();
-      }
-  }
-
-  public async Task UpdateCityAsync(int id, City country)
-  {
-      var existingCity = await _cityRepository.GetByIdAsync(id);
-      if (existingCity != null)
-      {
-          existingCity.Name = country.Name;
-          existingCity.RegionId = country.RegionId;
-          _cityRepository.Update(existingCity);
-          await _cityRepository.SaveAsync();
-      }
+    return await _cuerpoMedicoRepository.GetByIdAsync(id);
   }
 }

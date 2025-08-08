@@ -2,35 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using soccer_cs.infrastructure.data;
+using Microsoft.EntityFrameworkCore;
 
 namespace soccer_cs;
 
-public class CuerpoMedicoRepository : IGenericRepository<CuerpoMedico>, ICuerpoMedicoRepository
+public class CuerpoMedicoRepository : ICuerpoMedicoRepository
 {
-  private readonly ConexionSingleton _conexion;
-  public CuerpoMedicoRepository(string connectionString)
+  private readonly AppDbContext _context;
+  public CuerpoMedicoRepository(AppDbContext context)
+    {
+      _context = context;
+    }       
+  public void Add(CuerpoMedico cuerpoMedico)
   {
-    _conexion = ConexionSingleton.Instancia(conecctionString);
+      _context.CuerpoMedicos.Add(cuerpoMedico);
   }
-  public void Crear(CuerpoMedico entity)
+
+  public async Task<IEnumerable<CuerpoMedico?>> GetAllAsync() => await _context.CuerpoMedicos.ToListAsync();
+
+  public async Task<CuerpoMedico?> GetByIdAsync(int id)
   {
-    // Implementación para crear un cuerpo médico en la base de datos
-    throw new NotImplementedException();
+      return await _context.CuerpoMedicos.FirstOrDefaultAsync(cm => cm.Id == id);
   }
-  public void Actualizar(CuerpoMedico entity)
-  {
-    // Implementación para actualizar un cuerpo médico en la base de datos
-    throw new NotImplementedException();
-  }
-  public void Eliminar(int id)
-  {
-    // Implementación para eliminar un cuerpo médico por ID
-    throw new NotImplementedException();
-  }
-  public List<CuerpoMedico> ObtenerTodosLosCuerposMedicos()
-  {
-    // Implementación para obtener todos los cuerpos médicos de la base de datos
-    throw new NotImplementedException();
-  }
+
+  public void Remove(CuerpoMedico entity) => _context.CuerpoMedicos.Remove(entity);
+
+  public async Task SaveAsync() => await _context.SaveChangesAsync();
+
+  public void Update(CuerpoMedico entity) => _context.SaveChanges();
 }

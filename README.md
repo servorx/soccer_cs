@@ -69,17 +69,43 @@ Está diseñado como una herramienta educativa para consolidar habilidades en pr
 
 ## 🧭 Estructura del Menú Principal
 <!-- TODO: revisar todos los menus para tratar de implementar todas las funcionalidades del CRUD que se tienen pensado implementar en todas las entidades -->
-0. Registro torneos
-1. Registro de equipos
-2. Registros jugadores
-3. Transferencias (compra, prestamo)
-4. Estadisticas
-5. Salir del programa 
+1. Registro torneos
+2. Registro de equipos
+3. Registros jugadores
+4. Registros de cuerpo medico
+5. Registros de cuerpo tecnico
+6. Transferencias (compra, prestamo)
+7. Estadisticas de equipo
+8. Estadisitcas de jugadores
+9. Salir del programa 
 
 
 ### Submenús
 Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas, por ejemplo:
-12
+
+**Torneos:**
+- 0.1 Crear torneo
+- 0.2 Actualizar torneo
+- 0.3 Eliminar torneo
+- 0.4 Buscar torneo por id
+- 0.4 Buscar torneo por nombre
+- 0.4 Registrar Equipos (aqui la idea es que muestre todos equipos que existen y que el usuario los seleccione)
+- 0.5 Regresar al menú principal
+
+**Equipos**
+- 1.1 Registrar equipo
+- 1.2 Registrar cuerpo tecnico 
+- 1.3 Registrar cuerpo medico
+- 1.4 Inscripcion torneo
+- 1.5 Gestionar jugadores por equipo
+- 1.6 Transferencia
+    - 1.6.1 Comprar jugador
+    - 1.6.2 Prestar jugador
+    - 1.6.3 Vender jugador
+    - 1.6.4 Regresar
+- 1.7 Desencribir equipo del torneo
+- 1.8 Regresar main menu 
+<!-- 
 **Torneos:**
 - 0.1 Crear torneo
 - 0.2 Buscar torneo
@@ -113,7 +139,7 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 3.2 Equipos con mas goles en contra por torneo
 - 3.3 Jugadores mas caros por equipo
 - 3.4 Jugadores con edad mayor al promedio de edad del equipo
-- 3.5 Regresar main menu
+- 3.5 Regresar main menu -->
 ---
 
 ## 🧱 Estructura General del Proyecto

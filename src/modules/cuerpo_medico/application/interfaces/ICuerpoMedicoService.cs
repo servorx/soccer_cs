@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace soccer_cs;
 public interface ICuerpoMedicoService
 {
-  Task<CuerpoMedico?> GetCuerpoMedicoById(int id);
-  Task<IEnumerable<CuerpoMedico?>> GetAllCuerpoMedicos();
   Task AddCuerpoMedicoAsync(CuerpoMedico cuerpoMedico);
   Task UpdateCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico);
   Task RemoveCuerpoMedicoAsync(int id);
+  Task<CuerpoMedico?> GetCuerpoMedicoById(int id);
+  Task<IEnumerable<CuerpoMedico?>> GetAllCuerpoMedicos();
 }
