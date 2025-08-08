@@ -68,13 +68,13 @@ Está diseñado como una herramienta educativa para consolidar habilidades en pr
 ---
 
 ## 🧭 Estructura del Menú Principal
-<!-- TODO: revisar todos los menus para tratar de implementar todas las funcionalidades del CRUD que se tienen pensado implementar en todas las entidades -->
+
 1. Registro torneos
 2. Registro de equipos
 3. Registros jugadores
 4. Registros de cuerpo medico
 5. Registros de cuerpo tecnico
-6. Transferencias (compra, prestamo)
+6. Transferencias (compra de jugadores)
 7. Estadisticas de equipo
 8. Estadisitcas de jugadores
 9. Salir del programa 
@@ -136,18 +136,6 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 5.8 Regresar al menú principal
 
 **Transferencias:**
-<!-- La verdad no entiendo muy bien el flujo de trabajo que puede llegar a tener este menu asi que tienes que ayudarme con esto porfa, esta es la tabla sobre la cual trabajo transferencias asi que ayudame a definir las funcionaldiades que consideres pertinentes CREATE TABLE IF NOT EXISTS transferencia (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  id_jugador INT,
-  id_equipo_origen INT,
-  id_equipo_destino INT, 
-  tipo_transferencia VARCHAR(120), 
-  valor_transferencia DECIMAL(12,2),
-  fecha_transferencia DATE,
-  CONSTRAINT fk_id_jugador_transferencia FOREIGN KEY (id_jugador) REFERENCES jugadores(id),
-  CONSTRAINT fk_id_equipo_origen_transferencia FOREIGN KEY (id_equipo_origen) REFERENCES equipos(id),
-  CONSTRAINT fk_id_equipo_destino_transferencia FOREIGN KEY (id_equipo_destino) REFERENCES equipos(id)
-) ENGINE=INNODB;-->
 - 6.1 Realizar transferencia (jugador de un equipo a otro)
     Elegir jugador existente
     Mostrar equipo actual

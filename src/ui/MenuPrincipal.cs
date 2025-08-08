@@ -48,14 +48,16 @@ public class MenuPrincipal
   {
     Console.Clear();
     Console.WriteLine("========== MENÚ PRINCIPAL ==========\n");
-    Console.WriteLine("0. Torneos");
-    Console.WriteLine("1. Equipos");
-    Console.WriteLine("2. Jugadores");
-    Console.WriteLine("3. Estadisticas Jugadores");
-    Console.WriteLine("4. Estadisticas Equipos");
-    Console.WriteLine("5. Borrar Base de Datos");
-    Console.WriteLine("6. Salir\n");
-    Console.Write("Selecciona una opción: ");
+    Console.WriteLine("1. Registro torneos");
+    Console.WriteLine("2. Registro de equipos");
+    Console.WriteLine("3. Registros jugadores");
+    Console.WriteLine("4. Registros de cuerpo medico");
+    Console.WriteLine("5. Registros de cuerpo tecnico");
+    Console.WriteLine("5. Transferencias (compra de jugadores)");
+    Console.WriteLine("5. Estadisticas de equipo");
+    Console.WriteLine("6. Estadisitcas de jugadores");
+    Console.WriteLine("7. Salir del programa\n");
+    Console.Write("Selecciona una opción (1-7): ");
   }
   public void EjecutarMenuMain()
   {
@@ -67,31 +69,31 @@ public class MenuPrincipal
 
       switch (opcion)
       {
-        case "0":
+        case "1":
           MenuTorneo menuTorneos = new MenuTorneo();
           menuTorneos.Mostrar();
           break;
-        case "1":
+        case "2":
           MenuEquipo menuEquipos = new MenuEquipo();
           menuEquipos.Mostrar();
           break;
-        case "2":
+        case "3":
           MenuJugador menuJugadores = new MenuJugador();
           menuJugadores.Mostrar();
           break;
-        case "3":
+        case "4":
           MenuEstadisticaJugador menuEstadisticaJugador = new MenuEstadisticaJugador();
           menuEstadisticaJugador.Mostrar();
           break;
-        case "4":
+        case "5":
           MenuEstadisticaEquipo menuEstadisticaEquipo = new MenuEstadisticaEquipo();
           menuEstadisticaEquipo.Mostrar();
           break;
-        case "5":
+        case "6":
           DbInstaller dbInstaller = new DbInstaller();
           dbInstaller.BorrarBaseDeDatos("Server=localhost;Uid=root;Pwd=s1e2r3v0or;", "soccer_cs");
           break;
-        case "6":
+        case "7":
           validation_program = false;
           Console.Clear();
           Console.ForegroundColor = ConsoleColor.Cyan;
