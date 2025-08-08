@@ -84,63 +84,100 @@ Está diseñado como una herramienta educativa para consolidar habilidades en pr
 Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas, por ejemplo:
 
 **Torneos:**
-- 0.1 Crear torneo
-- 0.2 Actualizar torneo
-- 0.3 Eliminar torneo
-- 0.4 Buscar torneo por id
-- 0.4 Buscar torneo por nombre
-- 0.4 Registrar Equipos (aqui la idea es que muestre todos equipos que existen y que el usuario los seleccione)
-- 0.5 Regresar al menú principal
+- 1.1 Crear torneo
+- 1.2 Actualizar torneo
+- 1.3 Eliminar torneo
+- 1.4 Buscar torneo por id
+- 1.5 Buscar torneo por nombre
+- 1.6 Registrar Equipos (aqui la idea es que muestre todos equipos que existen y que el usuario los seleccione)
+- 1.7 Regresar al menú principal
 
 **Equipos**
-- 1.1 Registrar equipo
-- 1.2 Registrar cuerpo tecnico 
-- 1.3 Registrar cuerpo medico
-- 1.4 Inscripcion torneo
-- 1.5 Gestionar jugadores por equipo
-- 1.6 Transferencia
-    - 1.6.1 Comprar jugador
-    - 1.6.2 Prestar jugador
-    - 1.6.3 Vender jugador
-    - 1.6.4 Regresar
-- 1.7 Desencribir equipo del torneo
-- 1.8 Regresar main menu 
-<!-- 
-**Torneos:**
-- 0.1 Crear torneo
-- 0.2 Buscar torneo
-- 0.3 Eliminar torneo
-- 0.4 Actualizar torneo
-- 0.5 Regresar al menú principal
-
-**Equipos**
-- 1.1 Registrar equipo
-- 1.2 Registrar cuerpo tecnico 
-- 1.3 Registrar cuerpo medico
-- 1.4 Inscripcion torneo
-- 1.5 Gestionar jugadores por equipo
-- 1.6 Transferencia
-    - 1.6.1 Comprar jugador
-    - 1.6.2 Prestar jugador
-    - 1.6.3 Vender jugador
-    - 1.6.4 Regresar
-- 1.7 Desencribir equipo del torneo
-- 1.8 Regresar main menu 
+- 2.1 Crear equipo
+- 2.2 Actualizar equipo
+- 2.3 Eliminar equipo
+- 2.4 Buscar equipo por id
+- 2.5 Buscar equipo por nombre
+- 2.6 Registrar cuerpo tecnico (aqui la idea es que muestre todos Cuerpos tecnicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
+- 2.7 Registrar cuerpo medico (aqui la idea es que muestre todos Cuerpos medicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
+- 2.8 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
+- 2.9 Mostrar jugadores por equipo
+- 2.10 Desencribir equipo del torneo 
+- 2.11 Regresar main menu 
 
 **Jugadores:**
-- 2.1 Registrar jugador
-- 2.2 Buscar jugador
-- 2.3 Editar jugador
-- 2.4 Eliminar jugador
-- 2.5 Regresar al menú principal
+- 3.1 Crear jugador
+- 3.2 Actualizar jugador
+- 3.3 Eliminar jugador
+- 3.4 Buscar jugador por id
+- 3.6 Buscar jugador por nombre
+- 3.7 Registrar jugador a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un equipo a su jugador)
+<!-- TODO: tener en cuenta que las funcionalidades de modificacion del equipo al que pertenece un jugador pueden llegar a ser redundantes debido al menu de transacciones. -->
+- 3.8 Regresar al menú principal
 
-**Estadisticas:**
-- 3.1 Jugadores con mas asistencias por torneo 
-- 3.2 Equipos con mas goles en contra por torneo
-- 3.3 Jugadores mas caros por equipo
-- 3.4 Jugadores con edad mayor al promedio de edad del equipo
-- 3.5 Regresar main menu -->
----
+**Cuerpo Medico:**
+- 4.1 Crear cuerpo medico
+- 4.2 Actualizar cuerpo medico
+- 4.3 Eliminar cuerpo medico
+- 4.4 Buscar cuerpo medico por id
+- 4.6 Buscar cuerpo medico por nombre
+- 4.7 Registrar cuerpo medico a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un cuerpo medico a su equipo)
+- 4.7 Eliminar cuerpo medico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo medico desea eliminar)
+- 4.8 Regresar al menú principal
+
+**Cuerpo Tecnico:**
+- 5.1 Crear cuerpo tecnico
+- 5.2 Actualizar cuerpo tecnico
+- 5.3 Eliminar cuerpo tecnico
+- 5.4 Buscar cuerpo tecnico por id
+- 5.6 Buscar cuerpo tecnico por nombre
+- 5.7 Registrar cuerpo tecnico a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un cuerpo tecnico a su equipo)
+- 5.7 Eliminar cuerpo tecnico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo tecnico desea eliminar)
+- 5.8 Regresar al menú principal
+
+**Transferencias:**
+<!-- La verdad no entiendo muy bien el flujo de trabajo que puede llegar a tener este menu asi que tienes que ayudarme con esto porfa, esta es la tabla sobre la cual trabajo transferencias asi que ayudame a definir las funcionaldiades que consideres pertinentes CREATE TABLE IF NOT EXISTS transferencia (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  id_jugador INT,
+  id_equipo_origen INT,
+  id_equipo_destino INT, 
+  tipo_transferencia VARCHAR(120), 
+  valor_transferencia DECIMAL(12,2),
+  fecha_transferencia DATE,
+  CONSTRAINT fk_id_jugador_transferencia FOREIGN KEY (id_jugador) REFERENCES jugadores(id),
+  CONSTRAINT fk_id_equipo_origen_transferencia FOREIGN KEY (id_equipo_origen) REFERENCES equipos(id),
+  CONSTRAINT fk_id_equipo_destino_transferencia FOREIGN KEY (id_equipo_destino) REFERENCES equipos(id)
+) ENGINE=INNODB;-->
+- 6.1 Realizar transferencia (jugador de un equipo a otro)
+    Elegir jugador existente
+    Mostrar equipo actual
+    Seleccionar equipo destino
+    Tipo de transferencia (venta, préstamo)
+    Valor
+- 6.2 Actualizar transferencia
+- 6.3 Ver historial de transferencias por jugador
+- 6.4 Ver historial de transferencias por equipo
+- 6.5 Eliminar transferencia
+- 6.6 Regresar main menu
+
+**Estadisticas por equipo:**
+- 7.1 Equipos con mas partidos ganados
+- 7.2 Equipos con mas partidos empatados
+- 7.3 Equipos con mas partidos perdidos
+- 7.4 Equipos con mas goles a favor
+- 7.5 Equipos con mas goles en contra
+- 7.6 Regresar main menu
+
+**Estadisticas por jugador:**
+- 8.1 Jugadores con mas goles
+- 8.2 Jugadores con mas partidos jugados
+- 8.3 Jugadores mas alto
+- 8.4 Jugadores menos pesado
+- 8.5 Jugadores con mas tarjetas amarillas
+- 8.6 Jugadores con menos tarjetas rojas
+- 8.7 Jugadores con edad mayor al promedio de edad del equipo
+- 8.8 Regresar main menu
+
 
 ## 🧱 Estructura General del Proyecto
 
