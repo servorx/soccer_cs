@@ -20,7 +20,6 @@ public class Equipo
   // relaciones
   public ICollection<CuerpoMedico>? CuerpoMedicos { get; set; }
   public ICollection<CuerpoTecnico>? CuerpoTecnicos { get; set; }
-  public ICollection<Jugador>? Jugadors { get; set; }
   public ICollection<EquipoJugador>? EquipoJugadors { get; set; }
   public ICollection<EstadisticaEquipo>? EstadisticaEquipos { get; set; }
   public ICollection<TorneoEquipo>? TorneosEquipos { get; set; }

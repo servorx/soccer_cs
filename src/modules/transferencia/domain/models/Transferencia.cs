@@ -10,7 +10,7 @@ public class Transferencia
 {
   public int Id { get; set; }
   public string? TipoTransferencia { get; set; }
-  public decimal ValorTransferencia { get; set; }
+  public float? ValorTransferencia { get; set; }
   public DateTime FechaTransferencia { get; set; }
   // relaciones con fk
   public int JugadorId { get; set; }
@@ -24,7 +24,7 @@ public class Transferencia
       int equipoOrigenId,
       int equipoDestinoId,
       string? tipoTransferencia,
-      decimal valorTransferencia,
+      float valorTransferencia,
       DateTime fechaTransferencia)
     {
       JugadorId = jugadorId;

@@ -23,18 +23,10 @@ public class JugadorConfig : IEntityTypeConfiguration<Jugador>
     builder.Property(j => j.PieHabil).HasMaxLength(15).IsRequired();
     builder.Property(j => j.ValorMercado).IsRequired();
     builder.Property(j => j.NumeroDorsal).IsRequired();
-    // definir relaciones de las tablas
-    builder.HasOne(j => j.Equipo)
-        .WithMany(e => e.CuerpoTecnicos)
-        .HasForeignKey(j => j.EquipoId)
-        .OnDelete(DeleteBehavior.Cascade);
-    builder.HasOne(j => j.Equipo)
-        .WithMany(e => e.CuerpoTecnicos)
-        .HasForeignKey(j => j.EquipoId)
-        .OnDelete(DeleteBehavior.Cascade);
-    builder.HasOne(j => j.Equipo)
-        .WithMany(e => e.CuerpoTecnicos)
-        .HasForeignKey(j => j.EquipoId)
+    //TODO: tengo que revisar si colocar el id de persoan a pesar de trabajar con herencia, lo mismo revisarla con el id del equipo a pesar de tener la tabla intermedia equipo_jugador
+    builder.HasOne(j => j.Jugador)
+        .WithMany(ej => ej.EstadisticaJugadors)
+        .HasForeignKey(j => j.JugadorId)
         .OnDelete(DeleteBehavior.Cascade);
   }
 }

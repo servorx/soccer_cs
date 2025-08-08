@@ -33,18 +33,14 @@ public class EquipoConfig : IEntityTypeConfiguration<Equipo>
         .WithOne(ct => ct.Equipo)
         .HasForeignKey(ct => ct.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
-    // con equipo_jugador porque la tabla debe de ser intermedia al haber una relacion de muchos a muchos
-    builder.HasMany(e => e.EquipoJugadors)
-        .WithOne(ej => ej.Equipo)
-        .HasForeignKey(ct => ct.EquipoId)
-        .OnDelete(DeleteBehavior.Cascade);
+    // con equipo_jugador porque la tabla debe de ser intermedia al haber una relacion de muchos a muchos, esta configuracion se encuentra en el archivo EquipoJugadorConfig.cs
     // con estadistica equipo
     builder.HasMany(e => e.EstadisticaEquipos)
         .WithOne(ee => ee.Equipo)
         .HasForeignKey(ee => ee.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
     // con torneo equipo
-    builder.HasMany(e => e.TorneoEquipos)
+    builder.HasMany(e => e.TorneosEquipos)
         .WithOne(te => te.Equipo)
         .HasForeignKey(ct => ct.EquipoId)
         .OnDelete(DeleteBehavior.Cascade);
@@ -58,10 +54,5 @@ public class EquipoConfig : IEntityTypeConfiguration<Equipo>
         .WithOne(t => t.EquipoDestino)
         .HasForeignKey(t => t.EquipoDestinoId)
         .OnDelete(DeleteBehavior.Restrict);
-    // con torneos equipos
-    builder.HasMany(e => e.TorneoEquipos)
-        .WithOne(te => te.Equipo)
-        .HasForeignKey(ct => ct.EquipoId)
-        .OnDelete(DeleteBehavior.Cascade);
   }
 }

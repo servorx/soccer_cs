@@ -17,8 +17,8 @@ public class EquipoJugadorConfig : IEntityTypeConfiguration<EquipoJugador>
     builder.HasKey(ej => new { ej.EquipoId, ej.JugadorId });
 
     // defincion de las columnas de la tabla
-    builder.Property(ej => ej.FechaInicio).IsRequired();
-    builder.Property(ej => ej.FechaFin).IsRequired();
+    builder.Property(ej => ej.FechaInicio).IsRequired().HasColumnType("DATE");
+    builder.Property(ej => ej.FechaFin).IsRequired().HasColumnType("DATE");
 
     // definicion de las llaves FK
     // Equipos
