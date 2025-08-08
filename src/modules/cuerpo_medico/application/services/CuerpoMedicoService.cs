@@ -5,31 +5,49 @@ using System.Threading.Tasks;
 
 namespace soccer_cs;
 
-public class CuerpoMedicoService : IGenericRepository<CuerpoMedico>
+public class CuerpoMedicoService : ICuerpoMedicoService
 {
-  List<CuerpoMedico> cuerpoMedicos = new List<CuerpoMedico>();
+private readonly ICityRepository _cityRepository;
 
-  public void Crear(CuerpoMedico entity)
+  public CityService(ICityRepository countryRepository)
   {
-    cuerpoMedicos.Add(entity);
+      _cityRepository = countryRepository;
+  }
+  public async Task AddCityAsync(City city)
+  {
+      _cityRepository.Add(city);
+      await _cityRepository.SaveAsync();
   }
 
-  // TODO: no entiendo nada 
-  public void Actualizar(CuerpoMedico entity)
+  public async Task<IEnumerable<City?>> GetAllCities()
   {
-    var index = cuerpoMedicos.FindIndex(cm => cm.Id == entity.Id);
-    if (index != -1)
-    {
-      cuerpoMedicos[index] = entity;
-    }
+      return await _cityRepository.GetAllAsync();
   }
 
-  public void Eliminar(int id)
+  public async Task<City?> GetCityById(int id)
   {
-    var entity = cuerpoMedicos.FirstOrDefault(cm => cm.Id == id);
-    if (entity != null)
-    {
-      cuerpoMedicos.Remove(entity);
-    }
+      return await _cityRepository.GetByIdAsync(id);
+  }
+
+  public async Task RemoveCityAsync(int id)
+  {
+      var city = await _cityRepository.GetByIdAsync(id);
+      if (city != null)
+      {
+          _cityRepository.Remove(city);
+          await _cityRepository.SaveAsync();
+      }
+  }
+
+  public async Task UpdateCityAsync(int id, City country)
+  {
+      var existingCity = await _cityRepository.GetByIdAsync(id);
+      if (existingCity != null)
+      {
+          existingCity.Name = country.Name;
+          existingCity.RegionId = country.RegionId;
+          _cityRepository.Update(existingCity);
+          await _cityRepository.SaveAsync();
+      }
   }
 }
