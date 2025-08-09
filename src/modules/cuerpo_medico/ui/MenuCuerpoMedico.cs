@@ -137,6 +137,7 @@ public class MenuCuerpoMedico
   {
     // TODO: antes de crear el cuerpo medico se debe de crear primeo la persona y se le asigna el id de la ultima persona creada
     Persona persona = new Persona();
+    // TODO: sale error porque el metodo no esta definido en el servicio de personas 
     await _service.AgregarPersonaAsync(persona);
     Console.Write("Especialidad: ");
     var nombre = validate_data.ValidarTexto(Console.ReadLine());
@@ -324,7 +325,7 @@ public class MenuCuerpoMedico
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.RegistrarCuerpoMedicoaEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _service.RegistrarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico registrado.");
   }
   public async Task EliminarCuerpoMedicoDeEquipoAsync()
@@ -335,7 +336,7 @@ public class MenuCuerpoMedico
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.EliminarCuerpoMedicoDeEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _service.EliminarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico eliminado.");
   }
 }

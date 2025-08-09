@@ -4,13 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace soccer_cs;
+
 public interface ICuerpoTecnicoService
 {
-  Task<CuerpoMedico?> GetByIdAsync(int id);
-  Task<IEnumerable<CuerpoMedico?>> GetAllAsync();
-  void Add(CuerpoMedico entity);
-  void Remove(CuerpoMedico entity);
-  void Update(CuerpoMedico entity);
-  Task SaveAsync();
+  Task AgregarCuerpoTecnicoAsync(CuerpoTecnico cuerpoTecnico);
+  Task ActualizarCuerpoTecnicoAsync(int id, CuerpoTecnico cuerpoTecnico);
+  Task EliminarCuerpoTecnicoAsync(int id);
+  Task<IEnumerable<CuerpoTecnico?>> MostrarCuerpoTecnicosAsync();
+  Task<CuerpoTecnico?> ObtenerCuerpoTecnicoPorIdAsync(int id);
+  Task<CuerpoTecnico?> ObtenerCuerpoTecnicoPorNombreAsync(string nombre);
+  Task RegistrarCuerpoTecnicoEquipoAsync(int id_cuerpo_tecnico, int id_equipo);
+  Task EliminarCuerpoTecnicoEquipoAsync(int id_cuerpo_tecnico, int id_equipo);
 }
 

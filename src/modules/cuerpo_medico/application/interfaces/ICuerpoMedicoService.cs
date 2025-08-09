@@ -16,4 +16,3 @@ public interface ICuerpoMedicoService
   Task RegistrarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo);
   Task EliminarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo);
 }
-  
