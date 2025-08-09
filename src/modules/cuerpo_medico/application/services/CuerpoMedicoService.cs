@@ -12,16 +12,13 @@ public class CuerpoMedicoService : ICuerpoMedicoService
   private readonly ICuerpoMedicoRepository _cuerpoMedicoRepository;
   // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
 
-  public CuerpoMedicoService(ICuerpoMedicoRepository cuerpoMedicoRepository)
-  {
-    _cuerpoMedicoRepository = cuerpoMedicoRepository;
-  }
-  public async Task AddCuerpoMedicoAsync(CuerpoMedico cuerpoMedico)
+  public CuerpoMedicoService(ICuerpoMedicoRepository cuerpoMedicoRepository) =>_cuerpoMedicoRepository = cuerpoMedicoRepository;
+  public async Task AgregarCuerpoMedicoAsync(CuerpoMedico cuerpoMedico)
   {
     _cuerpoMedicoRepository.Add(cuerpoMedico);
     await _cuerpoMedicoRepository.SaveAsync();
   }
-  public async Task UpdateCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico)
+  public async Task ActualizarCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico)
   {
     var existingCuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
     if (existingCuerpoMedico != null)
@@ -32,7 +29,7 @@ public class CuerpoMedicoService : ICuerpoMedicoService
       await _cuerpoMedicoRepository.SaveAsync();
     }
   }
-  public async Task RemoveCuerpoMedicoAsync(int id)
+  public async Task EliminarCuerpoMedicoAsync(int id)
   {
     var cuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
     if (cuerpoMedico != null)
@@ -42,13 +39,22 @@ public class CuerpoMedicoService : ICuerpoMedicoService
     }
   }
   // estas son las partes de las consultas trabajandolas con LINQ
-  public async Task<IEnumerable<CuerpoMedico?>> GetAllCuerpoMedicos()
+  public async Task<IEnumerable<CuerpoMedico?>> MostrarCuerpoMedicosAsync() => await _cuerpoMedicoRepository.GetAllAsync();
+  public async Task<CuerpoMedico?> ObtenerCuerpoMedicoPorIdAsync(int id) => await _cuerpoMedicoRepository.GetByIdAsync(id);
+  public async Task<CuerpoMedico?> ObtenerCuerpoMedicoPorNombreAsync(string nombre) => await _cuerpoMedicoRepository.GetByNameAsync(nombre); 
+  // estas son las partes de las funcionalidades donde se manipulan los datos con otras entitdades y sus relaciones
+  public async Task RegistrarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo)
   {
-    return await _cuerpoMedicoRepository.GetAllAsync();
+    var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
+    var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
+    cuerpo_medico.EquipoId = id_equipo;
+    _cuerpoMedicoRepository.Update(cuerpo_medico);
   }
-
-  public async Task<CuerpoMedico?> GetCuerpoMedicoById(int id)
+  public async Task EliminarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo)
   {
-    return await _cuerpoMedicoRepository.GetByIdAsync(id);
+    var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
+    var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
+    cuerpo_medico.EquipoId = null;
+    _cuerpoMedicoRepository.Update(cuerpo_medico);
   }
 }

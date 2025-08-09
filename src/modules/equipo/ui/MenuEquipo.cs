@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using soccer_cs.modules.equipo.domain;
-
 
 namespace soccer_cs;
 

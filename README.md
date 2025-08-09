@@ -87,29 +87,32 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 1.1 Crear torneo
 - 1.2 Actualizar torneo
 - 1.3 Eliminar torneo
-- 1.4 Buscar torneo por id
-- 1.5 Buscar torneo por nombre
-- 1.6 Registrar Equipos (aqui la idea es que muestre todos equipos que existen y que el usuario los seleccione)
-- 1.7 Regresar al menú principal
+- 1.4 Mostrar todos los torneos
+- 1.5 Buscar torneo por id
+- 1.6 Buscar torneo por nombre
+- 1.7 Registrar Equipos (aqui la idea es que muestre todos equipos que existen y que el usuario los seleccione)
+- 1.8 Regresar al menú principal
 
 **Equipos**
 - 2.1 Crear equipo
 - 2.2 Actualizar equipo
 - 2.3 Eliminar equipo
-- 2.4 Buscar equipo por id
-- 2.5 Buscar equipo por nombre
-- 2.6 Registrar cuerpo tecnico (aqui la idea es que muestre todos Cuerpos tecnicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
-- 2.7 Registrar cuerpo medico (aqui la idea es que muestre todos Cuerpos medicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
-- 2.8 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
-- 2.9 Mostrar jugadores por equipo
-- 2.10 Desencribir equipo del torneo 
-- 2.11 Regresar main menu 
+- 2.4 Mostrar todos los equipos
+- 2.5 Buscar equipo por id
+- 2.6 Buscar equipo por nombre
+- 2.7 Registrar cuerpo tecnico (aqui la idea es que muestre todos Cuerpos tecnicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
+- 2.8 Registrar cuerpo medico (aqui la idea es que muestre todos Cuerpos medicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
+- 2.9 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
+- 2.10 Mostrar jugadores por equipo
+- 2.11 Desencribir equipo del torneo 
+- 2.12 Regresar main menu 
 
 **Jugadores:**
 - 3.1 Crear jugador
 - 3.2 Actualizar jugador
 - 3.3 Eliminar jugador
-- 3.4 Buscar jugador por id
+- 3.4 Mostrar todos los jugadores
+- 3.5 Buscar jugador por id
 - 3.6 Buscar jugador por nombre
 - 3.7 Registrar jugador a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un equipo a su jugador)
 <!-- TODO: tener en cuenta que las funcionalidades de modificacion del equipo al que pertenece un jugador pueden llegar a ser redundantes debido al menu de transacciones. -->
@@ -119,21 +122,23 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 4.1 Crear cuerpo medico
 - 4.2 Actualizar cuerpo medico
 - 4.3 Eliminar cuerpo medico
-- 4.4 Buscar cuerpo medico por id
+- 4.4 Mostrar todos los cuerpo medicos
+- 4.5 Buscar cuerpo medico por id
 - 4.6 Buscar cuerpo medico por nombre
 - 4.7 Registrar cuerpo medico a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un cuerpo medico a su equipo)
-- 4.7 Eliminar cuerpo medico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo medico desea eliminar)
-- 4.8 Regresar al menú principal
+- 4.8 Eliminar cuerpo medico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo medico desea eliminar)
+- 4.9 Regresar al menú principal
 
 **Cuerpo Tecnico:**
 - 5.1 Crear cuerpo tecnico
 - 5.2 Actualizar cuerpo tecnico
 - 5.3 Eliminar cuerpo tecnico
-- 5.4 Buscar cuerpo tecnico por id
+- 5.4 Mostrar todos los cuerpo tecnicos
+- 5.5 Buscar cuerpo tecnico por id
 - 5.6 Buscar cuerpo tecnico por nombre
 - 5.7 Registrar cuerpo tecnico a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un cuerpo tecnico a su equipo)
-- 5.7 Eliminar cuerpo tecnico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo tecnico desea eliminar)
-- 5.8 Regresar al menú principal
+- 5.8 Eliminar cuerpo tecnico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo tecnico desea eliminar)
+- 5.9 Regresar al menú principal
 
 **Transferencias:**
 - 6.1 Realizar transferencia (jugador de un equipo a otro)
@@ -154,7 +159,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 7.3 Equipos con mas partidos perdidos
 - 7.4 Equipos con mas goles a favor
 - 7.5 Equipos con mas goles en contra
-- 7.6 Regresar main menu
+- 7.6 Mostrar todas las estadisticas de equipo
+- 7.7 Regresar main menu
 
 **Estadisticas por jugador:**
 - 8.1 Jugadores con mas goles
@@ -164,7 +170,8 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 8.5 Jugadores con mas tarjetas amarillas
 - 8.6 Jugadores con menos tarjetas rojas
 - 8.7 Jugadores con edad mayor al promedio de edad del equipo
-- 8.8 Regresar main menu
+- 8.8 Mostrar todas las estadisticas de jugador
+- 8.9 Regresar main menu
 
 
 ## 🧱 Estructura General del Proyecto

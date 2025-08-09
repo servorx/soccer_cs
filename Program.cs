@@ -35,7 +35,9 @@ internal class Program
     //   Console.WriteLine($"Id: {persona.Id}, Nombre: {persona.Nombre}, Edad: {persona.Edad}, Posicion: {persona.Posicion}");
     // }
 
-
+    MenuPrincipal menuPrincipal = new MenuPrincipal();
+    menuPrincipal.MostrarBienvenida();
+    menuPrincipal.EjecutarMenuMain();
 
 
     // esto es para mostrar la conexion a la base de datos y la version de MySQL
