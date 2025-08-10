@@ -19,46 +19,12 @@ public class DbInstaller
 
     CREATE TABLE IF NOT EXISTS personas (
       id INT PRIMARY KEY AUTO_INCREMENT,
+      nombre VARCHAR(80),
+      apellido VARCHAR(80),
       edad INT,
       nacionalidad VARCHAR(50),
       documento_identidad INT UNIQUE,
       genero VARCHAR(50)
-    ) ENGINE=INNODB;
-
-    CREATE TABLE IF NOT EXISTS cuerpo_medico (
-      id INT PRIMARY KEY,
-      especialidad VARCHAR(100),
-      anios_experiencia INT,
-      CONSTRAINT fk_id_cuerpomedico FOREIGN KEY (id) REFERENCES personas(id) 
-    ) ENGINE=INNODB;
-
-    CREATE TABLE IF NOT EXISTS cuerpo_tecnico (
-      id INT PRIMARY KEY,
-      rol VARCHAR(40),
-      anios_experiencia INT,
-      CONSTRAINT fk_id_cuerpotecnico FOREIGN KEY (id) REFERENCES personas(id)
-    ) ENGINE=INNODB;
-
-    CREATE TABLE IF NOT EXISTS jugadores (
-      id INT PRIMARY KEY,
-      posicion VARCHAR(40),
-      numero_dorsal INT,
-      pie_habil VARCHAR(50),
-      valor_mercado DECIMAL(12,2),
-      CONSTRAINT fk_id_jugadores FOREIGN KEY (id) REFERENCES personas(id)
-    ) ENGINE=INNODB;
-
-    CREATE TABLE IF NOT EXISTS estadistica_jugador (
-      id INT PRIMARY KEY AUTO_INCREMENT,
-      id_jugador INT,
-      goles INT,
-      asistencias INT,
-      partidosJugados INT,
-      estatura DECIMAL(4,2),
-      peso DECIMAL(5,2),
-      tarjetas_amarillas INT,
-      tarjetas_rojas INT,
-      CONSTRAINT fk_est_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
     ) ENGINE=INNODB;
 
     CREATE TABLE IF NOT EXISTS equipos (
@@ -71,30 +37,47 @@ public class DbInstaller
       cantidad_titulos INT
     ) ENGINE=INNODB;
 
-    CREATE TABLE IF NOT EXISTS equipo_jugador (
+    CREATE TABLE IF NOT EXISTS cuerpo_medico (
+      id INT PRIMARY KEY,
+      especialidad VARCHAR(100),
+      anios_experiencia INT,
+      id_equipo INT, 
+      CONSTRAINT fk_id_cuerpomedico FOREIGN KEY (id) REFERENCES personas(id),
+      CONSTRAINT fk_id_equipo_cuerpo_medico FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+    ) ENGINE=INNODB;
+
+    CREATE TABLE IF NOT EXISTS cuerpo_tecnico (
+      id INT PRIMARY KEY,
+      rol VARCHAR(40),
+      anios_experiencia INT,
       id_equipo INT,
+      CONSTRAINT fk_id_cuerpotecnico FOREIGN KEY (id) REFERENCES personas(id),
+      CONSTRAINT fk_id_equipo_cuerpo_tecnico FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+    ) ENGINE=INNODB;
+
+    CREATE TABLE IF NOT EXISTS jugadores (
+      id INT PRIMARY KEY,
+      posicion VARCHAR(40),
+      numero_dorsal INT,
+      pie_habil VARCHAR(15),
+      valor_mercado DECIMAL(12,2),
+      id_equipo_actual INT,
+      CONSTRAINT fk_id_jugadores FOREIGN KEY (id) REFERENCES personas(id),
+      CONSTRAINT fk_id_equipo_actual_jugadores FOREIGN KEY (id_equipo_actual) REFERENCES equipos(id)
+    ) ENGINE=INNODB;
+
+    CREATE TABLE IF NOT EXISTS estadistica_jugador (
+      id INT PRIMARY KEY AUTO_INCREMENT,
       id_jugador INT,
-      fecha_inicio DATE,
-      fecha_fin DATE,    
-      PRIMARY KEY (id_equipo, id_jugador),
-      CONSTRAINT fk_id_equipo_equipo_jugador FOREIGN KEY (id_equipo) REFERENCES equipos(id),
-      CONSTRAINT fk_id_jugador_equipo_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
-    ) ENGINE=INNODB;
-
-    CREATE TABLE IF NOT EXISTS equipo_cuerpo_tecnico (
-      id_equipo INT,
-      id_cuerpo_tecnico INT,
-      PRIMARY KEY (id_equipo, id_cuerpo_tecnico),
-      CONSTRAINT fk_ie_ect FOREIGN KEY (id_equipo) REFERENCES equipos(id),
-      CONSTRAINT fk_iect_ect FOREIGN KEY (id_cuerpo_tecnico) REFERENCES cuerpo_tecnico(id)
-    ) ENGINE=INNODB;
-
-    CREATE TABLE IF NOT EXISTS equipo_cuerpo_medico (
-      id_equipo INT,
-      id_cuerpo_medico INT,
-      PRIMARY KEY (id_equipo, id_cuerpo_medico),
-      CONSTRAINT fk_ie_ecm FOREIGN KEY (id_equipo) REFERENCES equipos(id),
-      CONSTRAINT fk_icm_ecm FOREIGN KEY (id_cuerpo_medico) REFERENCES cuerpo_medico(id)
+      goles INT,
+      asistencias INT,
+      partidos_jugados INT,
+      estatura DECIMAL(4,2),
+      peso DECIMAL(5,2),
+      tarjetas_amarillas INT,
+      tarjetas_rojas INT,
+      fecha_creacion DATE,
+      CONSTRAINT fk_est_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
     ) ENGINE=INNODB;
 
     CREATE TABLE IF NOT EXISTS estadistica_equipo (
@@ -105,7 +88,18 @@ public class DbInstaller
       partidos_perdidos INT,
       goles_a_favor INT,
       goles_en_contra INT,
+      fecha_creacion DATE,
       CONSTRAINT fk_id_equipo_ee FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+    ) ENGINE=INNODB;
+
+    CREATE TABLE IF NOT EXISTS equipo_jugador (
+      id_equipo INT,
+      id_jugador INT,
+      fecha_inicio DATE,
+      fecha_fin DATE,    
+      PRIMARY KEY (id_equipo, id_jugador),
+      CONSTRAINT fk_id_equipo_equipo_jugador FOREIGN KEY (id_equipo) REFERENCES equipos(id),
+      CONSTRAINT fk_id_jugador_equipo_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
     ) ENGINE=INNODB;
 
     CREATE TABLE IF NOT EXISTS torneos (
@@ -113,9 +107,9 @@ public class DbInstaller
       nombre VARCHAR(255) UNIQUE,
       tipo VARCHAR(30),
       ubicacion VARCHAR(255),
-      fecha_creacion DATA, 
-      duracion_dias INT,
-      premio DECIMAL(12,2)
+      fecha_inicio DATE,
+      fecha_final DATE,
+      premio DECIMAL(15,2)
     ) ENGINE=INNODB;
 
     CREATE TABLE IF NOT EXISTS torneo_equipo (
@@ -131,7 +125,7 @@ public class DbInstaller
       id_jugador INT,
       id_equipo_origen INT,
       id_equipo_destino INT, 
-      tipo_transferencia VARCHAR(120),
+      tipo_transferencia VARCHAR(120), 
       valor_transferencia DECIMAL(12,2),
       fecha_transferencia DATE,
       CONSTRAINT fk_id_jugador_transferencia FOREIGN KEY (id_jugador) REFERENCES jugadores(id),

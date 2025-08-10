@@ -4,6 +4,9 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using soccer_cs.models;
+using soccer_cs.ui;
+using soccer_cs.infrastructure;
+using soccer_cs.services;
 
 namespace soccer_cs.ui;
 public class MenuPrincipal
@@ -41,8 +44,6 @@ public class MenuPrincipal
     Console.WriteLine(texto);
     Thread.Sleep(milisegundos);
   }
-  // se declara la variable que se va a utilizar para el menu principal
-  private int opcionSeleccionada = 0;
   // se declara un arreglo de strings que contiene las opciones del menu principal
   private readonly string[] opcionesMenu =
   {
@@ -56,6 +57,8 @@ public class MenuPrincipal
     "Estadísticas de jugadores",
     "Salir del programa"
   };
+  // se declara la variable que se va a utilizar para el menu principal
+  private int opcionSeleccionada = 0;
   // este es el metodo del menu principal en la consola con las flechas de arriba y abajo
   private void DibujarMenu()
   {
@@ -109,78 +112,92 @@ public class MenuPrincipal
           break;
       }
     } while (validate_program);
+    // Console.WriteLine("\nPresiona cualquier tecla para cerrar...");
+    // Console.ReadKey();
   }
   // este metodo se encarga de ejecutar las opciones del menu principal, y se trabaja con boolean para determinar si se debe de continuar o no con el programa, es por eso que esta el Console.ReadKey(true), para que el programa espere a que el usuario precione una tecla antes de continua
-  private Task<bool> EjecutarOpcion(int opcion_seleccionada)
+  private async Task<bool> EjecutarOpcion(int opcion_seleccionada)
   {
-    bool while_program = true;
-    do
-    {
-
-    } while (while_program);
-    var context = DbContextFactory.Create();
     Console.Clear();
     switch (opcion_seleccionada)
     {
       case 0:
-        Console.Clear();
-        // await new MenuTorneo(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuTorneo(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 1:
-        Console.Clear();
-        // await new MenuEquipo(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuEquipo(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 2:
-        Console.Clear();
-        // await new MenuJugador(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuJugador(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 3:
-        Console.Clear();
-        // await new MenuCuerpoMedico(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          await new MenuCuerpoMedico(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 4:
-        Console.Clear();
-        // await new MenuCuerpoTecnico(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuCuerpoTecnico(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 5:
-        Console.Clear();
-        // await new MenuTransferencias(context).EjecutarMenu();   
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuTransferencias(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 6:
-        Console.Clear();
-        // await new MenuEstadisticaEquipo(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuEstadisticaEquipo(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 7:
-        Console.Clear();
-        // await new MenuEstadisticaJugador(context).EjecutarMenu();  
-        Console.ReadKey(true);
-        break;
+        {
+          var context = DbContextFactory.Create();
+          // await new MenuEstadisticaJugador(context).EjecutarMenu();
+          Console.ReadKey(true);
+          return true;
+        }
       case 8:
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("==========================================");
-        Console.WriteLine("     🙌 ¡GRACIAS POR USAR EL SISTEMA! 🙌");
-        Console.WriteLine("==========================================\n");
-        Console.ResetColor();
+        {
+          Console.ForegroundColor = ConsoleColor.Cyan;
+          Console.WriteLine("==========================================");
+          Console.WriteLine("     🙌 ¡GRACIAS POR USAR EL SISTEMA! 🙌");
+          Console.WriteLine("==========================================\n");
+          Console.ResetColor();
 
-        Console.WriteLine("Esperamos que tu experiencia haya sido excelente. ⚽💻");
-        Console.WriteLine("\n¡Johlver coloqueme buena nota porfa 🙏!");
-        Console.WriteLine("\nPresiona cualquier tecla para salir...");
-        Console.ReadKey();
-        break;
-      default:
+          Console.WriteLine("Esperamos que tu experiencia haya sido excelente. ⚽💻");
+          Console.WriteLine("\n¡Johlver coloqueme buena nota porfa 🙏!");
+          Console.WriteLine("\nPresiona cualquier tecla para salir...");
+          Console.ReadKey();
+          return false; // salir del ciclo
+        }
+    default:
+      {
         Console.Clear();
         Console.WriteLine("error al ingresar dato, intentelo de nuevo");
         Console.ReadKey(true);
-        break;
+        return true;
+      }
     }
-    return Task.FromResult(true);
-  }  
+  }
 }
