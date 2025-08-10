@@ -24,6 +24,7 @@ public class MenuCuerpoTecnico
     "Crear cuerpo tecnico",
     "Actualizar cuerpo tecnico",
     "Eliminar cuerpo tecnico",
+    "Mostrar todos los cuerpos medicos",
     "Buscar cuerpo tecnico por id",
     "Buscar cuerpo tecnico por nombre",
     "Registrar cuerpo tecnico a equipo",
@@ -136,40 +137,41 @@ public class MenuCuerpoTecnico
     Persona persona = new Persona();
     // TODO: sale error porque el metodo no esta definido en el servicio de personas 
     await _service.AgregarPersonaAsync(persona);
-    Console.Write("Especialidad: ");
-    var nombre = validate_data.ValidarTexto(Console.ReadLine());
+    Console.Write("Rol: ");
+    var rol = validate_data.ValidarTexto(Console.ReadLine());
 
     Console.Write("Anios de experiencia: ");
     var aniosExperiencia = validate_data.ValidarEntero(Console.ReadLine());
 
-    // hacer que el id persona sea el ultimo id creado en la base de datos ya que al crear el cuerpo medico se crea una persona primero
+    // hacer que el id persona sea el ultimo id creado en la base de datos ya que al crear el cuerpo tecnico se crea una persona primero
+    // TODO: revisar si esto esta bien
     var id_persona = await DbContextFactory.Create().Personas.MaxAsync(p => p.Id);
 
-    System.Console.WriteLine($"¿Desea registrar el cuerpo medico {nombre} con {aniosExperiencia} anios de experiencia?");
+    System.Console.WriteLine($"¿Desea registrar el cuerpo tecnico {rol} con {aniosExperiencia} anios de experiencia?");
 
     System.Console.WriteLine("Si presiona 'S' se creara, si presiona 'N' se cancelara: ");
     var opcion = validate_data.ValidarBoleano(Console.ReadLine());
     if (opcion == false) return;
 
-    // agregar el nuevo cuerpo medico
-    var cuerpo_medico = new CuerpoMedico
+    // agregar el nuevo cuerpo tecnico
+    var cuerpo_tecnico = new CuerpoTecnico
     {
-      Nombre = nombre.Trim(),
+      Rol = rol.Trim(), 
       AniosExperiencia = aniosExperiencia,
       PersonaId = id_persona
     };
-    await _service.AgregarCuerpoMedicoAsync(cuerpo_medico);
-    Console.WriteLine("Cuerpo Medico creado.");
+    await _service.AgregarCuerpoTecnicoAsync(cuerpo_tecnico); 
+    Console.WriteLine("Cuerpo tecnico creado.");
   }
-  private async Task ActualizarCuerpoMedicoAsync()
+  private async Task ActualizarCuerpoTecnicoAsync()
   {
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var existente = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (existente == null)
     {
-      Console.WriteLine("Cuerpo medico no encontrado.");
+      Console.WriteLine("Cuerpo tecnico no encontrado.");
       Console.ReadLine();
       return;
     }
@@ -204,10 +206,10 @@ public class MenuCuerpoTecnico
     if (!string.IsNullOrWhiteSpace(nuevoGenero))
       existente.Genero = nuevoGenero;
 
-    Console.Write($"Nueva especialidad (actual: {existente.Especialidad}), presiona enter para mantener el mismo nombre: : ");
-    var nuevaEspecialidad = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevaEspecialidad))
-      existente.Especialidad = nuevaEspecialidad;
+    Console.Write($"Nueva rol (actual: {existente.Rol}), presiona enter para mantener el mismo nombre: : ");
+    var nuevaRol = Console.ReadLine();
+    if (!string.IsNullOrWhiteSpace(nuevaRol))
+      existente.Rol = nuevaRol;
 
     Console.Write($"Años experiencia (actual: {existente.AniosExperiencia}), presiona enter para mantener el mismo nombre: : ");
     var nuevoAniosExpStr = Console.ReadLine();
@@ -222,7 +224,7 @@ public class MenuCuerpoTecnico
     Console.WriteLine($"Nacionalidad: {existente.Nacionalidad}");
     Console.WriteLine($"Documento: {existente.DocumentoIdentidad}");
     Console.WriteLine($"Género: {existente.Genero}");
-    Console.WriteLine($"Especialidad: {existente.Especialidad}");
+    Console.WriteLine($"Rol: {existente.Rol}");
     Console.WriteLine($"Años Experiencia: {existente.AniosExperiencia}");
     Console.Write("¿Confirmar actualización? (S/N): ");
 
@@ -230,7 +232,7 @@ public class MenuCuerpoTecnico
 
     if (confirmacion)
     {
-      await _service.ActualizarCuerpoMedicoAsync(id, existente);
+      await _service.ActualizarCuerpoTecnicoAsync(id, existente);
       Console.WriteLine("País actualizado.");
       Console.ReadLine();
     }
@@ -240,62 +242,62 @@ public class MenuCuerpoTecnico
       Console.ReadLine();
     }
   }
-  private async Task EliminarCuerpoMedicoAsync()
+  private async Task EliminarCuerpoTecnicoAsync()
   {
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var existente = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (existente == null)
     {
-      Console.WriteLine("Cuerpo medico no encontrado.");
+      Console.WriteLine("Cuerpo tecnico no encontrado.");
       Console.ReadLine();
       return;
     }
 
-    await _service.EliminarCuerpoMedicoAsync(id);
-    Console.WriteLine("🗑️ Cuerpo medico eliminado.");
+    await _service.EliminarCuerpoTecnicoAsync(id);
+    Console.WriteLine("🗑️ Cuerpo tecnico eliminado.");
   }
-  private async Task MostrarCuerpoMedicosAsync()
+  private async Task MostrarCuerpoTecnicosAsync()
   {
     // TODO: tengo que revisar si esto esta bien por el nombre del servicio ya que son los mismos en el servicio, o no entiendo
-    var cuerpo_medico = await _service.MostrarCuerpoMedicosAsync();
-    if (!cuerpo_medico.Any())
+    var cuerpo_tecnico = await _service.MostrarCuerpoTecnicosAsync();
+    if (!cuerpo_tecnico.Any())
     {
       Console.WriteLine("No hay países registrados.");
       return;
     }
 
-    Console.WriteLine("Cuerpo Medicos:");
-    foreach (var cm in cuerpo_medico)
+    Console.WriteLine("Cuerpo Tecnicos:");
+    foreach (var cm in cuerpo_tecnico)
     {
       if (cm is null) continue;
-      Console.WriteLine($"ID: {cm.Id} | Nombre: {cm.Nombre} | Especialidad: {cm.Especialidad} | Años de experiencia: {cm.AniosExperiencia}");
+      Console.WriteLine($"ID: {cm.Id} | Nombre: {cm.Nombre} | Rol: {cm.Rol} | Años de experiencia: {cm.AniosExperiencia}");
     }
   }
-  private async Task ObtenerCuerpoMedicoPorIdAsync()
+  private async Task ObtenerCuerpoTecnicoPorIdAsync()
   {
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var existente = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (existente == null)
     {
-      Console.WriteLine("Cuerpo medico no encontrado.");
+      Console.WriteLine("Cuerpo tecnico no encontrado.");
       Console.ReadLine();
       return;
     }
 
-    var cm = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var cm = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (cm is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
       return;
     }
 
-    Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Nombre} {cm.Apellido} | Especialidad={cm.Especialidad} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Nacionalidad} | Documento={cm.DocumentoIdentidad}");
+    Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Nombre} {cm.Apellido} | Rol={cm.Rol} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Nacionalidad} | Documento={cm.DocumentoIdentidad}");
   }
-  private async Task ObtenerCuerpoMedicoPorNombreAsync()
+  private async Task ObtenerCuerpoTecnicoPorNombreAsync()
   {
     Console.Write("Nombre (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
@@ -305,35 +307,35 @@ public class MenuCuerpoTecnico
       Console.WriteLine("Nombre inválido.");
       return;
     }
-    var cm = await _service.ObtenerCuerpoMedicoPorNombreAsync(nombre);
+    var cm = await _service.ObtenerCuerpoTecnicoPorNombreAsync(nombre);
     if (cm is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
       return;
     }
-    Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Nombre} {cm.Apellido} | Especialidad={cm.Especialidad} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Nacionalidad} | Documento={cm.DocumentoIdentidad}");
+    Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Nombre} {cm.Apellido} | Rol={cm.Rol} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Nacionalidad} | Documento={cm.DocumentoIdentidad}");
     Console.ReadKey();
   }
-  public async Task RegistrarCuerpoMedicoaEquipoAsync()
+  public async Task RegistrarCuerpoTecnicoaEquipoAsync()
   {
-    Console.Write("ID cuerpo medico: ");
-    int id_cuerpo_medico = validate_data.ValidarEntero(Console.ReadLine());
+    Console.Write("ID cuerpo tecnico: ");
+    int id_cuerpo_tecnico = validate_data.ValidarEntero(Console.ReadLine());
 
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.RegistrarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
-    Console.WriteLine("Cuerpo medico registrado.");
+    await _service.RegistrarCuerpoTecnicoEquipoAsync(id_cuerpo_tecnico, id_equipo);
+    Console.WriteLine("Cuerpo tecnico registrado.");
   }
-  public async Task EliminarCuerpoMedicoDeEquipoAsync()
+  public async Task EliminarCuerpoTecnicoDeEquipoAsync()
   {
-    Console.Write("ID cuerpo medico: ");
-    int id_cuerpo_medico = validate_data.ValidarEntero(Console.ReadLine());
+    Console.Write("ID cuerpo tecnico: ");
+    int id_cuerpo_tecnico = validate_data.ValidarEntero(Console.ReadLine());
 
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.EliminarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
-    Console.WriteLine("Cuerpo medico eliminado.");
+    await _service.EliminarCuerpoTecnicoEquipoAsync(id_cuerpo_tecnico, id_equipo);
+    Console.WriteLine("Cuerpo tecnico eliminado.");
   }
 }

@@ -100,10 +100,10 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 2.4 Mostrar todos los equipos
 - 2.5 Buscar equipo por id
 - 2.6 Buscar equipo por nombre
-- 2.7 Registrar cuerpo tecnico (aqui la idea es que muestre todos Cuerpos tecnicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
-- 2.8 Registrar cuerpo medico (aqui la idea es que muestre todos Cuerpos medicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
-- 2.9 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
-- 2.10 Mostrar jugadores por equipo
+- 2.7 Buscar jugadores por equipo
+- 2.8 Registrar cuerpo tecnico (aqui la idea es que muestre todos Cuerpos tecnicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
+- 2.9 Registrar cuerpo medico (aqui la idea es que muestre todos Cuerpos medicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
+- 2.10 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
 - 2.11 Desencribir equipo del torneo 
 - 2.12 Regresar main menu 
 
@@ -119,12 +119,15 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 3.8 Regresar al menú principal
 
 **Cuerpo Medico:**
+<!-- primero el CRUD basico -->
 - 4.1 Crear cuerpo medico
 - 4.2 Actualizar cuerpo medico
 - 4.3 Eliminar cuerpo medico
+<!-- consultas -->
 - 4.4 Mostrar todos los cuerpo medicos
 - 4.5 Buscar cuerpo medico por id
 - 4.6 Buscar cuerpo medico por nombre
+<!-- funcionalidades -->
 - 4.7 Registrar cuerpo medico a equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario le asigne un cuerpo medico a su equipo)
 - 4.8 Eliminar cuerpo medico de un equipo (mas de lo mismo, mostrar los equipos creados y hacer que el usuario escoja cual cuerpo medico desea eliminar)
 - 4.9 Regresar al menú principal

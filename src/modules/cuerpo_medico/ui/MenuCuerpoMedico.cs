@@ -27,6 +27,7 @@ public class MenuCuerpoMedico
     "Crear cuerpo medico",
     "Actualizar cuerpo medico",
     "Eliminar cuerpo medico",
+    "Mostrar todos los cuerpos medicos",
     "Buscar cuerpo medico por id",
     "Buscar cuerpo medico por nombre",
     "Registrar cuerpo medico a equipo",
@@ -140,7 +141,7 @@ public class MenuCuerpoMedico
     // TODO: sale error porque el metodo no esta definido en el servicio de personas 
     await _service.AgregarPersonaAsync(persona);
     Console.Write("Especialidad: ");
-    var nombre = validate_data.ValidarTexto(Console.ReadLine());
+    var especialidad = validate_data.ValidarTexto(Console.ReadLine());
 
     Console.Write("Anios de experiencia: ");
     var aniosExperiencia = validate_data.ValidarEntero(Console.ReadLine());
@@ -148,7 +149,7 @@ public class MenuCuerpoMedico
     // hacer que el id persona sea el ultimo id creado en la base de datos ya que al crear el cuerpo medico se crea una persona primero
     var id_persona = await DbContextFactory.Create().Personas.MaxAsync(p => p.Id);
 
-    System.Console.WriteLine($"¿Desea registrar el cuerpo medico {nombre} con {aniosExperiencia} anios de experiencia?");
+    System.Console.WriteLine($"¿Desea registrar el cuerpo medico {especialidad} con {aniosExperiencia} anios de experiencia?");
 
     System.Console.WriteLine("Si presiona 'S' se creara, si presiona 'N' se cancelara: ");
     var opcion = validate_data.ValidarBoleano(Console.ReadLine());
@@ -157,7 +158,7 @@ public class MenuCuerpoMedico
     // agregar el nuevo cuerpo medico
     var cuerpo_medico = new CuerpoMedico
     {
-      Nombre = nombre.Trim(),
+      Especialidad = especialidad.Trim(),
       AniosExperiencia = aniosExperiencia,
       PersonaId = id_persona
     };

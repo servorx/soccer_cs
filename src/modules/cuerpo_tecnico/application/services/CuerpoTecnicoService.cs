@@ -10,7 +10,6 @@ public class CuerpoTecnicoService : ICuerpoTecnicoService
   // en esta parte de define la interfaz del repositorio que se va a utilizar a lo largo de la clase
   private readonly ICuerpoTecnicoRepository _cuerpoTecnicoRepository;
   // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
-
   public CuerpoTecnicoService(ICuerpoTecnicoRepository cuerpoTecnicoRepository) =>_cuerpoTecnicoRepository = cuerpoTecnicoRepository;
   public async Task AgregarCuerpoTecnicoAsync(CuerpoTecnico cuerpoTecnico)
   {

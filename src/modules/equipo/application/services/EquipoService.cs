@@ -13,237 +13,139 @@ using soccer_cs.models;
 
 namespace soccer_cs;
 
-public class EquipoService
+public class EquipoService : IEquipoService
 {
-  private readonly Validaciones validate_input = new();
-  private readonly IdUtil idUtil = new();
-  public void CrearEquipo()
+  private readonly IEquipoRepository _equipoRepo;
+  private readonly ICuerpoTecnicoRepository _cuerpoTecnicoRepo;
+  private readonly ICuerpoMedicoRepository _cuerpoMedicoRepo;
+  private readonly ITorneoRepository _torneoRepo;
+
+  private readonly ICuerpoMedicoService _cuerpoMedicoService;
+  private readonly ICuerpoTecnicoService _cuerpoTecnicoService;
+
+  public EquipoService(
+    IEquipoRepository equipoRepo,
+    ICuerpoTecnicoRepository cuerpoTecnicoRepo,
+    ICuerpoMedicoRepository cuerpoMedicoRepo,
+    ITorneoRepository torneoRepo,
+
+    ICuerpoMedicoService cuerpoMedicoService,
+    ICuerpoTecnicoService cuerpoTecnicoService)
   {
-    Console.Clear();
-    Console.WriteLine("=== CREAR NUEVO EQUIPO ===");
+    _equipoRepo = equipoRepo;
+    _cuerpoMedicoService = cuerpoMedicoService;
+    _cuerpoTecnicoRepo = cuerpoTecnicoRepo;
+    _cuerpoMedicoRepo = cuerpoMedicoRepo;
+    _torneoRepo = torneoRepo;
 
-    int id_nuevo = idUtil.GenerarID();
-
-    System.Console.WriteLine("ingrese el nombre del equipo: ");
-    string nombre = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
-
-    System.Console.WriteLine("ingrese la ciudad de donde viene el equipo: ");
-    string? ciudad = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
-
-    System.Console.WriteLine("ingrese el pais de donde viene el equipo: ");
-    string? pais = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
-
-    System.Console.WriteLine("ingrese el nombre del estadio del equipo ");
-    string? estadio = validate_input.ValidarTexto(Console.ReadLine());
-
-    System.Console.WriteLine("ingrese que tipo de equipo es (seleccion o club):");
-    string tipo_equipo = validate_input.ValidarTexto(Console.ReadLine());
-
-    System.Console.WriteLine("ingrese la cantidad de titulos que tiene el equipo: ");
-    int? cantidad_titulos = validate_input.ValidarEntero(Console.ReadLine());
-
-    // crear los objetos de las listas que trabaja para pedir los datos de las listas 
-    // TODO: hacer condicionales para preguntarle al usuario si desea ingresar esos servicios y hacerlos opcionales, osea, que admitan servicios nulos
-    System.Console.WriteLine("Desea agregarle jugadores a su equipo? (s/n): ");
-    bool input_jugador = validate_input.ValidarBoleano(Console.ReadLine());
-    if (input_jugador)
-    {
-      JugadorService jugadorService = new JugadorService();
-      jugadorService.CrearJugador();
-    }
-    
-    System.Console.WriteLine("Desea agregarle cuerpo tecnico y cuerpo medico a su equipo? (s/n): ");
-    bool input_cuerpo = validate_input.ValidarBoleano(Console.ReadLine());
-    if (input_cuerpo)
-    {
-      EquipoService equipoService = new EquipoService();
-      equipoService.CrearCuerpoTecnico();
-      equipoService.CrearCuerpoMedico();
-    }
-    
-    // mostrar los datos ingresados y validar su confirmacion 
-    System.Console.WriteLine($"\ningresaste los datos:");
-    Equipo equipo = new Equipo();
-    equipo.ToString();
-    System.Console.Write("deseas confirmar los cambios? (s/n): ");
-    bool validate_data = validate_input.ValidarBoleano(Console.ReadLine());
-
-    // agregar los datos a la lista Torneo
-    if (validate_data)
-    {
-      // crear un nuevo equipo con los datos ingresados
-      Equipo nuevo_equipo = new Equipo(id_nuevo,
-      nombre,
-      ciudad,
-      pais,
-      estadio,
-      tipo_equipo,
-      cantidad_titulos,
-      new List<Jugador?>() { AppData.Jugadores.Last() },
-      new List<CuerpoTecnico?>() { AppData.CuerpoTecnicos.Last() },
-      new List<CuerpoMedico?>() { AppData.CuerpoMedicos.Last() },
-      new List<Torneo?>() { AppData.Torneos.Last() },
-      new List<EstadisticaEquipo?>() { AppData.EstadisticaEquipos.Last() });
-      // agrega la lista de datos nuevo_equipo a Equipos
-      AppData.Equipos.Add(nuevo_equipo);
-      Console.Clear();
-      System.Console.WriteLine("Equipo creado exitosamente :)");
-      System.Console.WriteLine("presione una tecla para continuar...");
-      Console.ReadLine();
-    }
-    else
-    {
-      Console.Clear();
-      System.Console.WriteLine("no confirmó los cambios, presione una tecla para volver al menu");
-      Console.ReadLine();
-    }
-  }
-  public void CrearCuerpoTecnico()
-  {
-    Console.Clear();
-    Console.WriteLine("=== CREAR CUERPO TÉCNICO ===");
-
-    // crear de nuevo una persona para trabajar y recortar codigo
-    PersonaService personaService = new PersonaService();
-    personaService.CrearPersona();
-
-    System.Console.WriteLine("ingrese el rol del tecnico: ");
-    string rol = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
-
-    System.Console.WriteLine("ingrese los anios de experiencia del tecnico: ");
-    int aniosExperiencia = validate_input.ValidarEntero(Console.ReadLine());
-
-    // mostrar los datos ingresados y validar su confirmacion
-    System.Console.WriteLine($"\ningresaste los datos:");
-    CuerpoTecnico cuerpoTecnico = new CuerpoTecnico();
-    cuerpoTecnico.ToString();
-    System.Console.Write("deseas confirmar los cambios? (s/n): ");
-    bool validate_data = validate_input.ValidarBoleano(Console.ReadLine());
-
-    var last_persona = AppData.Personas.Last();
-    // agregar los datos a la lista Torneo
-    if (validate_data)
-    {
-      // crear un nuevo equipo con los datos ingresados
-      CuerpoTecnico nuevo_cuerpo_tecnico = new CuerpoTecnico(
-      last_persona.Id,
-      last_persona.Nombre,
-      last_persona.Apellido,
-      last_persona.Edad,
-      last_persona.Nacionalidad,
-      last_persona.DocumentoIdentidad,
-      last_persona.Genero,
-      rol,
-      aniosExperiencia);
-      // agrega la lista de datos nuevo_equipo a Equipos
-      AppData.CuerpoTecnicos.Add(nuevo_cuerpo_tecnico);
-      Console.Clear();
-      System.Console.WriteLine("Cuerpo tecnico creado exitosamente :)");
-      System.Console.WriteLine("presione una tecla para continuar...");
-      Console.ReadLine();
-    }
-    else
-    {
-      Console.Clear();
-      System.Console.WriteLine("no confirmó los cambios, presione una tecla para volver al menu");
-      Console.ReadLine();
-    }
-  }
-  public void CrearCuerpoMedico()
-  {
-    Console.Clear();
-    Console.WriteLine("=== CREAR CUERPO MÉDICO ===");
-
-    // crear de nuevo una persona para trabajar y recortar codigo
-    PersonaService personaService = new PersonaService();
-    personaService.CrearPersona();
-
-    System.Console.WriteLine("ingrese la especialidad del medico: ");
-    string especialidad = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
-
-    System.Console.WriteLine("ingrese la certificacion del medico: ");
-    int anios_experiencia = validate_input.ValidarEntero(Console.ReadLine());
-
-    // mostrar los datos ingresados y validar su confirmacion
-    System.Console.WriteLine($"\ningresaste los datos:");
-    CuerpoMedico cuerpoMedico = new CuerpoMedico();
-    cuerpoMedico.ToString();
-    System.Console.Write("deseas confirmar los cambios? (s/n): ");
-    bool validate_data = validate_input.ValidarBoleano(Console.ReadLine());
-
-    var last_persona = AppData.Personas.Last();
-    // agregar los datos a la lista Torneo
-    if (validate_data)
-    {
-      // crear un nuevo equipo con los datos ingresados
-      CuerpoMedico nuevo_cuerpo_medico = new CuerpoMedico(last_persona.Id,
-      last_persona.Nombre,
-      last_persona.Apellido,
-      last_persona.Edad,
-      last_persona.Nacionalidad,
-      last_persona.DocumentoIdentidad,
-      last_persona.Genero,
-      especialidad,
-      anios_experiencia);
-      // agrega la lista de datos nuevo_equipo a Equipos
-      AppData.CuerpoMedicos.Add(nuevo_cuerpo_medico);
-      Console.Clear();
-      System.Console.WriteLine("Cuerpo medico creado exitosamente :)");
-      System.Console.WriteLine("presione una tecla para continuar...");
-      Console.ReadLine();
-    }
-    else
-    {
-      Console.Clear();
-      System.Console.WriteLine("no confirmó los cambios, presione una tecla para volver al menu");
-      Console.ReadLine();
-    }
-  }
-  public void InscribirTorneo()
-  {
-    Console.Clear();
-    
-    System.Console.Write("ingrese el ID o el nombre del equipo que desea inscribir: ");
-    string? busqueda = validate_input.ValidarTexto(Console.ReadLine()).ToLower();
-
-    var equipo_busqueda = AppData.Equipos.FirstOrDefault(t =>
-    t.Nombre!.Contains(busqueda) || t.Id.ToString() == busqueda
-    );
-
-    if (equipo_busqueda != null)
-    {
-      System.Console.Write($"\nEquipo encontrado:\nID: {equipo_busqueda.Id}\nNombre: {equipo_busqueda.Nombre}\nUbicacion: {equipo_busqueda.Pais}\nEstadio: {equipo_busqueda.Estadio} días\nTotal de titulos: {equipo_busqueda.CantidadTitulos}\nJugadores del equipo: {equipo_busqueda.Jugadores.Count}\n");
-      Console.ReadLine();
-    }
-    else
-    {
-      System.Console.Write("Equipo no encontrado...");
-      Console.ReadLine();
-    }
-
-    System.Console.WriteLine("desea inscribir su equipo a un torneo? (s/n): ");
-    bool input_torneo = validate_input.ValidarBoleano(Console.ReadLine());
-    if (input_torneo)
-    {
-      TorneoService torneoService = new TorneoService();
-      torneoService.CrearTorneo();
-      EstadisticaService estadisticaEquipo = new EstadisticaService();
-      estadisticaEquipo.CrearEstadisticasEquipo();
-    }
+    _cuerpoMedicoService = cuerpoMedicoService;
+    _cuerpoTecnicoService = cuerpoTecnicoService;
   }
 
-  public void GestionarJugadoresPorEquipo()
+  public async Task AgregarEquipoAsync(Equipo equipo)
   {
-    // Implementación del método para gestionar jugadores por equipo
+    _equipoRepo.Add(equipo);
+    await _equipoRepo.SaveAsync();
   }
 
-  public void NotificacionTransferencia()
+  public async Task ActualizarEquipoAsync(int id, Equipo equipo)
   {
-    // Implementación del método para notificar transferencias
+    var existente = await _equipoRepo.GetByIdAsync(id);
+    if (existente == null) throw new Exception("Equipo no encontrado");
+
+    existente.Nombre = equipo.Nombre;
+    existente.Ciudad = equipo.Ciudad;
+    existente.Pais = equipo.Pais;
+    existente.Estadio = equipo.Estadio;
+    existente.TipoEquipo = equipo.TipoEquipo;
+    existente.CantidadTitulos = equipo.CantidadTitulos;
+
+    _equipoRepo.Update(existente);
+    await _equipoRepo.SaveAsync();
   }
 
-  public void SalirDelTorneo()
+  public async Task EliminarEquipoAsync(int id)
   {
-    // Implementación del método para salir de un torneo
+    var equipo = await _equipoRepo.GetByIdAsync(id);
+    if (equipo == null) throw new Exception("Equipo no encontrado");
+
+    _equipoRepo.Remove(equipo);
+    await _equipoRepo.SaveAsync();
   }
+
+  public async Task<IEnumerable<Equipo>> MostrarEquiposAsync() => await _equipoRepo.GetAllAsync();
+
+  public async Task<Equipo?> ObtenerEquipoPorIdAsync(int id) => await _equipoRepo.GetByIdAsync(id);
+
+  public async Task<IEnumerable<Equipo>> ObtenerEquipoPorNombreAsync(string nombre) =>
+      (await _equipoRepo.GetAllAsync()).Where(e => e.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase));
+
+  public async Task<IEnumerable<Jugador>> ObtenerJugadoresPorEquipoAsync(int idEquipo) =>
+      await _equipoRepo.GetJugadoresByEquipoIdAsync(idEquipo);
+
+  public async Task RegistrarCuerpoTecnicoAsync(int idEquipo, IEnumerable<int> idsCuerposTecnicos)
+  {
+    var equipo = await _equipoRepo.GetByIdAsync(idEquipo);
+    if (equipo == null) throw new Exception("Equipo no encontrado");
+
+    var cuerpos = await _cuerpoTecnicoRepo.GetByIdsAsync(idsCuerposTecnicos);
+    equipo.CuerpoTecnicos = cuerpos.ToList();
+
+    _equipoRepo.Update(equipo);
+    await _equipoRepo.SaveAsync();
+  }
+
+  public async Task RegistrarCuerpoMedicoEnEquipoAsync(int idEquipo, int idCuerpoMedico)
+  {
+    var equipo = await _equipoRepo.GetByIdAsync(idEquipo);
+    if (equipo == null)
+      throw new Exception("El equipo no existe");
+
+    var cuerpoMedico = await _cuerpoMedicoService.ObtenerCuerpoMedicoPorIdAsync(idCuerpoMedico);
+    if (cuerpoMedico == null)
+      throw new Exception("El cuerpo médico no existe");
+
+    equipo.CuerpoMedicos ??= new List<CuerpoMedico>();
+    equipo.CuerpoMedicos.Add(cuerpoMedico);
+
+    await _equipoRepo.SaveAsync();
+  }
+  public async Task RegistrarCuerpoTecnicoEnEquipoAsync(int idEquipo, int idCuerpoTecnico)
+  {
+    var equipo = await _equipoRepo.GetByIdAsync(idEquipo);
+    if (equipo == null)
+      throw new Exception("El equipo no existe");
+
+    var cuerpoTecnico = await _cuerpoTecnicoService.ObtenerCuerpoTecnicoPorIdAsync(idCuerpoTecnico);
+    if (cuerpoTecnico == null)
+      throw new Exception("El cuerpo técnico no existe");
+
+    equipo.CuerpoTecnicos ??= new List<CuerpoTecnico>();
+    equipo.CuerpoTecnicos.Add(cuerpoTecnico);
+
+    await _equipoRepo.SaveAsync();
+  }
+
+
+  public async Task InscribirEquipoAsync(int idEquipo, int idTorneo)
+  {
+    var torneo = await _torneoRepo.GetByIdAsync(idTorneo);
+    var equipo = await _equipoRepo.GetByIdAsync(idEquipo);
+    if (torneo == null || equipo == null) throw new Exception("Torneo o equipo no encontrado");
+
+    torneo.TorneosEquipos.Add(new TorneoEquipo { EquipoId = idEquipo, TorneoId = idTorneo });
+    await _torneoRepo.SaveAsync();
+  }
+
+  public async Task DesinscribirEquipoAsync(int idEquipo, int idTorneo)
+  {
+    var torneo = await _torneoRepo.GetByIdAsync(idTorneo);
+    if (torneo == null) throw new Exception("Torneo no encontrado");
+
+    var relacion = torneo.TorneosEquipos.FirstOrDefault(te => te.EquipoId == idEquipo);
+    if (relacion != null) torneo.TorneosEquipos.Remove(relacion);
+
+    await _torneoRepo.SaveAsync();
+  }
+  
 }

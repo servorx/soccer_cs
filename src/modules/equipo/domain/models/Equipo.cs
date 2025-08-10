@@ -24,7 +24,7 @@ public class Equipo
   public ICollection<EstadisticaEquipo>? EstadisticaEquipos { get; set; }
   public ICollection<TorneoEquipo>? TorneosEquipos { get; set; }
   public ICollection<Transferencia>? TransferenciasOrigen { get; set; }
-  public ICollection<Transferencia>?TransferenciasDestino { get; set; }
+  public ICollection<Transferencia>? TransferenciasDestino { get; set; }
 
   public Equipo(int id, string? nombre, string? ciudad, string? pais, string? estadio, string? tipoEquipo, int? cantidadTitulos)
   {
