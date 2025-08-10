@@ -7,8 +7,6 @@ using soccer_cs.application;
 using soccer_cs.infrastructure;
 
 namespace soccer_cs;
-// // este archivo es el adaptador de la infraestructura, implementa lo declarado en IPersonaRepository, usando AppDbContext, IDbFactory, o MySqlDbFactory para acceder a la base de datos.using persona.domain;
-
 public class PersonaRepository : IPersonaRepository
 {
   private readonly AppDbContext _dbContext;
@@ -29,16 +27,16 @@ public class PersonaRepository : IPersonaRepository
   }
   public List<Persona> ObtenerTodas()
   {
-      return _dbContext.Set<Persona>().ToList();
+    return _dbContext.Set<Persona>().ToList();
   }
   public void ActualizarPersona(Persona persona)
   {
-      throw new NotImplementedException();
+    throw new NotImplementedException();
   }
 
-  public void EliminarPersona(Persona persona)
+  public void EliminarPersona(int id)
   {
-      throw new NotImplementedException();
+    throw new NotImplementedException();
   }
 }
 

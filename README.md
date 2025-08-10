@@ -103,9 +103,10 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 2.7 Buscar jugadores por equipo
 - 2.8 Registrar cuerpo tecnico (aqui la idea es que muestre todos Cuerpos tecnicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
 - 2.9 Registrar cuerpo medico (aqui la idea es que muestre todos Cuerpos medicos que existen y que el usuario los seleccione para anidarlos con el equipo que el usuario quiera)
-- 2.10 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
-- 2.11 Desencribir equipo del torneo 
-- 2.12 Regresar main menu 
+- 2.10 Registrar jugadores sin equipo
+- 2.11 Inscripcion torneo (cumpliria la misma funcionalidad que con el menu 2.6 de registrar equipos en el menu de torneos, en este cas mostraria los torneos que son creados, y el usuario le asigna el equipo que desea inscribir.) 
+- 2.12 Desencribir equipo del torneo 
+- 2.13 Regresar main menu 
 
 **Jugadores:**
 - 3.1 Crear jugador

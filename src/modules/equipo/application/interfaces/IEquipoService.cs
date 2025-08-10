@@ -19,6 +19,6 @@ public interface IEquipoService
 
   Task<IEnumerable<Jugador>> ObtenerJugadoresPorEquipoAsync(int id_equipo);
 
-  Task InsciribirEquipoAsync(int id_equipo, int id_torneo);
-  Task DesencribirEquipoAsync(int id_equipo, int id_torneo);
+  Task InscribirEquipoAsync(int id_equipo, int id_torneo);
+  Task DesinscribirEquipoAsync(int id_equipo, int id_torneo);
 }

@@ -1,4 +1,5 @@
-﻿using soccer_cs;
+﻿using System.Security;
+using soccer_cs;
 using soccer_cs.ui;
 
 internal class Program
@@ -15,32 +16,12 @@ internal class Program
     // DbInstaller dbInstaller = new DbInstaller();
     // dbInstaller.CrearBaseDeDatos(connectionStringNoDB, "soccer_cs");
 
-    // // Instanciar el menú principal para ejecutar el programa
-    // MenuPrincipal menuPrincipal = new MenuPrincipal();
-    // menuPrincipal.MostrarBienvenida();
-    // menuPrincipal.EjecutarMenuMain();
-
-    // // esto es para probar la conexión a la base de datos y mostrar las personas
-    // var context = DbContextFactory.Create();
-    // var personas = new Persona
-    // {
-    //   Nombre = "neymar",
-    //   Edad = 9,
-    //   Posicion = "Delantero"
-    // };
-    // context.Personas.Add(personas);
-    // context.SaveChanges();
-    // foreach (var persona in context.Personas)
-    // {
-    //   Console.WriteLine($"Id: {persona.Id}, Nombre: {persona.Nombre}, Edad: {persona.Edad}, Posicion: {persona.Posicion}");
-    // }
-
     MenuPrincipal menuPrincipal = new MenuPrincipal();
     menuPrincipal.MostrarBienvenida();
-    menuPrincipal.EjecutarMenuMain();
+        _ = menuPrincipal.EjecutarMenuMain();
 
 
     // esto es para mostrar la conexion a la base de datos y la version de MySQL
-    var context = DbContextFactory.Create();
+    // var context = DbContextFactory.Create();
   }
 }

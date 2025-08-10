@@ -14,6 +14,5 @@ public interface IPersonaRepository
   Persona? ObtenerPorId(int id);
   List<Persona> ObtenerTodas();
   void ActualizarPersona(Persona persona);
-  void EliminarPersona(Persona persona);
-    void EliminarPersona(int id);
+  void EliminarPersona(int id);
 }

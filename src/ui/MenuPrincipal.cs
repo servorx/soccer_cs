@@ -111,50 +111,55 @@ public class MenuPrincipal
     } while (validate_program);
   }
   // este metodo se encarga de ejecutar las opciones del menu principal, y se trabaja con boolean para determinar si se debe de continuar o no con el programa, es por eso que esta el Console.ReadKey(true), para que el programa espere a que el usuario precione una tecla antes de continua
-  private async Task<bool> EjecutarOpcion(int opcion_seleccionada)
+  private Task<bool> EjecutarOpcion(int opcion_seleccionada)
   {
+    bool while_program = true;
+    do
+    {
+
+    } while (while_program);
     var context = DbContextFactory.Create();
     Console.Clear();
     switch (opcion_seleccionada)
     {
       case 0:
         Console.Clear();
-        await new MenuTorneo(context).EjecutarMenu();  
+        // await new MenuTorneo(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 1:
         Console.Clear();
-        await new MenuEquipo(context).EjecutarMenu();  
+        // await new MenuEquipo(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 2:
         Console.Clear();
-        await new MenuJugador(context).EjecutarMenu();  
+        // await new MenuJugador(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 3:
         Console.Clear();
-        await new MenuCuerpoMedico(context).EjecutarMenu();  
+        // await new MenuCuerpoMedico(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 4:
         Console.Clear();
-        await new MenuCuerpoTecnico(context).EjecutarMenu();  
+        // await new MenuCuerpoTecnico(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 5:
         Console.Clear();
-        await new MenuTransferencias(context).EjecutarMenu();   
+        // await new MenuTransferencias(context).EjecutarMenu();   
         Console.ReadKey(true);
         break;
       case 6:
         Console.Clear();
-        await new MenuEstadisticaEquipo(context).EjecutarMenu();  
+        // await new MenuEstadisticaEquipo(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 7:
         Console.Clear();
-        await new MenuEstadisticaJugador(context).EjecutarMenu();  
+        // await new MenuEstadisticaJugador(context).EjecutarMenu();  
         Console.ReadKey(true);
         break;
       case 8:
@@ -173,9 +178,9 @@ public class MenuPrincipal
       default:
         Console.Clear();
         Console.WriteLine("error al ingresar dato, intentelo de nuevo");
-        Console.ReadLine();
+        Console.ReadKey(true);
         break;
     }
-    return true;
+    return Task.FromResult(true);
   }  
 }
