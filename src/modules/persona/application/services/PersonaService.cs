@@ -1,18 +1,17 @@
 
 
 namespace soccer_cs.application.services;
+
 public class PersonaService : IPersonaService
 {
-  private readonly IPersonaRepository _repo;
-
-  public PersonaService(IPersonaRepository repo)
+  // ? revisar si todo esto esta bien
+  // en esta parte de define la interfaz del repositorio que se va a utilizar a lo largo de la clase
+  private readonly IPersonaRepository _personaRepository;
+  // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
+  public PersonaService(IPersonaRepository personaRepository) => _personaRepository = personaRepository;
+  public async Task AgregarPersonaAsync(Persona persona)
   {
-    _repo = repo;
+    _personaRepository.Add(persona);
+    await _personaRepository.SaveAsync();
   }
-
-  public void CrearPersona(Persona persona) => _repo.CrearPersona(persona);
-  public Persona? BuscarPorId(int id) => _repo.ObtenerPorId(id);
-  public IEnumerable<Persona> ListarPersonas() => _repo.ObtenerTodas();
-  public void ActualizarPersona(Persona persona) => _repo.ActualizarPersona(persona);
-  public void EliminarPersona(int id) => _repo.EliminarPersona(id);
 }

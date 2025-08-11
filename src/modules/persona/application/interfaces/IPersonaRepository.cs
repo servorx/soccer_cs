@@ -10,9 +10,6 @@ namespace soccer_cs.application;
 public interface IPersonaRepository
 {
   // TODO: revisar si es necesario el metodo insertar persona ya uqe se usa el metodo CrearPersona
-  void CrearPersona(Persona persona);
-  Persona? ObtenerPorId(int id);
-  List<Persona> ObtenerTodas();
-  void ActualizarPersona(Persona persona);
-  void EliminarPersona(int id);
+  void Add(Persona entity);
+  Task SaveAsync();
 }

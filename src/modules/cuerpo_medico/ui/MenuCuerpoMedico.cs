@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
+using persona.ui;
 using soccer_cs.infrastructure.utils;
 
 namespace soccer_cs;
@@ -12,10 +13,16 @@ public class MenuCuerpoMedico
 {
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
-  readonly CuerpoMedicoService _service = null!;
+  // private readonly CuerpoMedicoService _service = null!;
+  private readonly ICuerpoMedicoService _cuerpoMedicoService;
+  private readonly CuerpoMedicoService _service;
+  // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
+  private readonly MenuPersona _menuPersona;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
-  public MenuCuerpoMedico(AppDbContext _context)
+  public MenuCuerpoMedico(AppDbContext _context, MenuPersona menuPersona, ICuerpoMedicoService cuerpoMedicoService)
   {
+    _cuerpoMedicoService = cuerpoMedicoService;
+    _menuPersona = menuPersona;
     var repo = new CuerpoMedicoRepository(_context);
     _service = new CuerpoMedicoService(repo);
   }
@@ -136,10 +143,11 @@ public class MenuCuerpoMedico
   }
   private async Task AgregarCuerpoMedicoAsync()
   {
-    // TODO: antes de crear el cuerpo medico se debe de crear primeo la persona y se le asigna el id de la ultima persona creada
-    Persona persona = new Persona();
-    // TODO: sale error porque el metodo no esta definido en el servicio de personas 
-    await _service.AgregarPersonaAsync(persona);
+    Console.Clear(); 
+    Console.WriteLine("---- Registrar Cuerpo Medico ----");
+    // Crear la persona primero y obtener su Id
+    var persona = await _menuPersona.AgregarPersonaAsync();
+    
     Console.Write("Especialidad: ");
     var especialidad = validate_data.ValidarTexto(Console.ReadLine());
 
@@ -160,7 +168,7 @@ public class MenuCuerpoMedico
     {
       Especialidad = especialidad.Trim(),
       AniosExperiencia = aniosExperiencia,
-      PersonaId = id_persona
+      PersonaId = persona.Id.Value
     };
     await _service.AgregarCuerpoMedicoAsync(cuerpo_medico);
     Console.WriteLine("Cuerpo Medico creado.");
@@ -262,7 +270,6 @@ public class MenuCuerpoMedico
   }
   private async Task MostrarCuerpoMedicosAsync()
   {
-    // TODO: tengo que revisar si esto esta bien por el nombre del servicio ya que son los mismos en el servicio, o no entiendo
     var cuerpo_medico = await _service.MostrarCuerpoMedicosAsync();
     if (!cuerpo_medico.Any())
     {

@@ -122,82 +122,59 @@ public class MenuPrincipal
     switch (opcion_seleccionada)
     {
       case 0:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuTorneo(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        // await new MenuTorneo(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 1:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuEquipo(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        // await new MenuEquipo(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 2:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuJugador(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        // await new MenuJugador(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 3:
-        {
-          var context = DbContextFactory.Create();
-          await new MenuCuerpoMedico(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        var context = DbContextFactory.Create();
+        await new MenuCuerpoMedico(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 4:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuCuerpoTecnico(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        var context = DbContextFactory.Create();
+        // await new MenuCuerpoTecnico(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 5:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuTransferencias(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        var context = DbContextFactory.Create();
+        // await new MenuTransferencias(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 6:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuEstadisticaEquipo(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        var context = DbContextFactory.Create();
+        // await new MenuEstadisticaEquipo(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 7:
-        {
-          var context = DbContextFactory.Create();
-          // await new MenuEstadisticaJugador(context).EjecutarMenu();
-          Console.ReadKey(true);
-          return true;
-        }
+        var context = DbContextFactory.Create();
+        // await new MenuEstadisticaJugador(context).EjecutarMenu();
+        Console.ReadKey(true);
+        return true;
       case 8:
-        {
-          Console.ForegroundColor = ConsoleColor.Cyan;
-          Console.WriteLine("==========================================");
-          Console.WriteLine("     🙌 ¡GRACIAS POR USAR EL SISTEMA! 🙌");
-          Console.WriteLine("==========================================\n");
-          Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("==========================================");
+        Console.WriteLine("     🙌 ¡GRACIAS POR USAR EL SISTEMA! 🙌");
+        Console.WriteLine("==========================================\n");
+        Console.ResetColor();
 
-          Console.WriteLine("Esperamos que tu experiencia haya sido excelente. ⚽💻");
-          Console.WriteLine("\n¡Johlver coloqueme buena nota porfa 🙏!");
-          Console.WriteLine("\nPresiona cualquier tecla para salir...");
-          Console.ReadKey();
-          return false; // salir del ciclo
-        }
-    default:
-      {
+        Console.WriteLine("Esperamos que tu experiencia haya sido excelente. ⚽💻");
+        Console.WriteLine("\n¡Johlver coloqueme buena nota porfa 🙏!");
+        Console.WriteLine("\nPresiona cualquier tecla para salir...");
+        Console.ReadKey();
+        return false; // salir del ciclo
+      default:
         Console.Clear();
         Console.WriteLine("error al ingresar dato, intentelo de nuevo");
         Console.ReadKey(true);
         return true;
-      }
     }
   }
 }
