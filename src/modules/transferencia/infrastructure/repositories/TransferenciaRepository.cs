@@ -19,15 +19,19 @@ public class TransferenciaRepository : ITransferenciaRepository
   public async Task<IEnumerable<Transferencia?>> GetAllAsync() => await _context.Transferencias.ToListAsync();
   public async Task<Transferencia?> GetByIdAsync(int id) => await _context.Transferencias.FirstOrDefaultAsync(cm 
   => cm.Id == id);
-  // En el repositorio
-  public async Task<IEnumerable<Transferencia?>> ObtenerTransferenciasPorEquipo(int idEquipo) 
-      => await _context.Transferencias
-                        .Where(t => t.EquipoOrigenId == idEquipo || t.EquipoDestinoId == idEquipo)
-                        .ToListAsync();
-  public async Task<IEnumerable<Transferencia?>> ObtenerTransferenciasPorJugador(int id_jugador) =>
-      await _context.Transferencias
-                          .Where(t => t.JugadorId == id_jugador)
-                          .ToListAsync();
+  // el .cast se utiiliza para poder trabajar con los datos de la base de datos y que se pueda hacer de forma nula 
+  public async Task<List<Transferencia?>> ObtenerTransferenciasPorJugador(int idJugador) 
+      => (await _context.Transferencias
+                        .Where(t => t.JugadorId == idJugador)
+                        .ToListAsync())
+        .Cast<Transferencia?>()
+        .ToList();
 
+  public async Task<List<Transferencia?>> ObtenerTransferenciasPorEquipo(int idEquipo) 
+      => (await _context.Transferencias
+                        .Where(t => t.EquipoOrigenId == idEquipo || t.EquipoDestinoId == idEquipo)
+                        .ToListAsync())
+        .Cast<Transferencia?>()
+        .ToList();
   public async Task SaveAsync() => await _context.SaveChangesAsync();
 }

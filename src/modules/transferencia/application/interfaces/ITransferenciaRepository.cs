@@ -11,8 +11,8 @@ public interface ITransferenciaRepository
   void Update(Transferencia entity);
   void Remove(Transferencia entity);
   Task<IEnumerable<Transferencia?>> GetAllAsync();
-  Task<IEnumerable<Transferencia?>> ObtenerTransferenciasPorJugador(int id_jugador);
-  Task<IEnumerable<Transferencia?>> ObtenerTransferenciasPorEquipo(int id_equipo);
+  Task<List<Transferencia?>> ObtenerTransferenciasPorJugador(int id_jugador);
+  Task<List<Transferencia?>> ObtenerTransferenciasPorEquipo(int id_equipo);
   Task<Transferencia?> GetByIdAsync(int id);
   Task SaveAsync();
 }

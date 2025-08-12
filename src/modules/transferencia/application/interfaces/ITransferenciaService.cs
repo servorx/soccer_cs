@@ -12,7 +12,7 @@ public interface ITransferenciaService
   Task ActualizarTransferenciaAsync(int id, Transferencia transferencia);
   Task EliminarTransferenciaAsync(int id);
   Task<IEnumerable<Transferencia?>> VerTodoTransferenciaAsync();
-  Task<Transferencia?> VerHistorialTransferenciaPorJugadorAsync(int id_jugador); 
-  Task <Transferencia?>VerHistorialTransferenciaPorEquipoAsync(int id_equipo);
+  Task<List<Transferencia?>> VerHistorialTransferenciaPorJugadorAsync(int id_jugador);
+  Task<List<Transferencia?>> VerHistorialTransferenciaPorEquipoAsync(int id_equipo);
   Task<Transferencia?> ObtenerTransferenciaPorIdAsync(int id);
 }
