@@ -2,19 +2,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using soccer_cs.models;
 
 namespace soccer_cs;
 public class EstadisticaJugadorRepository : IEstadisticaJugadorRepository   
 {
   // trae las dependencias de las configuraciones de la aplicacion para que el repositorio pueda trabajar con la base de datos
   private readonly AppDbContext _context;
-  public CuerpoMedicoRepository(AppDbContext context) =>_context = context;    
+  public EstadisticaJugadorRepository(AppDbContext context) =>_context = context;
   // se agrega pero luego toca guardar los cambios manuamente con el metodo SaveChanges
-  public void Add(CuerpoMedico cuerpoMedico) => _context.CuerpoMedicos.Add(cuerpoMedico);
-  public void Update(CuerpoMedico entity) => _context.SaveChanges();
-  public void Remove(CuerpoMedico entity) => _context.CuerpoMedicos.Remove(entity);
-  public async Task<IEnumerable<CuerpoMedico?>> GetAllAsync() => await _context.CuerpoMedicos.ToListAsync();
-  public async Task<CuerpoMedico?> GetByIdAsync(int id) => await _context.CuerpoMedicos.FirstOrDefaultAsync(cm => cm.Id == id);
-  public async Task<CuerpoMedico?> GetByNameAsync(string nombre) => await _context.CuerpoMedicos.FirstOrDefaultAsync(cm => cm.Nombre == nombre);
+  // parte de las crud basico
+  public void Add(EstadisticaJugador estadisticaJugador) => _context.EstadisticasJugadores.Add(estadisticaJugador);
+  public void Update(EstadisticaJugador entity) => _context.SaveChanges();
+  public void Remove(EstadisticaJugador entity) => _context.EstadisticasJugadores.Remove(entity);
+  // parte de las consultas sencillas
+  public async Task<IEnumerable<EstadisticaJugador?>> GetAllAsync() => await _context.EstadisticasJugadores.ToListAsync();
+  public async Task<EstadisticaJugador?> GetByIdAsync(int id) => await _context.EstadisticasJugadores.FirstOrDefaultAsync(cm => cm.Id == id);
+  public async Task<EstadisticaJugador?> GetByJugadorNombreAsync(string nombre) =>
+      await _context.EstadisticasJugadores.Include(e => e.Jugador)
+          .FirstOrDefaultAsync(e => e.Jugador!.Nombre == nombre);
+  public async Task<IEnumerable<EstadisticaJugador?>> GetTopGoleadoresAsync() =>
+        await _context.EstadisticasJugadores.OrderByDescending(e => e.Goles).ToListAsync();
+
+    public async Task<IEnumerable<EstadisticaJugador?>> GetTopPartidosAsync() =>
+        await _context.EstadisticasJugadores.OrderByDescending(e => e.PartidosJugados).ToListAsync();
+
+    public async Task<IEnumerable<EstadisticaJugador?>> GetMasAltosAsync() =>
+        await _context.EstadisticasJugadores.OrderByDescending(e => e.Estatura).ToListAsync();
+
+    public async Task<IEnumerable<EstadisticaJugador?>> GetMenosPesadosAsync() =>
+        await _context.EstadisticasJugadores.OrderBy(e => e.Peso).ToListAsync();
+
+    public async Task<IEnumerable<EstadisticaJugador?>> GetMasTarjetasAmarillasAsync() =>
+        await _context.EstadisticasJugadores.OrderByDescending(e => e.TarjetasAmarillas).ToListAsync();
+
+    public async Task<IEnumerable<EstadisticaJugador?>> GetMenosTarjetasRojasAsync() =>
+        await _context.EstadisticasJugadores.OrderBy(e => e.TarjetasRojas).ToListAsync();
+
+    public async Task<IEnumerable<EstadisticaJugador?>> GetEdadMayorPromedioEquipoAsync(int equipoId) =>
+        await _context.EstadisticasJugadores.Where(e => e.Jugador.IdEquipoActual == equipoId)
+            .OrderByDescending(e => e.Jugador.Edad).ToListAsync();
+
   public async Task SaveAsync() => await _context.SaveChangesAsync();
 }

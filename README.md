@@ -168,15 +168,20 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 - 7.7 Regresar main menu
 
 **Estadisticas por jugador:**
-- 8.1 Jugadores con mas goles
-- 8.2 Jugadores con mas partidos jugados
-- 8.3 Jugadores mas alto
-- 8.4 Jugadores menos pesado
-- 8.5 Jugadores con mas tarjetas amarillas
-- 8.6 Jugadores con menos tarjetas rojas
-- 8.7 Jugadores con edad mayor al promedio de edad del equipo
-- 8.8 Mostrar todas las estadisticas de jugador
-- 8.9 Regresar main menu
+- 8.1 Crear estadisticas de jugador
+- 8.2 Actualizar estadisticas de jugador
+- 8.3 Eliminar estadisticas de jugador
+- 8.4 Mostrar todas las estadisticas de jugadores
+- 8.5 Mostrar estadisticas de jugador por nombre
+- 8.6 Mostrar estadisticas de jugador por id
+- 8.7 Jugadores con mas goles
+- 8.8 Jugadores con mas partidos jugados
+- 8.9 Jugadores mas alto
+- 8.10 Jugadores menos pesado
+- 8.11 Jugadores con mas tarjetas amarillas
+- 8.12 Jugadores con menos tarjetas rojas
+- 8.13 Jugadores con edad mayor al promedio de edad del equipo
+- 8.14 Regresar main menu
 
 
 ## 🧱 Estructura General del Proyecto

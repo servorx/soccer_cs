@@ -1,4 +1,5 @@
 using soccer_cs.infrastructure.utils;
+using soccer_cs.models;
 
 namespace soccer_cs;
 
@@ -6,52 +7,50 @@ public class EstadisticaJugadorService : IEstadisticaJugadorService
 {
   // ? revisar si todo esto esta bien
   // en esta parte de define la interfaz del repositorio que se va a utilizar a lo largo de la clase
-  private readonly ICuerpoMedicoRepository _cuerpoMedicoRepository;
-  // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
+  private readonly IEstadisticaJugadorRepository _repo;
+  public EstadisticaJugadorService(IEstadisticaJugadorRepository repo) => _repo = repo;
+  public async Task CrearEstadisticaAsync(EstadisticaJugador estadistica)
+  {
+    _repo.Add(estadistica);
+    await _repo.SaveAsync();
+  }
+  public async Task ActualizarEstadisticaAsync(int id, EstadisticaJugador estadistica)
+  {
+    var existente = await _repo.GetByIdAsync(id);
+    if (existente != null)
+    {
+      existente.Goles = estadistica.Goles;
+      existente.PartidosJugados = estadistica.PartidosJugados;
+      existente.TarjetasAmarillas = estadistica.TarjetasAmarillas;
+      existente.TarjetasRojas = estadistica.TarjetasRojas;
+      existente.Estatura = estadistica.Estatura;
+      existente.Peso = estadistica.Peso;
+      existente.Edad = estadistica.Edad;
+      _repo.Update(existente);
+      await _repo.SaveAsync();
+    }
+  }
 
-  public CuerpoMedicoService(ICuerpoMedicoRepository cuerpoMedicoRepository) =>_cuerpoMedicoRepository = cuerpoMedicoRepository;
-  public async Task AgregarCuerpoMedicoAsync(CuerpoMedico cuerpoMedico)
+  public async Task EliminarEstadisticaAsync(int id)
   {
-    _cuerpoMedicoRepository.Add(cuerpoMedico);
-    await _cuerpoMedicoRepository.SaveAsync();
+      var existente = await _repo.GetByIdAsync(id);
+      if (existente != null)
+      {
+          _repo.Remove(existente);
+          await _repo.SaveAsync();
+      }
   }
-  public async Task ActualizarCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico)
-  {
-    var existingCuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
-    if (existingCuerpoMedico != null)
-    {
-      existingCuerpoMedico.Nombre = cuerpoMedico.Nombre;
-      existingCuerpoMedico.Id = cuerpoMedico.Id;
-      _cuerpoMedicoRepository.Update(existingCuerpoMedico);
-      await _cuerpoMedicoRepository.SaveAsync();
-    }
-  }
-  public async Task EliminarCuerpoMedicoAsync(int id)
-  {
-    var cuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
-    if (cuerpoMedico != null)
-    {
-      _cuerpoMedicoRepository.Remove(cuerpoMedico);
-      await _cuerpoMedicoRepository.SaveAsync();
-    }
-  }
-  // estas son las partes de las consultas trabajandolas con LINQ
-  public async Task<IEnumerable<CuerpoMedico?>> MostrarCuerpoMedicosAsync() => await _cuerpoMedicoRepository.GetAllAsync();
-  public async Task<CuerpoMedico?> ObtenerCuerpoMedicoPorIdAsync(int id) => await _cuerpoMedicoRepository.GetByIdAsync(id);
-  public async Task<CuerpoMedico?> ObtenerCuerpoMedicoPorNombreAsync(string nombre) => await _cuerpoMedicoRepository.GetByNameAsync(nombre); 
-  // estas son las partes de las funcionalidades donde se manipulan los datos con otras entitdades y sus relaciones
-  public async Task RegistrarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo)
-  {
-    var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
-    var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
-    cuerpo_medico.EquipoId = id_equipo;
-    _cuerpoMedicoRepository.Update(cuerpo_medico);
-  }
-  public async Task EliminarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo)
-  {
-    var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
-    var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
-    cuerpo_medico.EquipoId = null;
-    _cuerpoMedicoRepository.Update(cuerpo_medico);
+
+  public async Task<IEnumerable<EstadisticaJugador>> VerTodasAsync() => await _repo.GetAllAsync();
+  public async Task<EstadisticaJugador?> VerPorIdAsync(int id) => await _repo.GetByIdAsync(id);
+  public async Task<EstadisticaJugador?> VerPorNombreAsync(string nombre) => await _repo.GetByJugadorNombreAsync(nombre);
+
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresConMasGolesAsync() => await _repo.GetTopGoleadoresAsync();
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresConMasPartidosAsync() => await _repo.GetTopPartidosAsync();
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresMasAltosAsync() => await _repo.GetMasAltosAsync();
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresMenosPesadosAsync() => await _repo.GetMenosPesadosAsync();
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresConMasTarjetasAmarillasAsync() => await _repo.GetMasTarjetasAmarillasAsync();
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresConMenosTarjetasRojasAsync() => await _repo.GetMenosTarjetasRojasAsync();
+  public async Task<IEnumerable<EstadisticaJugador>> JugadoresEdadMayorPromedioEquipoAsync(int equipoId) => await _repo.GetEdadMayorPromedioEquipoAsync(equipoId);
   }
 }

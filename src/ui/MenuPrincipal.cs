@@ -148,7 +148,7 @@ public class MenuPrincipal
         return true;
       case 5:
         var context6 = DbContextFactory.Create();
-        // await new MenuTransferencias(context7).EjecutarMenu();
+        await new MenuTransferencia(context6).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 6:
