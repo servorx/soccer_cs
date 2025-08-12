@@ -122,40 +122,43 @@ public class MenuPrincipal
     switch (opcion_seleccionada)
     {
       case 0:
-        // await new MenuTorneo(context).EjecutarMenu();
+        var context1 = DbContextFactory.Create();
+        // await new MenuTorneo(context1).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 1:
-        // await new MenuEquipo(context).EjecutarMenu();
+        var context2 = DbContextFactory.Create();
+        // await new MenuEquipo(context2).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 2:
-        // await new MenuJugador(context).EjecutarMenu();
+        var context3 = DbContextFactory.Create();
+        // await new MenuJugador(context3).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 3:
-        var context = DbContextFactory.Create();
-        await new MenuCuerpoMedico(context).EjecutarMenu();
+        var context4 = DbContextFactory.Create();
+        await new MenuCuerpoMedico(context4).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 4:
-        var context = DbContextFactory.Create();
-        // await new MenuCuerpoTecnico(context).EjecutarMenu();
+        var context5 = DbContextFactory.Create();
+        await new MenuCuerpoTecnico(context5).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 5:
-        var context = DbContextFactory.Create();
-        // await new MenuTransferencias(context).EjecutarMenu();
+        var context6 = DbContextFactory.Create();
+        // await new MenuTransferencias(context7).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 6:
-        var context = DbContextFactory.Create();
-        // await new MenuEstadisticaEquipo(context).EjecutarMenu();
+        var context7 = DbContextFactory.Create();
+        // await new MenuEstadisticaEquipo(context7).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 7:
-        var context = DbContextFactory.Create();
-        // await new MenuEstadisticaJugador(context).EjecutarMenu();
+        var context8 = DbContextFactory.Create();
+        // await new MenuEstadisticaJugador(context8).EjecutarMenu();
         Console.ReadKey(true);
         return true;
       case 8:

@@ -62,5 +62,14 @@ public class Validaciones
       boleano = Console.ReadLine();
     }
   }
-
+  public DateTime ValidarFecha(string? fecha)
+  {
+    DateTime resultado;
+    while (!DateTime.TryParse(fecha, out resultado))
+    {
+      Console.WriteLine("error al tratar de ingresar una fecha valida");
+      fecha = Console.ReadLine();
+    }
+    return resultado;
+  }
 }

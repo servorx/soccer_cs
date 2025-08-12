@@ -152,10 +152,11 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
     Tipo de transferencia (venta, préstamo)
     Valor
 - 6.2 Actualizar transferencia
-- 6.3 Ver historial de transferencias por jugador
-- 6.4 Ver historial de transferencias por equipo
-- 6.5 Eliminar transferencia
-- 6.6 Regresar main menu
+- 6.3 Eliminar transferencia
+- 6.4 Ver historial de todas las trasnferencias
+- 6.5 Ver historial de transferencias por jugador
+- 6.6 Ver historial de transferencias por equipo
+- 6.7 Regresar main menu
 
 **Estadisticas por equipo:**
 - 7.1 Equipos con mas partidos ganados

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using soccer_cs;
 using soccer_cs.models;
 
 namespace soccer_cs;
@@ -17,7 +12,7 @@ public class Persona
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
   // TODO: revisar la parte de las relaciones a pesar de que herede de persona ya que es una relacion de uno a uno
-  // relaciones con CuerpoMedico, CuerpoTecnico y jugadores
+  // Persona se relaciona con CuerpoMedico, CuerpoTecnico y jugadores
   public CuerpoMedico? CuerpoMedico { get; set; }
   public CuerpoTecnico? CuerpoTecnico { get; set; }
   public Jugador? Jugador { get; set; }

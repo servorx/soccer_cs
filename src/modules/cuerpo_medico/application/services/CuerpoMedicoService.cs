@@ -11,7 +11,7 @@ public class CuerpoMedicoService : ICuerpoMedicoService
   // en esta parte de define la interfaz del repositorio que se va a utilizar a lo largo de la clase
   private readonly ICuerpoMedicoRepository _cuerpoMedicoRepository;
   // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
-
+  private readonly IEquipoRepository _equipoRepository;
   public CuerpoMedicoService(ICuerpoMedicoRepository cuerpoMedicoRepository) =>_cuerpoMedicoRepository = cuerpoMedicoRepository;
   public async Task AgregarCuerpoMedicoAsync(CuerpoMedico cuerpoMedico)
   {
@@ -54,7 +54,7 @@ public class CuerpoMedicoService : ICuerpoMedicoService
   {
     var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
     var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
-    cuerpo_medico.EquipoId = null;
+    cuerpo_medico.EquipoId = 0;
     _cuerpoMedicoRepository.Update(cuerpo_medico);
   }
 }

@@ -9,7 +9,6 @@ namespace soccer_cs.application;
 // se usa para declarar metodos que se van a usar en PersonaRepository.cs y PersonaService.cs
 public interface IPersonaRepository
 {
-  // TODO: revisar si es necesario el metodo insertar persona ya uqe se usa el metodo CrearPersona
   void Add(Persona entity);
   Task SaveAsync();
 }

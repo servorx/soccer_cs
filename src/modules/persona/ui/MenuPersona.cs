@@ -1,6 +1,5 @@
 using soccer_cs;
 using soccer_cs.infrastructure.utils;
-using System;
 
 namespace persona.ui;
 

@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer_cs.models;
 
 namespace soccer_cs;
+
 public interface ITransferenciaService
 {
-  Task AgregarCuerpoMedicoAsync(CuerpoMedico cuerpoMedico);
-  Task ActualizarCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico);
-  Task EliminarCuerpoMedicoAsync(int id);
-  Task<IEnumerable<CuerpoMedico?>> MostrarCuerpoMedicosAsync();
-  Task<CuerpoMedico?> ObtenerCuerpoMedicoPorIdAsync(int id);
-  Task<CuerpoMedico?> ObtenerCuerpoMedicoPorNombreAsync(string nombre);
-  Task RegistrarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo);
-  Task EliminarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo);
+  Task RealizarTransferenciaAsync(int id_jugador, int id_equipo_origen, int id_equipo_destino, string tipo_transferencia, float valor_transferencia, DateTime fecha_transferencia);
+  Task ActualizarTransferenciaAsync(int id, Transferencia transferencia);
+  Task EliminarTransferenciaAsync(int id);
+  Task<IEnumerable<Transferencia?>> VerTodoTransferenciaAsync();
+  Task<Transferencia?> VerHistorialTransferenciaPorJugadorAsync(int id_jugador); 
+  Task <Transferencia?>VerHistorialTransferenciaPorEquipoAsync(int id_equipo);
+  Task<Transferencia?> ObtenerTransferenciaPorIdAsync(int id);
 }

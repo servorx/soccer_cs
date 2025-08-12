@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer_cs.models;
 
 namespace soccer_cs.services;
 
@@ -9,52 +10,49 @@ public class TransferenciaService : ITransferenciaService
 {
   // ? revisar si todo esto esta bien
   // en esta parte de define la interfaz del repositorio que se va a utilizar a lo largo de la clase
-  private readonly ICuerpoMedicoRepository _cuerpoMedicoRepository;
+  private readonly ITransferenciaRepository _transferenciaRepository;
   // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
-
-  public CuerpoMedicoService(ICuerpoMedicoRepository cuerpoMedicoRepository) =>_cuerpoMedicoRepository = cuerpoMedicoRepository;
-  public async Task AgregarCuerpoMedicoAsync(CuerpoMedico cuerpoMedico)
+  public TransferenciaService(ITransferenciaRepository transferenciaRepository) => _transferenciaRepository = transferenciaRepository;
+  public async Task RealizarTransferenciaAsync(int id_jugador, int id_equipo_origen, int id_equipo_destino, string tipo_transferencia, float valor_transferencia, DateTime fecha_transferencia)
   {
-    _cuerpoMedicoRepository.Add(cuerpoMedico);
-    await _cuerpoMedicoRepository.SaveAsync();
-  }
-  public async Task ActualizarCuerpoMedicoAsync(int id, CuerpoMedico cuerpoMedico)
-  {
-    var existingCuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
-    if (existingCuerpoMedico != null)
+    _transferenciaRepository.Add(new Transferencia
     {
-      existingCuerpoMedico.Nombre = cuerpoMedico.Nombre;
-      existingCuerpoMedico.Id = cuerpoMedico.Id;
-      _cuerpoMedicoRepository.Update(existingCuerpoMedico);
-      await _cuerpoMedicoRepository.SaveAsync();
+      JugadorId = id_jugador,
+      EquipoOrigenId = id_equipo_origen,
+      EquipoDestinoId = id_equipo_destino,
+      TipoTransferencia = tipo_transferencia,
+      ValorTransferencia = valor_transferencia,
+      FechaTransferencia = fecha_transferencia
+    });
+    await _transferenciaRepository.SaveAsync();
+  }
+  public async Task ActualizarTransferenciaAsync(int id, Transferencia transferencia)
+  {
+    var existingTransferencia = await _transferenciaRepository.GetByIdAsync(id);
+    if (existingTransferencia != null)
+    {
+      existingTransferencia.EquipoDestinoId = transferencia.EquipoDestinoId;
+      existingTransferencia.EquipoOrigenId = transferencia.EquipoOrigenId;
+      existingTransferencia.TipoTransferencia = transferencia.TipoTransferencia;
+      existingTransferencia.ValorTransferencia = transferencia.ValorTransferencia;
+      existingTransferencia.FechaTransferencia = transferencia.FechaTransferencia;
+      _transferenciaRepository.Update(existingTransferencia);
+      await _transferenciaRepository.SaveAsync();
     }
   }
-  public async Task EliminarCuerpoMedicoAsync(int id)
+  public async Task EliminarTransferenciaAsync(int id)
   {
-    var cuerpoMedico = await _cuerpoMedicoRepository.GetByIdAsync(id);
-    if (cuerpoMedico != null)
+    var transferencia = await _transferenciaRepository.GetByIdAsync(id);
+    if (transferencia != null)
     {
-      _cuerpoMedicoRepository.Remove(cuerpoMedico);
-      await _cuerpoMedicoRepository.SaveAsync();
+      _transferenciaRepository.Remove(transferencia);
+      await _transferenciaRepository.SaveAsync();
     }
   }
   // estas son las partes de las consultas trabajandolas con LINQ
-  public async Task<IEnumerable<CuerpoMedico?>> MostrarCuerpoMedicosAsync() => await _cuerpoMedicoRepository.GetAllAsync();
-  public async Task<CuerpoMedico?> ObtenerCuerpoMedicoPorIdAsync(int id) => await _cuerpoMedicoRepository.GetByIdAsync(id);
-  public async Task<CuerpoMedico?> ObtenerCuerpoMedicoPorNombreAsync(string nombre) => await _cuerpoMedicoRepository.GetByNameAsync(nombre); 
-  // estas son las partes de las funcionalidades donde se manipulan los datos con otras entitdades y sus relaciones
-  public async Task RegistrarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo)
-  {
-    var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
-    var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
-    cuerpo_medico.EquipoId = id_equipo;
-    _cuerpoMedicoRepository.Update(cuerpo_medico);
-  }
-  public async Task EliminarCuerpoMedicoEquipoAsync(int id_cuerpo_medico, int id_equipo)
-  {
-    var cuerpo_medico = await _cuerpoMedicoRepository.GetByIdAsync(id_cuerpo_medico);
-    var equipo = await _equipoRepository.GetByIdAsync(id_equipo);
-    cuerpo_medico.EquipoId = null;
-    _cuerpoMedicoRepository.Update(cuerpo_medico);
-  }
+  public async Task<IEnumerable<Transferencia?>> VerTodoTransferenciaAsync() => await _transferenciaRepository.GetAllAsync();
+  public async Task<Transferencia?> VerHistorialTransferenciaPorJugadorAsync(int id_jugador) => await _transferenciaRepository.ObtenerTransferenciasPorJugador(id_jugador);
+  public async Task<Transferencia?> VerHistorialTransferenciaPorEquipoAsync(int id_equipo) => await _transferenciaRepository.GetByIdAsync(id_equipo);
+  public async Task<Transferencia?> ObtenerTransferenciaPorIdAsync(int id) => await _transferenciaRepository.GetByIdAsync(id);
+  
 }

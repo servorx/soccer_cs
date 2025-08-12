@@ -14,15 +14,13 @@ public class MenuCuerpoMedico
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
   // private readonly CuerpoMedicoService _service = null!;
-  private readonly ICuerpoMedicoService _cuerpoMedicoService;
+  private readonly ICuerpoMedicoService _cuerpoMedicoService = null!;
   private readonly CuerpoMedicoService _service;
   // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
-  private readonly MenuPersona _menuPersona;
+  private readonly MenuPersona _menuPersona = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
-  public MenuCuerpoMedico(AppDbContext _context, MenuPersona menuPersona, ICuerpoMedicoService cuerpoMedicoService)
+  public MenuCuerpoMedico(AppDbContext _context)
   {
-    _cuerpoMedicoService = cuerpoMedicoService;
-    _menuPersona = menuPersona;
     var repo = new CuerpoMedicoRepository(_context);
     _service = new CuerpoMedicoService(repo);
   }
@@ -166,9 +164,9 @@ public class MenuCuerpoMedico
     // agregar el nuevo cuerpo medico
     var cuerpo_medico = new CuerpoMedico
     {
+      PersonaId = persona.Id,
       Especialidad = especialidad.Trim(),
-      AniosExperiencia = aniosExperiencia,
-      PersonaId = persona.Id.Value
+      AniosExperiencia = aniosExperiencia
     };
     await _service.AgregarCuerpoMedicoAsync(cuerpo_medico);
     Console.WriteLine("Cuerpo Medico creado.");
@@ -243,7 +241,7 @@ public class MenuCuerpoMedico
     if (confirmacion)
     {
       await _service.ActualizarCuerpoMedicoAsync(id, existente);
-      Console.WriteLine("País actualizado.");
+      Console.WriteLine("Cuerpo medico actualizado.");
       Console.ReadLine();
     }
     else
