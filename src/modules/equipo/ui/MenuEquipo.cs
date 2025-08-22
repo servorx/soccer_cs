@@ -4,9 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using soccer.src.modules.equipo.domain.models;
+using soccer_cs.src.modules.cuerpo_medico.application.services;
+using soccer_cs.src.modules.cuerpo_tecnico.application.services;
+using soccer_cs.src.modules.cuerpo_tecnico.domain.models;
 using soccer_cs.src.modules.equipo.application.services;
 using soccer_cs.src.modules.equipo.infrastructure.repositories;
+using soccer_cs.src.modules.equipo_jugador.domain.models;
+using soccer_cs.src.modules.jugador.domain.models;
 using soccer_cs.src.modules.persona.domain.models;
+using soccer_cs.src.modules.torneo.application.services;
 using soccer_cs.src.shared.context;
 using soccer_cs.src.shared.helpers;
 using soccer_cs.src.shared.utils;
@@ -16,8 +22,11 @@ namespace soccer_cs.src.modules.equipo.ui;
 public class MenuEquipo
 {
   private readonly Validaciones validate_data = new Validaciones();
-  // esto con el fin de que se pueda acceder a la clase de servicio de equipo
+  // esto con el fin de que se pueda acceder a la clase de servicio de equipo, cuerpo medico y torneos
   readonly EquipoService _equipoService = null!;
+  readonly CuerpoMedicoService _cuerpoMedicoService = null!;
+  readonly CuerpoTecnicoService _cuerpoTecnicoService = null!;
+  readonly TorneoService _torneoService = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuEquipo(AppDbContext _context)
   {
@@ -306,18 +315,12 @@ public class MenuEquipo
       Console.WriteLine($"ID: {e.Id} | Nombre: {e.Nombre} | Ciudad: {e.Ciudad} | País: {e.Pais} | Estadio: {e.Estadio} | Tipo de equipo: {e.TipoEquipo} | Cantidad de titulos: {e.CantidadTitulos}");
     }
   }
-  private async Task ObtenerEquipoPorIdAsync()
+  private async Task BuscarEquipoPorIdAsync()
   {
+    // mostrar todos los equpos disponibles
+    await MostrarEquiposAsync();
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
-
-    var existente = await _equipoService.ObtenerEquipoPorIdAsync(id);
-    if (existente == null)
-    {
-      Console.WriteLine("Equipo no encontrado.");
-      Console.ReadLine();
-      return;
-    }
 
     var e = await _equipoService.ObtenerEquipoPorIdAsync(id);
     if (e is null)
@@ -328,9 +331,11 @@ public class MenuEquipo
 
     Console.WriteLine($"Equipo: ID{e.Id} | Nombre={e.Nombre}| Ciudad={e.Ciudad} | País={e.Pais} | Estadio={e.Estadio} | Tipo de equipo={e.TipoEquipo} | Cantidad de titulos={e.CantidadTitulos}");
   }
-  private async Task ObtenerEquipoPorNombreAsync()
+  private async Task BuscarEquipoPorNombreAsync()
   {
-    Console.Write("Nombre (o parte del nombre): ");
+    // mostrar todos los equpos disponibles
+    await MostrarEquiposAsync();
+    Console.Write("Nombre (o parte del nombre) del equipo: ");
     var nombre = Console.ReadLine()?.Trim();
 
     if (string.IsNullOrWhiteSpace(nombre))
@@ -347,47 +352,101 @@ public class MenuEquipo
     Console.WriteLine($"Equipo: ID{e.Id} | Nombre={e.Nombre}| Ciudad={e.Ciudad} | País={e.Pais} | Estadio={e.Estadio} | Tipo de equipo={e.TipoEquipo} | Cantidad de titulos={e.CantidadTitulos}");
     Console.ReadKey();
   }
-  private async Task ObtenerJugadoresPorEquipoAsync()
+  private async Task BuscarJugadoresPorEquipoAsync()
   {
-    Console.Write("ID equipo: ");
+    // muestra los equipos disponibles
+    await MostrarEquiposAsync();
+    Console.Write("ID del equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    var jugadores = await _equipoService.ObtenerJugadoresPorEquipoAsync(id_equipo);
-    if (jugadores is null)
+    var equipoJugadores = await _equipoService.ObtenerJugadoresPorEquipoAsync(id_equipo);
+    if (equipoJugadores == null || !equipoJugadores.Any())
     {
       Console.WriteLine("Jugadores no encontrados.");
       return;
     }
 
     Console.WriteLine("Jugadores:");
-    foreach (var j in jugadores)
+    foreach (var ej in equipoJugadores)
     {
-      if (j is null) continue;
-      Console.WriteLine($"ID: {j.Id} | Nombre: {j.Jugador?.Persona.Nombre} {j.Jugador?.Persona.Apellido} | Edad: {j.Jugador?.Persona.Edad} | Nacionalidad: {j.Jugador?.Persona.Nacionalidad} | Goles {j.Goles} | Asistencias {j.Asistencias} | Partidos Jugados {j.PartidosJugados} | Estatura {j.Estatura} | Peso {j.Peso} | Tarjetas Amarillas {j.TarjetasAmarillas} | Tarjetas Rojas {j.TarjetasRojas}\n");
-      Console.WriteLine("Presione una tecla para continuar...");
-      Console.ReadLine();
+      if (ej?.EquipoJugadors == null) continue;
+
+      foreach (var jugadorEquipo in ej.EquipoJugadors)
+      {
+        var jugador = jugadorEquipo.Jugador;
+        var persona = jugador?.Persona;
+
+        Console.WriteLine(
+          $"JugadorID: {jugador?.Id} | Nombre: {persona?.Nombre} {persona?.Apellido} | Edad: {persona?.Edad} | Nacionalidad: {persona?.Nacionalidad}"
+        );
+      }
     }
+
+    Console.WriteLine("Presione una tecla para continuar...");
+    Console.ReadLine();
   }
-  private async Task InscribirEquipoAsync()
+  private async Task RegistrarCuerpoMedicoEnEquipoAsync()
   {
+    // mostrar todos los equipos disponibles
+    await MostrarEquiposAsync();
+    Console.Write("ID del equipo: ");
+    int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
+
+    // mostrar todos los cuerpos medicos disponibles
+    await _cuerpoMedicoService.MostrarCuerpoMedicosAsync();
+    Console.Write("ID del cuerpo medico: ");
+    int id_cuerpo_medico = validate_data.ValidarEntero(Console.ReadLine());
+
+    await _cuerpoMedicoService.RegistrarCuerpoMedicoEquipoAsync(id_equipo, id_cuerpo_medico);
+    Console.WriteLine("Cuerpo medico registrado.");
+    Console.WriteLine("Presione una tecla para continuar...");
+    Console.ReadLine();
+  }
+  private async Task RegistrarCuerpoTecnicoEnEquipoAsync()
+  {
+    // mostrar todos los equipos disponibles
+    await MostrarEquiposAsync();
+    Console.Write("ID del equipo: ");
+    int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
+
+    // mostrar todos los cuerpos tecnicos disponibles
+    await _cuerpoTecnicoService.MostrarCuerpoTecnicosAsync();
+    Console.Write("ID del cuerpo tecnico: ");
+    int id_cuerpo_tecnico = validate_data.ValidarEntero(Console.ReadLine());
+
+    await _cuerpoTecnicoService.RegistrarCuerpoTecnicoEquipoAsync(id_equipo, id_cuerpo_tecnico);
+    Console.WriteLine("Cuerpo tecnico registrado.");
+    Console.WriteLine("Presione una tecla para continuar...");
+    Console.ReadLine();
+  }
+  private async Task InscribirEquipoaTorneoAsync()
+  {
+    // mostrar todos los equipos disponibles
+    await MostrarEquiposAsync();
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
+    // mostrar todos los torneos disponibles
+    await _torneoService.MostrarTorneosAsync();
     Console.Write("ID torneo: ");
     int id_torneo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.InscribirEquipoAsync(id_equipo, id_torneo);
+    await _torneoService.RegistrarEquipoATorneoAsync(id_equipo, id_torneo);
     Console.WriteLine("Equipo inscrito.");
   }
-  private async Task DesinscribirEquipoAsync()
+  private async Task DesinscribirEquipoATorneoAsync()
   {
+    // mostrar todos los equipos disponibles
+    await MostrarEquiposAsync(); 
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
+    // mostrar todos los torneos disponibles
+    await _torneoService.MostrarTorneosAsync();
     Console.Write("ID torneo: ");
     int id_torneo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.DesinscribirEquipoAsync(id_equipo, id_torneo);
+    await _torneoService.EliminarEquipoATorneoAsync(id_equipo, id_torneo);
     Console.WriteLine("Equipo desinscrito.");
   }
 }

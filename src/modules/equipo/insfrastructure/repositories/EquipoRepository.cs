@@ -24,16 +24,17 @@ public class EquipoRepository : IEquipoRepository
     return await _context.Equipos
         .Include(e => e.CuerpoMedicos)
         .Include(e => e.CuerpoTecnicos)
-        .Include(e => e.EquipoJugadors.Jugador)
+        .Include(e => e.EquipoJugadors)
+            .ThenInclude(ej => ej.Jugador)
         .FirstOrDefaultAsync(e => e.Id == id);
   }
   public async Task<Equipo?> GetByNameAsync(string nombre) => await _context.Equipos.FirstOrDefaultAsync(e => e.Nombre == nombre);
   public async Task<IEnumerable<Jugador?>> GetJugadoresByEquipoIdAsync(int id_equipo)
   {
-    return await _context.Equipos
-      .Where(e => e.Id == id_equipo)
-      // se hace de esta forma por tener que evitar problemas con el null, operador de coalencia nula
-      .SelectMany(e => e.EquipoJugadors ?? new List<EquipoJugador>())
+    return await _context.EquiposJugadores
+      .Where(ej => ej.IdEquipo == id_equipo)
+      .Include(ej => ej.Jugador)
+        .ThenInclude(j => j.Persona)
       .Select(ej => ej.Jugador)
       .ToListAsync();
   }

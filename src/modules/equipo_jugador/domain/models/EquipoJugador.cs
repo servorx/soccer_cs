@@ -11,8 +11,8 @@ public class EquipoJugador
 {
   public int IdEquipo { get; set; }
   public int IdJugador { get; set; }
-  public Equipo? Equipo { get; set; }
-  public Jugador? Jugador { get; set; }
+  public Equipo Equipo { get; set; } = null!;
+  public Jugador Jugador { get; set; } = null!;
   public DateTime FechaInicio { get; set; }
   public DateTime FechaFin { get; set; }
 }

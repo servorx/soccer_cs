@@ -34,7 +34,7 @@ public class EstadisticaJugadorConfig : IEntityTypeConfiguration<EstadisticaJuga
     // un jugador puede tener varias estadisticas de acuerdo al tiempo o registro
         .WithMany(j => j.EstadisticaJugadors)
     // se establece con el id del jugador que es el fk como tal
-        .HasForeignKey(ej => ej.JugadorId)
+        .HasForeignKey(ej => ej.IdJugador)
     // si se borra da un comportamiento de cascada.
         .OnDelete(DeleteBehavior.Cascade);
   }

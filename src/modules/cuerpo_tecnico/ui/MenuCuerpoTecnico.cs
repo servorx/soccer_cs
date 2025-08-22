@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using soccer_cs.src.modules.cuerpo_tecnico.application.services;
 using soccer_cs.src.modules.cuerpo_tecnico.domain.models;
 using soccer_cs.src.modules.cuerpo_tecnico.infrastructure.repositories;
+using soccer_cs.src.modules.persona.application.services;
 using soccer_cs.src.modules.persona.domain.models;
 using soccer_cs.src.shared.context;
 using soccer_cs.src.shared.helpers;
@@ -16,12 +17,13 @@ public class MenuCuerpoTecnico
 {
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo tecnico
-  readonly CuerpoTecnicoService _service = null!;
+  readonly CuerpoTecnicoService _cuerpoTecnicoservice = null!;
+  readonly PersonaService _personaService = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuCuerpoTecnico(AppDbContext _context)
   {
     var repo = new CuerpoTecnicoRepository(_context);
-    _service = new CuerpoTecnicoService(repo);
+    _cuerpoTecnicoservice = new CuerpoTecnicoService(repo);
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
@@ -143,7 +145,7 @@ public class MenuCuerpoTecnico
     // TODO: antes de crear el cuerpo tecnico se debe de crear primeo la persona y se le asigna el id de la ultima persona creada
     Persona persona = new Persona();
     // TODO: sale error porque el metodo no esta definido en el servicio de personas 
-    await _service.AgregarPersonaAsync(persona);
+    await _personaService.AgregarPersonaAsync(persona);
     Console.Write("Rol: ");
     var rol = validate_data.ValidarTexto(Console.ReadLine());
 
@@ -164,12 +166,11 @@ public class MenuCuerpoTecnico
     var cuerpo_tecnico = new CuerpoTecnico
     {
       IdPersona = persona.Id,
-      IdEquipo = equipo.ID,
       Rol = rol.Trim(), 
       AniosExperiencia = aniosExperiencia,
       Persona = persona
     };
-    await _service.AgregarCuerpoTecnicoAsync(cuerpo_tecnico); 
+    await _cuerpoTecnicoservice.AgregarCuerpoTecnicoAsync(cuerpo_tecnico); 
     Console.WriteLine("Cuerpo tecnico creado.");
   }
   private async Task ActualizarCuerpoTecnicoAsync()
@@ -177,7 +178,7 @@ public class MenuCuerpoTecnico
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
+    var existente = await _cuerpoTecnicoservice.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo tecnico no encontrado.");
@@ -241,7 +242,7 @@ public class MenuCuerpoTecnico
 
     if (confirmacion)
     {
-      await _service.ActualizarCuerpoTecnicoAsync(id, existente);
+      await _cuerpoTecnicoservice.ActualizarCuerpoTecnicoAsync(id, existente);
       Console.WriteLine("Cuerpo Técnico actualizado.");
       Console.ReadLine();
     }
@@ -256,7 +257,7 @@ public class MenuCuerpoTecnico
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
+    var existente = await _cuerpoTecnicoservice.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo tecnico no encontrado.");
@@ -264,13 +265,13 @@ public class MenuCuerpoTecnico
       return;
     }
 
-    await _service.EliminarCuerpoTecnicoAsync(id);
+    await _cuerpoTecnicoservice.EliminarCuerpoTecnicoAsync(id);
     Console.WriteLine("🗑️ Cuerpo tecnico eliminado.");
   }
   private async Task MostrarCuerpoTecnicosAsync()
   {
     // TODO: tengo que revisar si esto esta bien por el nombre del servicio ya que son los mismos en el servicio, o no entiendo
-    var cuerpo_tecnico = await _service.MostrarCuerpoTecnicosAsync();
+    var cuerpo_tecnico = await _cuerpoTecnicoservice.MostrarCuerpoTecnicosAsync();
     if (!cuerpo_tecnico.Any())
     {
       Console.WriteLine("No hay países registrados.");
@@ -289,7 +290,7 @@ public class MenuCuerpoTecnico
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
+    var existente = await _cuerpoTecnicoservice.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo tecnico no encontrado.");
@@ -297,7 +298,7 @@ public class MenuCuerpoTecnico
       return;
     }
 
-    var ct = await _service.ObtenerCuerpoTecnicoPorIdAsync(id);
+    var ct = await _cuerpoTecnicoservice.ObtenerCuerpoTecnicoPorIdAsync(id);
     if (ct is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
@@ -316,7 +317,7 @@ public class MenuCuerpoTecnico
       Console.WriteLine("Nombre inválido.");
       return;
     }
-    var ct = await _service.ObtenerCuerpoTecnicoPorNombreAsync(nombre);
+    var ct = await _cuerpoTecnicoservice.ObtenerCuerpoTecnicoPorNombreAsync(nombre);
     if (ct is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
@@ -333,7 +334,7 @@ public class MenuCuerpoTecnico
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.RegistrarCuerpoTecnicoEquipoAsync(id_cuerpo_tecnico, id_equipo);
+    await _cuerpoTecnicoservice.RegistrarCuerpoTecnicoEquipoAsync(id_cuerpo_tecnico, id_equipo);
     Console.WriteLine("Cuerpo tecnico registrado.");
   }
   public async Task EliminarCuerpoTecnicoDeEquipoAsync()
@@ -344,7 +345,7 @@ public class MenuCuerpoTecnico
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.EliminarCuerpoTecnicoEquipoAsync(id_cuerpo_tecnico, id_equipo);
+    await _cuerpoTecnicoservice.EliminarCuerpoTecnicoEquipoAsync(id_cuerpo_tecnico, id_equipo);
     Console.WriteLine("Cuerpo tecnico eliminado.");
   }
 }

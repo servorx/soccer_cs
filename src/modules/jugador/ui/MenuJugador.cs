@@ -6,6 +6,7 @@ using soccer_cs.src.modules.jugador.application.interfaces;
 using soccer_cs.src.modules.jugador.application.services;
 using soccer_cs.src.modules.jugador.domain.models;
 using soccer_cs.src.modules.jugador.infrastructure.repositories;
+using soccer_cs.src.modules.persona.application.services;
 using soccer_cs.src.shared.context;
 using soccer_cs.src.shared.helpers;
 using soccer_cs.src.shared.utils;
@@ -16,15 +17,16 @@ public class MenuJugador
     private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de jugador
   // private readonly JugadorService _service = null!;
-  private readonly IJugadorService _JugadorService;
-  private readonly JugadorService _service;
+  // private readonly IJugadorService _JugadorService;
+  private readonly PersonaService personaService = null!;
+  private readonly JugadorService _jugadorService;
   // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
   private readonly MenuPersona _menuPersona;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuJugador(AppDbContext _context)
   {
     var repo = new JugadorRepository(_context);
-    _service = new JugadorService(repo); 
+    _JugadorService = new JugadorService(repo); 
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
@@ -179,17 +181,19 @@ public class MenuJugador
       PieHabil = pie_habil,
       ValorMercado = valor_jugador 
     };
-    await _service.AgregarJugadorAsync(jugador);
+    await _jugadorService.AgregarJugadorAsync(jugador);
     Console.WriteLine("Jugador creado exitosamente.");
     Console.WriteLine("Presiona enter para continuar...");  
     Console.ReadLine();
   }
   private async Task ActualizarJugadorAsync()
   {
+    // mostrar todos los jugadores disponibles
+    await MostrarJugadorsAsync();
     Console.Write("ID del jugador a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerJugadorPorIdAsync(id);
+    var existente = await _jugadorService.ObtenerJugadorPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Jugador no encontrado.");
@@ -269,8 +273,8 @@ public class MenuJugador
 
     if (confirmacion)
     {
-      await _service.ActualizarJugadorAsync(id, existente);
-      Console.WriteLine("País actualizado.");
+      await _jugadorService.ActualizarJugadorAsync(id, existente);
+      Console.WriteLine("Jugador actualizado.");
       Console.ReadLine();
     }
     else
@@ -284,39 +288,41 @@ public class MenuJugador
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerJugadorPorIdAsync(id);
+    var existente = await _jugadorService.ObtenerJugadorPorIdAsync(id);
     if (existente == null)
     {
-      Console.WriteLine("Cuerpo medico no encontrado.");
+      Console.WriteLine("Jugador no encontrado.");
       Console.ReadLine();
       return;
     }
 
-    await _service.EliminarJugadorAsync(id);
-    Console.WriteLine("🗑️ Cuerpo medico eliminado.");
+    await _jugadorService.EliminarJugadorAsync(id);
+    Console.WriteLine("🗑️ Jugador eliminado.");
   }
   private async Task MostrarJugadorsAsync()
   {
-    var cuerpo_medico = await _service.MostrarJugadorsAsync();
+    var cuerpo_medico = await _jugadorService.MostrarJugadorsAsync();
     if (!cuerpo_medico.Any())
     {
-      Console.WriteLine("No hay países registrados.");
+      Console.WriteLine("No hay jugadores registrados.");
       return;
     }
 
-    Console.WriteLine("Cuerpo Medicos:");
-    foreach (var cm in cuerpo_medico)
+    Console.WriteLine("Jugadores disponibles:");
+    foreach (var j in cuerpo_medico)
     {
-      if (cm is null) continue;
-      Console.WriteLine($"ID: {cm.Id} | Nombre: {cm.Nombre} | Especialidad: {cm.Especialidad} | Años de experiencia: {cm.AniosExperiencia}");
+      if (j is null) continue;
+      Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
     }
   }
   private async Task ObtenerJugadorPorIdAsync()
   {
+    // mostrar todos los jugadores disponibles
+    await MostrarJugadorsAsync();
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerJugadorPorIdAsync(id);
+    var existente = await _jugadorService.ObtenerJugadorPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo medico no encontrado.");
@@ -324,17 +330,19 @@ public class MenuJugador
       return;
     }
 
-    var cm = await _service.ObtenerJugadorPorIdAsync(id);
-    if (cm is null)
+    var j = await _jugadorService.ObtenerJugadorPorIdAsync(id);
+    if (j is null)
     {
-      Console.WriteLine("Cuerpo médico no encontrado.");
+      Console.WriteLine("Jugador no encontrado.");
       return;
     }
 
-    Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Nombre} {cm.Apellido} | Especialidad={cm.Especialidad} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Nacionalidad} | Documento={cm.DocumentoIdentidad}");
+    Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
   }
   private async Task ObtenerJugadorPorNombreAsync()
   {
+    // mostrar todos los jugadores disponibles
+    await MostrarJugadorsAsync();
     Console.Write("Nombre (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
 
@@ -343,13 +351,13 @@ public class MenuJugador
       Console.WriteLine("Nombre inválido.");
       return;
     }
-    var cm = await _service.ObtenerJugadorPorNombreAsync(nombre);
-    if (cm is null)
+    var j = await _jugadorService.ObtenerJugadorPorNombreAsync(nombre);
+    if (j is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
       return;
     }
-    Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Nombre} {cm.Apellido} | Especialidad={cm.Especialidad} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Nacionalidad} | Documento={cm.DocumentoIdentidad}");
+    Console.WriteLine($"Cuerpo Médico: ID={j.Id} | Nombre={j.Nombre} {j.Apellido} | Especialidad={j.Especialidad} | Años de experiencia={j.AniosExperiencia} | Nacionalidad={j.Nacionalidad} | Documento={j.DocumentoIdentidad}");
     Console.ReadKey();
   }
   public async Task RegistrarJugadoraEquipoAsync()
@@ -360,7 +368,7 @@ public class MenuJugador
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.RegistrarJugadorEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _jugadorService.RegistrarJugadorEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico registrado.");
   }
   public async Task EliminarJugadorDeEquipoAsync()
@@ -371,7 +379,7 @@ public class MenuJugador
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.EliminarJugadorEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _jugadorService.EliminarJugadorEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico eliminado.");
   }
 }
