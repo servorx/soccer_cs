@@ -1,7 +1,10 @@
 using System;
+using soccer_cs.src.modules.equipo.application.services;
 using soccer_cs.src.modules.estadistica_equipo.application.interfaces;
 using soccer_cs.src.modules.estadistica_equipo.application.services;
+using soccer_cs.src.modules.estadistica_equipo.domain.models;
 using soccer_cs.src.modules.estadistica_equipo.infrastructure.repositories;
+using soccer_cs.src.modules.jugador.application.services;
 using soccer_cs.src.shared.context;
 using soccer_cs.src.shared.utils;
 
@@ -12,13 +15,13 @@ public class MenuEstadisticaEquipo
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
   // private readonly EstadisticaEquipoService _service = null!;
-  private readonly IEstadisticaEquipoService _EstadisticaEquipoService;
-  private readonly EstadisticaEquipoService _service;
+  private readonly EstadisticaEquipoService _estadisticaEquipoService;
+  private readonly EquipoService _equipoService; 
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuEstadisticaEquipo(AppDbContext _context)
   {
     var repo = new EstadisticaEquipoRepository(_context);
-    _ = new EstadisticaEquipoService(repo);
+    _estadisticaEquipoService = new EstadisticaEquipoService(repo);
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
@@ -125,66 +128,54 @@ public class MenuEstadisticaEquipo
     Console.Clear();
     Console.WriteLine("---- Registrar Estadistica Equipo ----");
     // primero mostrar los jugadores existentes para escoger uno al que se le van a agregar las estadisticas
-    var estadisticas_jugadores = await _EstadisticaEquipoService.MostrarEstadisticaEquiposAsync();
-    if (!estadisticas_jugadores.Any())
-    {
-      Console.WriteLine("No hay estadisticas_jugadores registrados.");
-      return;
-    }
-    Console.WriteLine("Jugadores disponibles:");
-    foreach (var ej in estadisticas_jugadores)
-    {
-      if (ej is null) continue;
-      Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Equipo?.Nombre} {ej.Equipo?.Ciudad} | Pais: {ej.Equipo?.Pais}");
-    }
-    Console.Write("Escoja un jugador: ");
+    await _equipoService.MostrarEquiposAsync();
+    Console.Write("Escoja el id de un Equipo: ");
     int id_jugador = validate_data.ValidarEntero(Console.ReadLine());
 
-    Console.WriteLine("Goles del jugador: ");
-    int goles = validate_data.ValidarEntero(Console.ReadLine());
-
-    Console.WriteLine("Asistenia del jugador: ");
-    int asistencias = validate_data.ValidarEntero(Console.ReadLine());
-
-    Console.WriteLine("Partidos jugados del jugador: ");
+    Console.WriteLine("Partidos jugados del equipo: ");
     int partidos_jugados = validate_data.ValidarEntero(Console.ReadLine());
 
-    Console.WriteLine("Estatura del jugador: ");
-    decimal estatura = validate_data.ValidarDecimal(Console.ReadLine());
+    Console.WriteLine("Partidos ganados del equipo: ");
+    int partidos_ganados = validate_data.ValidarEntero(Console.ReadLine());
 
-    Console.WriteLine("Peso del jugador: ");
-    decimal peso = validate_data.ValidarDecimal(Console.ReadLine());
+    Console.WriteLine("Partidos empatados del equipo: ");
+    int partidos_empatados = validate_data.ValidarEntero(Console.ReadLine());
 
-    Console.WriteLine("Tarjetas amarillas del jugador: ");
-    int tarjetas_amarillas = validate_data.ValidarEntero(Console.ReadLine());
+    Console.WriteLine("Partidos perdidos del equipo: ");
+    int partidos_perdidos = validate_data.ValidarEntero(Console.ReadLine());
 
-    Console.WriteLine("Tarjetas rojas del jugador: ");
-    int tarjetas_rojas = validate_data.ValidarEntero(Console.ReadLine());
+    Console.WriteLine("Goles a favor del equipo: ");
+    int goles_favor = validate_data.ValidarEntero(Console.ReadLine());
 
-    // crear la estadistica de jugador
-    var estadistica = new EstadisticaJugador
+    Console.WriteLine("Goles en contra del equipo: ");
+    int goles_contra = validate_data.ValidarEntero(Console.ReadLine());
+
+    // crear la estadistica de equipo
+    var estadistica = new EstadisticaEquipo
     {
-      Goles = goles,
-      Asistencias = asistencias,
       PartidosJugados = partidos_jugados,
-      Estatura = estatura,
-      Peso = peso,
-      TarjetasAmarillas = tarjetas_amarillas,
-      TarjetasRojas = tarjetas_rojas,
-      IdJugador = id_jugador,
+      PartidosGanados = partidos_ganados,
+      PartidosEmpatados = partidos_empatados,
+      PartidosPerdidos = partidos_perdidos,
+      GolesAFavor = goles_favor,
+      GolesEnContra = goles_contra,
     };
     // guardar la estadistica de jugador
-    await _service.AgregarEstadisticaJugadorAsync(estadistica);
+    await _estadisticaEquipoService.AgregarEstadisticaEquipoAsync(estadistica);
     Console.WriteLine("Estadistica de jugador creada.");
     Console.ReadLine();
   }
-  private async Task ActualizarEstadisticaJugadorAsync()
+  private async Task ActualizarEstadisticaEquipoAsync()
   {
     // ingresar id de la estadistica a actualizar
-    Console.Write("ID de la estadistica a actualizar: ");
-    int id = validate_data.ValidarEntero(Console.ReadLine());
+    Console.Clear();
+    Console.WriteLine("---- Actualizar Estadistica de equipo ----");
+    Console.WriteLine("Estadisticas diponibles:\n");
+    await _estadisticaEquipoService.MostrarEstadisticaEquiposAsync();
+    Console.Write("ingrese el ID de la estadistica a actualizar: ");
+    int id_estadistica = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.VerPorIdAsync(id);
+    var existente = await _estadisticaEquipoService.ObtenerEstadisticaEquipoPorIdAsync(id_estadistica);
     if (existente == null)
     {
       Console.WriteLine("Estadistica de jugador no encontrada.");
@@ -192,62 +183,86 @@ public class MenuEstadisticaEquipo
       return;
     }
     // en este caso no voy a hacer validate data de modo que si el usuario quiere mantener un dato, le de enter y lo deje como es
-    Console.Write($"Nueva cantidad de goles (actual: {existente.Goles}), presiona enter para mantener la misma cantidad de goles: ");
-    var nuevoGolesStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoGolesStr) && int.TryParse(nuevoGolesStr, out int nuevoGoles))
-      existente.Goles = nuevoGoles;
+    Console.Write($"Nueva cantidad de partidos jugados (actual: {existente.PartidosJugados}), presiona enter para mantener la misma cantidad de partidos jugados: "); 
+    var nuevoPartidosJugadosStr = Console.ReadLine();
+    if (!string.IsNullOrEmpty(nuevoPartidosJugadosStr))
+    {
+      if (int.TryParse(nuevoPartidosJugadosStr, out var nuevoPartidosJugados))
+        existente.PartidosJugados = nuevoPartidosJugados;
+      else
+        Console.WriteLine("⚠️ Formato de dato entero inválido, se conserva la actual.");
+      Console.WriteLine("presione enter para continuar");
+      Console.ReadLine();
+    }
 
-    Console.Write($"Nueva cantidad de asistencias (actual: {existente.Asistencias}), presiona enter para mantener la misma cantidad de asistencias: ");
-    var nuevoAsistenciasStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoAsistenciasStr) && int.TryParse(nuevoAsistenciasStr, out int nuevoAsistencias))
-      existente.Asistencias = nuevoAsistencias;
+    Console.Write($"Nueva cantidad de partidos ganados (actual: {existente.PartidosGanados}), presiona enter para mantener la misma cantidad de partidos ganados: "); 
+    var nuevoPartidosGanadosStr = Console.ReadLine();
+    if (!string.IsNullOrEmpty(nuevoPartidosGanadosStr))
+    {
+      if (int.TryParse(nuevoPartidosGanadosStr, out var nuevoPartidosGanados))
+        existente.PartidosGanados = nuevoPartidosGanados;
+      else
+        Console.WriteLine("⚠️ Formato de dato entero inválido, se conserva la actual.");
+      Console.WriteLine("presione enter para continuar");
+      Console.ReadLine();
+    }
 
-    Console.Write($"Nueva cantidad de partidos jugados (actual: {existente.PartidosJugados}), presiona enter para mantener la misma cantidad de partidos jugados: ");
-    var nuevaParidosJugadosStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevaParidosJugadosStr) && int.TryParse(nuevaParidosJugadosStr, out int nuevoPartidosJugados))
-      existente.PartidosJugados = nuevoPartidosJugados;
+    Console.Write($"Nueva cantidad de partidos empatados (actual: {existente.PartidosGanados}), presiona enter para mantener la misma cantidad de partidos ganados: "); 
+    var nuevoPartidosEmpatadosStr = Console.ReadLine();
+    if (!string.IsNullOrEmpty(nuevoPartidosEmpatadosStr))
+    {
+      if (int.TryParse(nuevoPartidosEmpatadosStr, out var nuevoPartidosEmpatados))
+        existente.PartidosEmpatados = nuevoPartidosEmpatados;
+      else
+        Console.WriteLine("⚠️ Formato de dato entero inválido, se conserva la actual.");
+      Console.WriteLine("presione enter para continuar");
+      Console.ReadLine();
+    }
 
-    Console.Write($"Nueva estatura (actual: {existente.Estatura}), presiona enter para mantener la misma estatura: ");
-    var neuvaEstaturaStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(neuvaEstaturaStr) && decimal.TryParse(neuvaEstaturaStr, out decimal nuevaEstatura))
-      existente.Estatura = nuevaEstatura;
+    Console.Write($"Nueva cantidad de partidos perdidos (actual: {existente.PartidosPerdidos}), presiona enter para mantener la misma cantidad de partidos ganados: "); 
+    var nuevoPartidosPerdidosStr = Console.ReadLine();
+    if (!string.IsNullOrEmpty(nuevoPartidosPerdidosStr))
+    {
+      if (int.TryParse(nuevoPartidosPerdidosStr, out var nuevoPartidosPerdidos))
+        existente.PartidosPerdidos = nuevoPartidosPerdidos;
+      else
+        Console.WriteLine("⚠️ Formato de dato entero inválido, se conserva la actual.");
+      Console.WriteLine("presione enter para continuar");
+      Console.ReadLine();
+    }
 
-    Console.Write($"Nuevo peso (actual: {existente.Peso}), presiona enter para mantener el mismo peso: ");
-    var nuevoPesoStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoPesoStr) && decimal.TryParse(nuevoPesoStr, out decimal nuevoPeso))
-      existente.Peso = nuevoPeso;
+    Console.Write($"Nueva cantidad de goles a favor (actual: {existente.GolesAFavor}), presiona enter para mantener la misma cantidad de goles a favor: "); 
+    var nuevoGolesAFavorStr = Console.ReadLine();
+    if (!string.IsNullOrEmpty(nuevoGolesAFavorStr))
+    {
+      if (int.TryParse(nuevoGolesAFavorStr, out var nuevoGolesAFavor))
+        existente.GolesAFavor = nuevoGolesAFavor;
+      else
+        Console.WriteLine("⚠️ Formato de dato entero inválido, se conserva la actual.");
+      Console.WriteLine("presione enter para continuar");
+      Console.ReadLine();
+    }
 
-    Console.Write($"Nuevo tarjetas amarillas (actual: {existente.TarjetasAmarillas}), presiona enter para mantener el mismo nombre: ");
-    var nuevoTarjetasAmarillasStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoTarjetasAmarillasStr) && int.TryParse(nuevoTarjetasAmarillasStr, out int nuevoTarjetasAmarillas))
-      existente.TarjetasAmarillas = nuevoTarjetasAmarillas;
-
-    Console.Write($"Nuevo tarjetas rojas (actual: {existente.TarjetasRojas}), presiona enter para mantener el mismo nombre: ");
-    var nuevoTarjetasRojasStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoTarjetasRojasStr) && int.TryParse(nuevoTarjetasRojasStr, out int nuevoTarjetasRojas))
-      existente.TarjetasRojas = nuevoTarjetasRojas;
-
+    Console.Write($"Nueva cantidad de goles en contra (actual: {existente.GolesEnContra}), presiona enter para mantener la misma cantidad de partidos ganados: "); 
+    var nuevoGolesEnContraStr = Console.ReadLine();
+    if (!string.IsNullOrEmpty(nuevoGolesEnContraStr))
+    {
+      if (int.TryParse(nuevoGolesEnContraStr, out var nuevoGolesEnContra))
+        existente.GolesEnContra = nuevoGolesEnContra;
+      else
+        Console.WriteLine("⚠️ Formato de dato entero inválido, se conserva la actual.");
+      Console.WriteLine("presione enter para continuar");
+      Console.ReadLine();
+    }
     // Mostrar resumen de los nuevos datos
     Console.WriteLine("\n--- Confirmar Actualización ---\n");
-    Console.WriteLine($"Nombre: {existente.Jugador?.Persona.Nombre}");
-    Console.WriteLine($"Apellido: {existente.Jugador?.Persona.Apellido}");
-    Console.WriteLine($"Edad: {existente.Jugador?.Persona.Edad}");
-    Console.WriteLine($"Nacionalidad: {existente.Jugador?.Persona.Nacionalidad}");
-    Console.WriteLine($"Documento: {existente.Jugador?.Persona.DocumentoIdentidad}");
-    Console.WriteLine($"Género: {existente.Jugador?.Persona.Genero}");
-    Console.WriteLine($"Goles: {existente.Goles}");
-    Console.WriteLine($"Asistencias: {existente.Asistencias}");
-    Console.WriteLine($"Partidos Jugados: {existente.PartidosJugados}");
-    Console.WriteLine($"Estatura: {existente.Estatura}");
-    Console.WriteLine($"Peso: {existente.Peso}");
-    Console.WriteLine($"Tarjetas Amarillas: {existente.TarjetasAmarillas}");
-    Console.WriteLine($"Tarjetas Rojas: {existente.TarjetasRojas}");
+    Console.WriteLine($"ID: {existente.Id} | Partidos ganados {existente.PartidosGanados} | Partidos empatados {existente.PartidosEmpatados} | Partidos perdidos {existente.PartidosPerdidos} | Goles a favor {existente.GolesAFavor} | Goles en contra {existente.GolesEnContra} | Fecha de creacion: {existente.FechaCreacion}\n");
     Console.Write("¿Desea confirmar la actualización? (S/N): ");
     var confirmacion = validate_data.ValidarBoleano(Console.ReadLine());
 
     if (confirmacion)
     {
-      await _service.ActualizarEstadisticaJugadorAsync(id, existente);
+      await _estadisticaEquipoService.ActualizarEstadisticaEquipoAsync(id_estadistica, existente);
       Console.WriteLine("Estaditica de jugador actualizado.");
       Console.ReadLine();
     }
@@ -257,50 +272,54 @@ public class MenuEstadisticaEquipo
       Console.ReadLine();
     }
   }
-  private async Task EliminarEstadisticaJugadorAsync()
+  private async Task EliminarEstadisticaEquipoAsync()
   {
-    Console.Write("ID a actualizar: ");
-    int id = validate_data.ValidarEntero(Console.ReadLine());
+    Console.Clear();
+    Console.WriteLine("---- Eliminar Estadistica Equipo ----");
+    Console.WriteLine("Estadisticas diponibles:\n");
+    await _estadisticaEquipoService.MostrarEstadisticaEquiposAsync();
+    Console.Write("ingrese el ID de la estadistica a eliminar: ");
+    int id_estadistica = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.VerPorIdAsync(id);
+    var existente = await _estadisticaEquipoService.ObtenerEstadisticaEquipoPorIdAsync(id_estadistica);
     if (existente == null)
     {
-      Console.WriteLine("Cuerpo medico no encontrado.");
+      Console.WriteLine("Estadistica de equipo no encontrada.");
+      Console.WriteLine("Presione una tecla para continuar");
       Console.ReadLine();
       return;
     }
 
-    await _service.EliminarEstadisticaJugadorAsync(id);
+    await _estadisticaEquipoService.EliminarEstadisticaEquipoAsync(id_estadistica);
     Console.WriteLine("🗑️ Estadistica de jugador eliminada.");
   }
-  private async Task MostrarEstadisticaJugadorsAsync()
+  private async Task MostrarEstadisticaEquiposAsync()
   {
-    var estadisticaJugadors = await _service.VerTodasAsync();
-    if (!estadisticaJugadors.Any())
+    var estadisticas_equipos = await _estadisticaEquipoService.MostrarEstadisticaEquiposAsync();
+    if (!estadisticas_equipos.Any())
     {
-      Console.WriteLine("No hay estadisticas registradas.");
+      Console.WriteLine("No hay estadisticas de equipos registradas.");
       return;
     }
-
-    Console.WriteLine("Estadisticas de jugadores:");
-    foreach (var ej in estadisticaJugadors)
+    Console.WriteLine("Estadisticas de equipos disponibles:");
+    foreach (var ej in estadisticas_equipos)
     {
       if (ej is null) continue;
-      Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
+      Console.WriteLine($"ID: {ej.Id} | Partidos ganados {ej.PartidosGanados} | Partidos empatados {ej.PartidosEmpatados} | Partidos perdidos {ej.PartidosPerdidos} | Goles a favor {ej.GolesAFavor} | Goles en contra {ej.GolesEnContra} | Fecha de creacion: {ej.FechaCreacion}\n"); 
     }
   }
-  private async Task ObtenerEstadisticaJugadorPorIdAsync()
+  private async Task ObtenerEstadisticaEquipoPorIdAsync()
   {
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var ej = await _service.VerPorIdAsync(id);
+    var ej = await _estadisticaEquipoService.ObtenerEstadisticaEquipoPorIdAsync(id);
     if (ej is null)
     {
-      Console.WriteLine("Estadistica de jugador no encontrado.");
+      Console.WriteLine("Estadistica de Equipo no encontrado.");
       return;
     }
 
-    Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
+    Console.WriteLine($"ID: {ej.Id} | Partidos ganados {ej.PartidosGanados} | Partidos empatados {ej.PartidosEmpatados} | Partidos perdidos {ej.PartidosPerdidos} | Goles a favor {ej.GolesAFavor} | Goles en contra {ej.GolesEnContra} | Fecha de creacion: {ej.FechaCreacion}\n");
   }
 }

@@ -20,6 +20,7 @@ public class MenuTorneo
   public MenuTorneo(AppDbContext _context)
   {
     var repo = new TorneoRepository(_context);
+    _torneoService = new TorneoService(repo);
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
@@ -189,6 +190,10 @@ public class MenuTorneo
   }
   private async Task ActualizarTorneoAsync()
   {
+    Console.Clear();
+    Console.WriteLine("---- Actualizar Torneo ----");
+    Console.WriteLine("Torneos Disponibles:\n");
+    await _torneoService.MostrarTorneosAsync();
     Console.Write("ingrese el ID del torneo a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 

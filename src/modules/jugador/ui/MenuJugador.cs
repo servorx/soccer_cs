@@ -26,7 +26,7 @@ public class MenuJugador
   public MenuJugador(AppDbContext _context)
   {
     var repo = new JugadorRepository(_context);
-    _JugadorService = new JugadorService(repo); 
+    _jugadorService = new JugadorService(repo); 
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
@@ -210,63 +210,45 @@ public class MenuJugador
     }
 
     Console.Write($"Nueva posicion (actual: {existente.Posicion}), presiona enter para mantener la misma posicion: ");
+    var nuevoPosicionStr = Console.ReadLine();
+    if (!string.IsNullOrWhiteSpace(nuevoPosicionStr))
+      existente.Posicion = nuevoPosicionStr;
+
     Console.Write($"Nuevo numero de dorsal (actual: {existente.NumeroDorsal}), presiona enter para mantener el tipo de dorsal: "); 
     var nuevoNumeroDorsalStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoNumeroDorsalStr))
+    if (!string.IsNullOrWhiteSpace(nuevoNumeroDorsalStr) && int.TryParse(nuevoNumeroDorsalStr, out int nuevoNumeroDorsal))
     {
-      existente.NumeroDorsal = nuevoTipoStr;
+      existente.NumeroDorsal = nuevoNumeroDorsal;
     }
-    else if (!string.IsNullOrEmpty(nuevoTipoStr))
+    else if (!string.IsNullOrEmpty(nuevoNumeroDorsalStr))
     {
-        Console.WriteLine("⚠️ El tipo de torneo no puede ser vacío, se conserva el actual.");
-        Console.ReadLine();
+      Console.WriteLine("⚠️ Error al ingresar el tipo de dato, se conserva el actual.");
+      Console.WriteLine("Presiona una tecla para continuar...");
+      Console.ReadLine();
     }
 
-    Console.Write($"Nuevo apellido (actual: {existente.Apellido}), presiona enter para mantener el mismo nombre: : ");
-    var nuevoApellido = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoApellido))
-      existente.Apellido = nuevoApellido;
+    Console.Write($"Nueva pie habil (actual: {existente.PieHabil}), presiona enter para mantener el mismo pie habil: ");
+    var nuevoPieHabilStr= Console.ReadLine();
+    if (!string.IsNullOrWhiteSpace(nuevoPieHabilStr))
+      existente.PieHabil = nuevoPieHabilStr;
 
-    Console.Write($"Nueva edad (actual: {existente.Edad}), presiona enter para mantener el mismo nombre: : ");
-    var nuevaEdadStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevaEdadStr) && int.TryParse(nuevaEdadStr, out int nuevaEdad))
-      existente.Edad = nuevaEdad;
-
-    Console.Write($"Nueva nacionalidad (actual: {existente.Nacionalidad}), presiona enter para mantener el mismo nombre: : ");
-    var nuevaNacionalidad = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevaNacionalidad))
-      existente.Nacionalidad = nuevaNacionalidad;
-
-    Console.Write($"Nuevo documento identidad (actual: {existente.DocumentoIdentidad}), presiona enter para mantener el mismo nombre: : ");
-    var nuevoDocStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoDocStr) && int.TryParse(nuevoDocStr, out int nuevoDoc))
-      existente.DocumentoIdentidad = nuevoDoc;
-
-    Console.Write($"Nuevo género (actual: {existente.Genero}), presiona enter para mantener el mismo nombre: : ");
-    var nuevoGenero = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoGenero))
-      existente.Genero = nuevoGenero;
-
-    Console.Write($"Nueva especialidad (actual: {existente.Especialidad}), presiona enter para mantener el mismo nombre: : ");
-    var nuevaEspecialidad = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevaEspecialidad))
-      existente.Especialidad = nuevaEspecialidad;
-
-    Console.Write($"Años experiencia (actual: {existente.AniosExperiencia}), presiona enter para mantener el mismo nombre: : ");
-    var nuevoAniosExpStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoAniosExpStr) && int.TryParse(nuevoAniosExpStr, out int nuevoAniosExp))
-      existente.AniosExperiencia = nuevoAniosExp;
+    Console.Write($"Nuevo valor del jugador (actual: {existente.ValorMercado}), presiona enter para mantener el mismo valor: ");
+    var nuevoValorStr = Console.ReadLine();
+    if (!string.IsNullOrWhiteSpace(nuevoValorStr) && float.TryParse(nuevoValorStr, out float nuevoValor))
+      existente.ValorMercado = nuevoValor;
 
     // Mostrar resumen de los nuevos datos
-    Console.WriteLine("\n--- Confirmar Actualización ---");
-    Console.WriteLine($"Nombre: {existente.Nombre}");
-    Console.WriteLine($"Apellido: {existente.Apellido}");
-    Console.WriteLine($"Edad: {existente.Edad}");
-    Console.WriteLine($"Nacionalidad: {existente.Nacionalidad}");
-    Console.WriteLine($"Documento: {existente.DocumentoIdentidad}");
-    Console.WriteLine($"Género: {existente.Genero}");
-    Console.WriteLine($"Especialidad: {existente.Especialidad}");
-    Console.WriteLine($"Años Experiencia: {existente.AniosExperiencia}");
+    Console.WriteLine("\n--- Confirmar Actualización ---\n");
+    Console.WriteLine($"Nombre: {existente.Persona.Nombre}");
+    Console.WriteLine($"Apellido: {existente.Persona.Apellido}");
+    Console.WriteLine($"Edad: {existente.Persona.Edad}");
+    Console.WriteLine($"Nacionalidad: {existente.Persona.Nacionalidad}");
+    Console.WriteLine($"Documento: {existente.Persona.DocumentoIdentidad}");
+    Console.WriteLine($"Género: {existente.Persona.Genero}");
+    Console.WriteLine($"Posicion: {existente.Posicion}");
+    Console.WriteLine($"Numero de dorsal: {existente.NumeroDorsal}");
+    Console.WriteLine($"Pie habil: {existente.PieHabil}");
+    Console.WriteLine($"Valor del jugador: {existente.ValorMercado}");
     Console.Write("¿Confirmar actualización? (S/N): ");
 
     var confirmacion = validate_data.ValidarBoleano(Console.ReadLine());
@@ -285,7 +267,9 @@ public class MenuJugador
   }
   private async Task EliminarJugadorAsync()
   {
-    Console.Write("ID a actualizar: ");
+    Console.Clear();
+    await MostrarJugadorsAsync();
+    Console.Write("ID del jugadora eliminar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
     var existente = await _jugadorService.ObtenerJugadorPorIdAsync(id);
@@ -301,15 +285,15 @@ public class MenuJugador
   }
   private async Task MostrarJugadorsAsync()
   {
-    var cuerpo_medico = await _jugadorService.MostrarJugadorsAsync();
-    if (!cuerpo_medico.Any())
+    var jugador = await _jugadorService.MostrarJugadorsAsync();
+    if (!jugador.Any())
     {
       Console.WriteLine("No hay jugadores registrados.");
       return;
     }
 
     Console.WriteLine("Jugadores disponibles:");
-    foreach (var j in cuerpo_medico)
+    foreach (var j in jugador)
     {
       if (j is null) continue;
       Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
@@ -319,16 +303,8 @@ public class MenuJugador
   {
     // mostrar todos los jugadores disponibles
     await MostrarJugadorsAsync();
-    Console.Write("ID a obtener: ");
+    Console.Write("ID del jugador a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
-
-    var existente = await _jugadorService.ObtenerJugadorPorIdAsync(id);
-    if (existente == null)
-    {
-      Console.WriteLine("Cuerpo medico no encontrado.");
-      Console.ReadLine();
-      return;
-    }
 
     var j = await _jugadorService.ObtenerJugadorPorIdAsync(id);
     if (j is null)
@@ -343,7 +319,7 @@ public class MenuJugador
   {
     // mostrar todos los jugadores disponibles
     await MostrarJugadorsAsync();
-    Console.Write("Nombre (o parte del nombre): ");
+    Console.Write("Escriba el nombre del jugador (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
 
     if (string.IsNullOrWhiteSpace(nombre))
@@ -357,18 +333,17 @@ public class MenuJugador
       Console.WriteLine("Cuerpo médico no encontrado.");
       return;
     }
-    Console.WriteLine($"Cuerpo Médico: ID={j.Id} | Nombre={j.Nombre} {j.Apellido} | Especialidad={j.Especialidad} | Años de experiencia={j.AniosExperiencia} | Nacionalidad={j.Nacionalidad} | Documento={j.DocumentoIdentidad}");
-    Console.ReadKey();
+    Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
   }
   public async Task RegistrarJugadoraEquipoAsync()
   {
     Console.Write("ID jugador: ");
-    int id_cuerpo_medico = validate_data.ValidarEntero(Console.ReadLine());
+    int id_jugador = validate_data.ValidarEntero(Console.ReadLine());
 
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _jugadorService.RegistrarJugadorEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _jugadorService.RegistrarJugadorAEquipoAsync(id_jugador, id_equipo);
     Console.WriteLine("Cuerpo medico registrado.");
   }
   public async Task EliminarJugadorDeEquipoAsync()
@@ -379,7 +354,7 @@ public class MenuJugador
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _jugadorService.EliminarJugadorEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _jugadorService.EliminarJugadorAEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico eliminado.");
   }
 }

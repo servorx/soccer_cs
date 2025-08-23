@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using soccer_cs.src.modules.jugador.domain.models;
 
 namespace soccer_cs.src.modules.jugador.application.interfaces;
+
 public interface IJugadorService
 {
   Task AgregarJugadorAsync(Jugador jugador);
@@ -13,4 +14,6 @@ public interface IJugadorService
   Task<IEnumerable<Jugador?>> MostrarJugadorsAsync();
   Task<Jugador?> ObtenerJugadorPorIdAsync(int id);
   Task<Jugador?> ObtenerJugadorPorNombreAsync(string nombre);
+  Task<Jugador?> RegistrarJugadorAEquipoAsync(int id_jugador, int id_equipo);
+  Task<Jugador?> EliminarJugadorAEquipoAsync(int id_jugador, int id_equipo);
 }

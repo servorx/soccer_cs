@@ -1,20 +1,14 @@
 
-using soccer_cs.src.modules.cuerpo_medico.application.interfaces;
 using soccer_cs.src.modules.estadistica_equipo.application.interfaces;
 using soccer_cs.src.modules.estadistica_equipo.domain.models;
 using soccer_cs.src.modules.estadistica_equipo.infrastructure.repositories;
-using soccer_cs.src.shared.context;
-using soccer_cs.src.shared.utils;
 
 namespace soccer_cs.src.modules.estadistica_equipo.application.services;
 
 public class EstadisticaEquipoService : IEstadisticaEquipoService
 {
   private readonly EstadisticaEquipoRepository _repo;
-  public EstadisticaEquipoService(EstadisticaEquipoRepository repo)
-  {
-    _repo = repo;
-  }
+  public EstadisticaEquipoService(EstadisticaEquipoRepository repo) => _repo = repo;
   public async Task AgregarEstadisticaEquipoAsync(EstadisticaEquipo estadisticaEquipo)
   {
     _repo.Add(estadisticaEquipo);
