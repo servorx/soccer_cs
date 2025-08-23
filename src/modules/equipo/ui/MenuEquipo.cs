@@ -1,20 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+
 using soccer.src.modules.equipo.domain.models;
 using soccer_cs.src.modules.cuerpo_medico.application.services;
 using soccer_cs.src.modules.cuerpo_tecnico.application.services;
-using soccer_cs.src.modules.cuerpo_tecnico.domain.models;
 using soccer_cs.src.modules.equipo.application.services;
 using soccer_cs.src.modules.equipo.infrastructure.repositories;
-using soccer_cs.src.modules.equipo_jugador.domain.models;
-using soccer_cs.src.modules.jugador.domain.models;
-using soccer_cs.src.modules.persona.domain.models;
+using soccer_cs.src.modules.jugador.application.services;
 using soccer_cs.src.modules.torneo.application.services;
 using soccer_cs.src.shared.context;
-using soccer_cs.src.shared.helpers;
 using soccer_cs.src.shared.utils;
 
 namespace soccer_cs.src.modules.equipo.ui;
@@ -27,6 +19,7 @@ public class MenuEquipo
   readonly CuerpoMedicoService _cuerpoMedicoService = null!;
   readonly CuerpoTecnicoService _cuerpoTecnicoService = null!;
   readonly TorneoService _torneoService = null!;
+  readonly JugadorService _jugadorService = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuEquipo(AppDbContext _context)
   {
@@ -148,13 +141,18 @@ public class MenuEquipo
         break;
       case 9:
         Console.Clear();
-        await InscribirEquipoaTorneoAsync();
+        await RegistrarJugadorEnEquipoAsync();
         break;
       case 10:
         Console.Clear();
-        await DesinscribirEquipoATorneoAsync();
+        await InscribirEquipoaTorneoAsync();
         break;
       case 11:
+        Console.Clear();
+        await DesinscribirEquipoATorneoAsync();
+        break;
+      case 12:
+      Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -416,6 +414,23 @@ public class MenuEquipo
 
     await _cuerpoTecnicoService.RegistrarCuerpoTecnicoEquipoAsync(id_equipo, id_cuerpo_tecnico);
     Console.WriteLine("Cuerpo tecnico registrado.");
+    Console.WriteLine("Presione una tecla para continuar...");
+    Console.ReadLine();
+  }
+  private async Task RegistrarJugadorEnEquipoAsync()
+  {
+    // mostrar todos los equipos disponibles
+    await MostrarEquiposAsync();
+    Console.Write("ID del equipo: ");
+    int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
+
+    // mostrar todos los jugadores disponibles
+    await _jugadorService.MostrarJugadorsAsync();
+    Console.Write("ingrese el ID del jugador a registrar: ");
+    int id_jugador = validate_data.ValidarEntero(Console.ReadLine());
+
+    await _jugadorService.RegistrarJugadorAEquipoAsync(id_equipo, id_jugador);
+    Console.WriteLine("Jugador registrado.");
     Console.WriteLine("Presione una tecla para continuar...");
     Console.ReadLine();
   }

@@ -15,16 +15,14 @@ public class MenuEstadisticaJugador
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
   // private readonly EstadisticaJugadorService _service = null!;
-  private readonly IEstadisticaJugadorService _EstadisticaJugadorService;
-  // esto es para la conexion con el servicio del repositorio
-  private readonly EstadisticaJugadorService _service;
+  private readonly EstadisticaJugadorService _estadisticaJugadorService;
   // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
-  private readonly MenuPersona _menuPersona;
+  private readonly MenuPersona _menuPersona = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuEstadisticaJugador(AppDbContext _context)
   {
     var repo = new EstadisticaJugadorRepository(_context);
-    _service = new EstadisticaJugadorService(repo);
+    _estadisticaJugadorService = new EstadisticaJugadorService(repo);
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
@@ -106,7 +104,7 @@ public class MenuEstadisticaJugador
     {
       case 0:
         Console.Clear();
-        await AgregarEstadisticaJugadorAsync();
+        await CrearEstadisticaJugadorAsync();
         break;
       case 1:
         Console.Clear();
@@ -122,9 +120,42 @@ public class MenuEstadisticaJugador
         break;
       case 4:
         Console.Clear();
-        await ObtenerEstadisticaJugadorPorIdAsync();
+        await BuscarEstadisticaJugadorPorIdAsync();
         break;
       case 5:
+        Console.Clear();
+        await BuscarEstadisticaJugadorPorNombreAsync();
+        break;
+      case 6:
+        Console.Clear();
+        await BuscarJugadoresConMasGolesAsync();
+        break;
+      case 7:
+        Console.Clear();
+        await BuscarJugadoresConMasPartidosAsync();
+        break;
+      case 8:
+        Console.Clear();
+        await BuscarJugadoresMasAltosAsync();
+        break;
+      case 9:
+        Console.Clear();
+        await BuscarJugadoresMenosPesadosAsync();
+        break;
+      case 10:
+        Console.Clear();
+        await BuscarJugadoresConMasTarjetasAmarillasAsync();
+        break;
+      case 11:
+        Console.Clear();
+        await BuscarJugadoresConMenosTarjetasRojasAsync();
+        break;
+      case 12:
+        Console.Clear();
+        await BuscarJugadoresEdadMayorPromedioEquipoAsync();
+        break;
+      case 13:
+        Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -134,12 +165,12 @@ public class MenuEstadisticaJugador
     }
     return true;
   }
-  private async Task AgregarEstadisticaJugadorAsync()
+  private async Task CrearEstadisticaJugadorAsync()
   {
     Console.Clear();
     Console.WriteLine("---- Registrar Estadistica Jugador ----");
     // primero mostrar los jugadores existentes para escoger uno al que se le van a agregar las estadisticas
-    var jugadores = await _EstadisticaJugadorService.VerTodasAsync();
+    var jugadores = await _estadisticaJugadorService.VerTodasAsync();
     if (!jugadores.Any())
     {
       Console.WriteLine("No hay jugadores registrados.");
@@ -188,7 +219,7 @@ public class MenuEstadisticaJugador
       IdJugador = id_jugador,
     };
     // guardar la estadistica de jugador
-    await _service.AgregarEstadisticaJugadorAsync(estadistica);
+    await _estadisticaJugadorService.AgregarEstadisticaJugadorAsync(estadistica);
     Console.WriteLine("Estadistica de jugador creada.");
     Console.ReadLine();
   }
@@ -198,7 +229,7 @@ public class MenuEstadisticaJugador
     Console.Write("ID de la estadistica a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.VerPorIdAsync(id);
+    var existente = await _estadisticaJugadorService.VerPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Estadistica de jugador no encontrada.");
@@ -261,7 +292,7 @@ public class MenuEstadisticaJugador
 
     if (confirmacion)
     {
-      await _service.ActualizarEstadisticaJugadorAsync(id, existente);
+      await _estadisticaJugadorService.ActualizarEstadisticaJugadorAsync(id, existente);
       Console.WriteLine("Estaditica de jugador actualizado.");
       Console.ReadLine();
     }
@@ -276,7 +307,7 @@ public class MenuEstadisticaJugador
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.VerPorIdAsync(id);
+    var existente = await _estadisticaJugadorService.VerPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo medico no encontrado.");
@@ -284,12 +315,12 @@ public class MenuEstadisticaJugador
       return;
     }
 
-    await _service.EliminarEstadisticaJugadorAsync(id);
+    await _estadisticaJugadorService.EliminarEstadisticaJugadorAsync(id);
     Console.WriteLine("🗑️ Estadistica de jugador eliminada.");
   }
   private async Task MostrarEstadisticaJugadorsAsync()
   {
-    var estadisticaJugadors = await _service.VerTodasAsync();
+    var estadisticaJugadors = await _estadisticaJugadorService.VerTodasAsync();
     if (!estadisticaJugadors.Any())
     {
       Console.WriteLine("No hay estadisticas registradas.");
@@ -303,12 +334,12 @@ public class MenuEstadisticaJugador
       Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
     }
   }
-  private async Task ObtenerEstadisticaJugadorPorIdAsync()
+  private async Task BuscarEstadisticaJugadorPorIdAsync()
   {
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var ej = await _service.VerPorIdAsync(id);
+    var ej = await _estadisticaJugadorService.VerPorIdAsync(id);
     if (ej is null)
     {
       Console.WriteLine("Estadistica de jugador no encontrado.");
@@ -317,7 +348,7 @@ public class MenuEstadisticaJugador
 
     Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
   }
-  private async Task ObtenerEstadisticaJugadorPorNombreAsync()
+  private async Task BuscarEstadisticaJugadorPorNombreAsync()
   {
     Console.Write("Nombre (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
@@ -327,7 +358,7 @@ public class MenuEstadisticaJugador
       Console.WriteLine("Nombre inválido.");
       return;
     }
-    var ej = await _service.VerPorNombreAsync(nombre);
+    var ej = await _estadisticaJugadorService.VerPorNombreAsync(nombre);
     if (ej is null)
     {
       Console.WriteLine("Estadistica de jugador no encontrado.");
@@ -335,9 +366,9 @@ public class MenuEstadisticaJugador
     }
     Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
   }
-  private async Task ObtenerJugadoresConMasGolesAsync()
+  private async Task BuscarJugadoresConMasGolesAsync()
   {
-    var jugadoresConMasGoles = await _service.JugadoresConMasGolesAsync();
+    var jugadoresConMasGoles = await _estadisticaJugadorService.JugadoresConMasGolesAsync();
     if (!jugadoresConMasGoles.Any())
     {
       Console.WriteLine("No hay jugadores con mas goles registrados.");
@@ -351,18 +382,18 @@ public class MenuEstadisticaJugador
       Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
     }
   }
-  private async Task ObtenerJugadoresConMasPartidosAsync()
+  private async Task BuscarJugadoresConMasPartidosAsync()
   {
-    var jugadoresConMasPartidos = await _service.JugadoresConMasPartidosAsync();
+    var jugadoresConMasPartidos = await _estadisticaJugadorService.JugadoresConMasPartidosAsync();
     if (!jugadoresConMasPartidos.Any())
     {
       Console.WriteLine("No hay jugadores con mas partidos registrados.");
       return;
     }
   }
-  private async Task ObtenerJugadoresMasAltosAsync()
+  private async Task BuscarJugadoresMasAltosAsync()
   {
-    var jugadoresMasAltos = await _service.JugadoresMasAltosAsync();
+    var jugadoresMasAltos = await _estadisticaJugadorService.JugadoresMasAltosAsync();
     if (!jugadoresMasAltos.Any())
     {
       Console.WriteLine("No hay jugadores con mas altos estaturas registrados.");
@@ -376,9 +407,9 @@ public class MenuEstadisticaJugador
       Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
     }
   }
-  private async Task ObtenerJugadoresMenosPesadosAsync()
+  private async Task BuscarJugadoresMenosPesadosAsync()
   {
-    var jugadoresMenosPesados = await _service.JugadoresMenosPesadosAsync();
+    var jugadoresMenosPesados = await _estadisticaJugadorService.JugadoresMenosPesadosAsync();
     if (!jugadoresMenosPesados.Any())
     {
       Console.WriteLine("No hay jugadores con menos pesados registrados.");
@@ -392,9 +423,9 @@ public class MenuEstadisticaJugador
       Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
     }
   }
-  private async Task ObtenerJugadoresConMasTarjetasAmarillasAsync()
+  private async Task BuscarJugadoresConMasTarjetasAmarillasAsync()
   {
-    var jugadoresConMasTarjetasAmarillas = await _service.JugadoresConMasTarjetasAmarillasAsync();
+    var jugadoresConMasTarjetasAmarillas = await _estadisticaJugadorService.JugadoresConMasTarjetasAmarillasAsync();
     if (!jugadoresConMasTarjetasAmarillas.Any())
     {
       Console.WriteLine("No hay jugadores con mas tarjetas amarillas registrados.");
@@ -408,9 +439,9 @@ public class MenuEstadisticaJugador
       Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
     }
   }
-  private async Task ObtenerJugadoresConMenosTarjetasRojasAsync()
+  private async Task BuscarJugadoresConMenosTarjetasRojasAsync()
   {
-    var jugadoresConMenosTarjetasRojas = await _service.JugadoresConMenosTarjetasRojasAsync();
+    var jugadoresConMenosTarjetasRojas = await _estadisticaJugadorService.JugadoresConMenosTarjetasRojasAsync();
     if (!jugadoresConMenosTarjetasRojas.Any())
     {
       Console.WriteLine("No hay jugadores con menos tarjetas rojas registrados.");
@@ -424,12 +455,12 @@ public class MenuEstadisticaJugador
       Console.WriteLine($"ID: {ej.Id} | Nombre: {ej.Jugador?.Persona.Nombre} {ej.Jugador?.Persona.Apellido} | Edad: {ej.Jugador?.Persona.Edad} | Nacionalidad: {ej.Jugador?.Persona.Nacionalidad} | Goles {ej.Goles} | Asistencias {ej.Asistencias} | Partidos Jugados {ej.PartidosJugados} | Estatura {ej.Estatura} | Peso {ej.Peso} | Tarjetas Amarillas {ej.TarjetasAmarillas} | Tarjetas Rojas {ej.TarjetasRojas}\n");
     }
   }
-  private async Task ObtenerJugadoresEdadMayorPromedioEquipoAsync()
+  private async Task BuscarJugadoresEdadMayorPromedioEquipoAsync()
   { 
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    var jugadoresEdadMayorPromedioEquipo = await _service.JugadoresEdadMayorPromedioEquipoAsync(id_equipo);
+    var jugadoresEdadMayorPromedioEquipo = await _estadisticaJugadorService.JugadoresEdadMayorPromedioEquipoAsync(id_equipo);
     if (!jugadoresEdadMayorPromedioEquipo.Any())
     {
       Console.WriteLine("No hay jugadores con edad mayor a promedio registrados.");

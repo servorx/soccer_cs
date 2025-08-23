@@ -21,15 +21,14 @@ public class MenuCuerpoMedico
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
   // private readonly CuerpoMedicoService _service = null!;
-  private readonly ICuerpoMedicoService _cuerpoMedicoService = null!;
-  private readonly CuerpoMedicoService _service;
+  private readonly CuerpoMedicoService _cuerpoMedicoService = null!;
   // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
   private readonly MenuPersona _menuPersona = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuCuerpoMedico(AppDbContext _context)
   {
     var repo = new CuerpoMedicoRepository(_context);
-    _service = new CuerpoMedicoService(repo);
+    _cuerpoMedicoService = new CuerpoMedicoService(repo);
   }
     // se declara la variable que se va a utilizar para el menu principal
     private int opcionSeleccionada = 0;
@@ -108,7 +107,7 @@ public class MenuCuerpoMedico
     {
       case 0:
         Console.Clear();
-        await AgregarCuerpoMedicoAsync();
+        await CrearCuerpoMedicoAsync();
         break;
       case 1:
         Console.Clear();
@@ -120,15 +119,15 @@ public class MenuCuerpoMedico
         break;
       case 3:
         Console.Clear();
-        await MostrarCuerpoMedicosAsync();
+        await MostrarTodosLosCuerposMedicosAsync();
         break;
       case 4:
         Console.Clear();
-        await ObtenerCuerpoMedicoPorIdAsync();
+        await BuscarCuerpoMedicoPorIdAsync();
         break;
       case 5:
         Console.Clear();
-        await ObtenerCuerpoMedicoPorNombreAsync();
+        await BuscarCuerpoMedicoPorNombreAsync();
         break;
       case 6:
         Console.Clear();
@@ -139,6 +138,7 @@ public class MenuCuerpoMedico
         await EliminarCuerpoMedicoDeEquipoAsync();
         break;
       case 8:
+        Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -148,7 +148,7 @@ public class MenuCuerpoMedico
     }
     return true;
   }
-  private async Task AgregarCuerpoMedicoAsync()
+  private async Task CrearCuerpoMedicoAsync()
   {
     Console.Clear();
     Console.WriteLine("---- Registrar Cuerpo Medico ----");
@@ -177,7 +177,7 @@ public class MenuCuerpoMedico
       Especialidad = especialidad.Trim(),
       AniosExperiencia = aniosExperiencia
     };
-    await _service.AgregarCuerpoMedicoAsync(cuerpo_medico);
+    await _cuerpoMedicoService.AgregarCuerpoMedicoAsync(cuerpo_medico);
     Console.WriteLine("Cuerpo Medico creado.");
     Console.ReadLine();
   }
@@ -186,7 +186,7 @@ public class MenuCuerpoMedico
     Console.Write("ID del cuerpo medico a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var existente = await _cuerpoMedicoService.ObtenerCuerpoMedicoPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo medico no encontrado.");
@@ -250,7 +250,7 @@ public class MenuCuerpoMedico
 
     if (confirmacion)
     {
-      await _service.ActualizarCuerpoMedicoAsync(id, existente);
+      await _cuerpoMedicoService.ActualizarCuerpoMedicoAsync(id, existente);
       Console.WriteLine("Cuerpo medico actualizado.");
       Console.ReadLine();
     }
@@ -265,7 +265,7 @@ public class MenuCuerpoMedico
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var existente = await _cuerpoMedicoService.ObtenerCuerpoMedicoPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo medico no encontrado.");
@@ -273,12 +273,12 @@ public class MenuCuerpoMedico
       return;
     }
 
-    await _service.EliminarCuerpoMedicoAsync(id);
+    await _cuerpoMedicoService.EliminarCuerpoMedicoAsync(id);
     Console.WriteLine("🗑️ Cuerpo medico eliminado.");
   }
-  private async Task MostrarCuerpoMedicosAsync()
+  private async Task MostrarTodosLosCuerposMedicosAsync()
   {
-    var cuerpo_medico = await _service.MostrarCuerpoMedicosAsync();
+    var cuerpo_medico = await _cuerpoMedicoService.MostrarCuerpoMedicosAsync();
     if (!cuerpo_medico.Any())
     {
       Console.WriteLine("No hay países registrados.");
@@ -292,12 +292,12 @@ public class MenuCuerpoMedico
       Console.WriteLine($"ID: {cm.IdPersona} | Nombre: {cm.Persona.Nombre} | Especialidad: {cm.Especialidad} | Años de experiencia: {cm.AniosExperiencia}");
     }
   }
-  private async Task ObtenerCuerpoMedicoPorIdAsync()
+  private async Task BuscarCuerpoMedicoPorIdAsync()
   {
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var existente = await _cuerpoMedicoService.ObtenerCuerpoMedicoPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Cuerpo medico no encontrado.");
@@ -305,7 +305,7 @@ public class MenuCuerpoMedico
       return;
     }
 
-    var cm = await _service.ObtenerCuerpoMedicoPorIdAsync(id);
+    var cm = await _cuerpoMedicoService.ObtenerCuerpoMedicoPorIdAsync(id);
     if (cm is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
@@ -314,7 +314,7 @@ public class MenuCuerpoMedico
 
     Console.WriteLine($"Cuerpo Médico: ID={cm.Id} | Nombre={cm.Persona.Nombre} {cm.Persona.Apellido} | Especialidad={cm.Especialidad} | Años de experiencia={cm.AniosExperiencia} | Nacionalidad={cm.Persona.Nacionalidad} | Documento={cm.Persona.DocumentoIdentidad}");
   }
-  private async Task ObtenerCuerpoMedicoPorNombreAsync()
+  private async Task BuscarCuerpoMedicoPorNombreAsync()
   {
     Console.Write("Nombre (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
@@ -324,7 +324,7 @@ public class MenuCuerpoMedico
       Console.WriteLine("Nombre inválido.");
       return;
     }
-    var cm = await _service.ObtenerCuerpoMedicoPorNombreAsync(nombre);
+    var cm = await _cuerpoMedicoService.ObtenerCuerpoMedicoPorNombreAsync(nombre);
     if (cm is null)
     {
       Console.WriteLine("Cuerpo médico no encontrado.");
@@ -341,7 +341,7 @@ public class MenuCuerpoMedico
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.RegistrarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _cuerpoMedicoService.RegistrarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico registrado.");
   }
   private async Task EliminarCuerpoMedicoDeEquipoAsync()
@@ -352,7 +352,7 @@ public class MenuCuerpoMedico
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    await _service.EliminarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
+    await _cuerpoMedicoService.EliminarCuerpoMedicoEquipoAsync(id_cuerpo_medico, id_equipo);
     Console.WriteLine("Cuerpo medico eliminado.");
   }
 }

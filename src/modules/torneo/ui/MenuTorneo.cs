@@ -42,7 +42,7 @@ public class MenuTorneo
   {
     Console.Clear();
     Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("========== MENÚ CUERPO MEDICO ==========\n");
+    Console.WriteLine("========== MENÚ TORNEO ==========\n");
     Console.ResetColor();
     // este ciclo se encarga de dibujar las opciones del menu principal de acuerdo a la opcion seleccioada, recorriendo el arreglo de opcionesMenu definidco previamente
     for (int i = 0; i < opcionesMenu.Length; i++)
@@ -128,6 +128,7 @@ public class MenuTorneo
         await EliminarEquipoATorneoAsync();
         break;
       case 8:
+        Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -171,7 +172,12 @@ public class MenuTorneo
     Console.WriteLine($"Premio: {premio_torneo}");
     Console.Write("¿Desea registrar el torneo con los datos introducidos? (S/N): ");
     var opcion = validate_data.ValidarBoleano(Console.ReadLine());
-    if (opcion == false) return;
+    if (opcion == false)
+    { 
+      Console.WriteLine("Registro cancelado.");
+      Console.ReadLine();
+      return;
+    }
 
     // se crea el nuevo torneo
     var torneo = new Torneo

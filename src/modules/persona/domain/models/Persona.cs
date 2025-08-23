@@ -14,11 +14,10 @@ public class Persona
   public string? Nacionalidad { get; set; }
   public int DocumentoIdentidad { get; set; }
   public string? Genero { get; set; }
-  // TODO: revisar la parte de las relaciones a pesar de que herede de persona ya que es una relacion de uno a uno
   // Persona se relaciona con CuerpoMedico, CuerpoTecnico y jugadores
-  public CuerpoMedico? CuerpoMedico { get; set; }
-  public CuerpoTecnico? CuerpoTecnico { get; set; }
-  public Jugador? Jugador { get; set; }
+  public CuerpoMedico CuerpoMedico { get; set; } = null!;
+  public CuerpoTecnico CuerpoTecnico { get; set; } = null!;
+  public Jugador Jugador { get; set; } = null!;
   // define el constructor de la clase Persona para poder declararla como subclase de CuerpoMedico y otras clases
   public Persona(string? nombre, string? apellido, int edad, string? nacionalidad, int documento_identidad, string? genero)
   {

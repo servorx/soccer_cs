@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using soccer.src.modules.equipo.domain.models;
 using soccer_cs.src.modules.domain.models;
+using soccer_cs.src.modules.equipo.application.services;
 using soccer_cs.src.modules.infrastructure.repositories;
+using soccer_cs.src.modules.jugador.application.services;
+using soccer_cs.src.modules.jugador.domain.models;
 using soccer_cs.src.modules.transferencia.application.services;
 using soccer_cs.src.shared.context;
 using soccer_cs.src.shared.utils;
@@ -14,25 +18,27 @@ public class MenuTransferencia
 {
   private readonly Validaciones validate_data = new Validaciones();
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
-  // private readonly TransferenciaService _service = null!;
-  private readonly TransferenciaService _service;
+  private readonly TransferenciaService _transferenciaService = null!;
+  private readonly JugadorService _jugadorService = null!;
+  private readonly EquipoService _equipoService = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuTransferencia(AppDbContext _context)
-  { 
+  {
     var repo = new TransferenciaRepository(_context);
-    _service = new TransferenciaService(repo);
+    _transferenciaService = new TransferenciaService(repo);
   }
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
   // se declara un arreglo de strings que contiene las opciones del menu principal
   private readonly string[] opcionesMenu =
   {
-    "Realizar transferencia",
+    "Crear transferencia",
     "Actualizar transferencia",
     "Eliminar transferencia",
-    "Ver historial de todas las trasnferencias",
-    "Ver historial de transferencias por jugador",
-    "Ver historial de transferencias por equipo",
+    "Mostrar el historial de todas las transferencias",
+    "Buscar historial de transferencias por jugador",
+    "Buscar historial de transferencias por equipo",
+    "Buscar historial de transferenicas por id",
     "Regresar al menu principal"
   };
   // este es el metodo del menu principal en la consola con las flechas de arriba y abajo
@@ -95,7 +101,7 @@ public class MenuTransferencia
     {
       case 0:
         Console.Clear();
-        await RealizarTransferenciaAsync();
+        await CrearTransferenciaAsync();
         break;
       case 1:
         Console.Clear();
@@ -107,21 +113,22 @@ public class MenuTransferencia
         break;
       case 3:
         Console.Clear();
-        await VerTodoTransferenciaAsync();
+        await MostrarTodasLasTransferenciasAsync();
         break;
       case 4:
         Console.Clear();
-        await VerHistorialTransferenciaPorJugadorAsync();
+        await BuscarTransferenciaPorJugadorAsync();
         break;
       case 5:
         Console.Clear();
-        await VerHistorialTransferenciaPorEquipoAsync();
+        await BuscarTransferenciaPorEquipoAsync();
         break;
       case 6:
         Console.Clear();
         await ObtenerTransferenciaPorIdAsync();
         break;
       case 7:
+        Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -131,13 +138,20 @@ public class MenuTransferencia
     }
     return true;
   }
-  private async Task RealizarTransferenciaAsync()
+  private async Task CrearTransferenciaAsync()
   {
     Console.Clear();
     Console.WriteLine("---- Registrar Transferencia ----");
+    Console.ReadLine();
+    // mostrar los jugadores disponibles para que el usuario elija
+    await _jugadorService.MostrarJugadorsAsync();
     Console.Write("Jugador ID: ");
     int id_jugador = validate_data.ValidarEntero(Console.ReadLine());
 
+    Console.WriteLine("Presione enter para continurar: ");
+    Console.ReadLine();
+    // mostrar los equipos disponibles para que el usuario elija
+    await _equipoService.MostrarEquiposAsync();
     Console.Write("Equipo origen ID: ");
     int id_equipo_origen = validate_data.ValidarEntero(Console.ReadLine());
 
@@ -161,7 +175,7 @@ public class MenuTransferencia
 
     if (confirmacion)
     {
-      await _service.RealizarTransferenciaAsync(id_jugador, id_equipo_origen, id_equipo_destino, tipo_transferencia, valor_transferencia, fecha_transferencia);
+      await _transferenciaService.RealizarTransferenciaAsync(id_jugador, id_equipo_origen, id_equipo_destino, tipo_transferencia, valor_transferencia, fecha_transferencia);
       Console.WriteLine("Transferencia creada.");
       Console.ReadLine();
     }
@@ -176,7 +190,7 @@ public class MenuTransferencia
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerTransferenciaPorIdAsync(id);
+    var existente = await _transferenciaService.ObtenerTransferenciaPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Transferencia no encontrado.");
@@ -222,7 +236,7 @@ public class MenuTransferencia
 
     if (confirmacion)
     {
-      await _service.ActualizarTransferenciaAsync(id, existente);
+      await _transferenciaService.ActualizarTransferenciaAsync(id, existente);
       Console.WriteLine("Transferencia Actualizada."); 
       Console.ReadLine();
     }
@@ -237,7 +251,7 @@ public class MenuTransferencia
     Console.Write("ID a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerTransferenciaPorIdAsync(id);
+    var existente = await _transferenciaService.ObtenerTransferenciaPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Transferencia no encontrado.");
@@ -245,12 +259,12 @@ public class MenuTransferencia
       return;
     }
 
-    await _service.EliminarTransferenciaAsync(id);
+    await _transferenciaService.EliminarTransferenciaAsync(id);
     Console.WriteLine("🗑️ Transferencia eliminado.");
   }
-  private async Task VerTodoTransferenciaAsync()
+  private async Task MostrarTodasLasTransferenciasAsync()
   {
-    var transferencias = await _service.VerTodoTransferenciaAsync();
+    var transferencias = await _transferenciaService.VerTodoTransferenciaAsync();
     if (!transferencias.Any())
     {
       Console.WriteLine("No hay transferencias registradas."); 
@@ -264,12 +278,12 @@ public class MenuTransferencia
       Console.WriteLine($"ID: {t.Id} | Tipo de transferencia: {t.TipoTransferencia} | Valor de transferencia: {t.ValorTransferencia:C} | Fecha de transferencia: {t.FechaTransferencia.ToShortDateString()} | Equipo origen: {t.IdEquipoOrigen} | Equipo destino: {t.IdEquipoDestino}");
     }
   }
-  private async Task VerHistorialTransferenciaPorJugadorAsync()
+  private async Task BuscarTransferenciaPorJugadorAsync()
   { 
     Console.Write("ID jugador: ");
     int id_jugador = validate_data.ValidarEntero(Console.ReadLine());
 
-    var Historial = await _service.VerHistorialTransferenciaPorJugadorAsync(id_jugador);
+    var Historial = await _transferenciaService.VerHistorialTransferenciaPorJugadorAsync(id_jugador);
     if (!Historial.Any())
     {
       Console.WriteLine("No hay transferencias registradas.");
@@ -283,12 +297,12 @@ public class MenuTransferencia
       Console.WriteLine($"ID: {t.Id} | Tipo de transferencia: {t.TipoTransferencia} | Valor de transferencia: {t.ValorTransferencia:C} | Fecha de transferencia: {t.FechaTransferencia.ToShortDateString()} | Equipo origen: {t.IdEquipoOrigen} | Equipo destino: {t.IdEquipoDestino}");
     }
   }
-  private async Task VerHistorialTransferenciaPorEquipoAsync()
+  private async Task BuscarTransferenciaPorEquipoAsync()
   {
     Console.Write("ID equipo: ");
     int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
-    var Historial = await _service.VerHistorialTransferenciaPorEquipoAsync(id_equipo);
+    var Historial = await _transferenciaService.VerHistorialTransferenciaPorEquipoAsync(id_equipo);
     if (!Historial.Any())
     {
       Console.WriteLine("No hay transferencias registradas.");
@@ -307,7 +321,7 @@ public class MenuTransferencia
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
-    var existente = await _service.ObtenerTransferenciaPorIdAsync(id);
+    var existente = await _transferenciaService.ObtenerTransferenciaPorIdAsync(id);
     if (existente == null)
     {
       Console.WriteLine("Transferencia no encontrada.");
@@ -315,7 +329,7 @@ public class MenuTransferencia
       return;
     }
 
-    var t = await _service.ObtenerTransferenciaPorIdAsync(id);
+    var t = await _transferenciaService.ObtenerTransferenciaPorIdAsync(id);
     if (t is null)
     {
       Console.WriteLine("Transferencia no encontrado.");

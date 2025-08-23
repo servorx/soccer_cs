@@ -16,7 +16,7 @@ public class MenuEstadisticaEquipo
   // esto con el fin de que se pueda acceder a la clase de servicio de cuerpo medico
   // private readonly EstadisticaEquipoService _service = null!;
   private readonly EstadisticaEquipoService _estadisticaEquipoService;
-  private readonly EquipoService _equipoService; 
+  private readonly EquipoService _equipoService = null!; 
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuEstadisticaEquipo(AppDbContext _context)
   {
@@ -95,7 +95,7 @@ public class MenuEstadisticaEquipo
     {
       case 0:
         Console.Clear();
-        await AgregarEstadisticaEquipoAsync();
+        await CrearEstadisticaEquipoAsync();
         break;
       case 1:
         Console.Clear();
@@ -107,13 +107,14 @@ public class MenuEstadisticaEquipo
         break;
       case 3:
         Console.Clear();
-        await MostrarEstadisticaEquiposAsync();
+        await MostrarTodasLasEstadisticasEquiposAsync();
         break;
       case 4:
         Console.Clear();
-        await ObtenerEstadisticaEquipoPorIdAsync();
+        await BuscarEstadisticaEquipoPorIdAsync();
         break;
       case 5:
+        Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -123,14 +124,14 @@ public class MenuEstadisticaEquipo
     }
     return true;
   }
-  private async Task AgregarEstadisticaEquipoAsync()
+  private async Task CrearEstadisticaEquipoAsync()
   {
     Console.Clear();
     Console.WriteLine("---- Registrar Estadistica Equipo ----");
     // primero mostrar los jugadores existentes para escoger uno al que se le van a agregar las estadisticas
     await _equipoService.MostrarEquiposAsync();
     Console.Write("Escoja el id de un Equipo: ");
-    int id_jugador = validate_data.ValidarEntero(Console.ReadLine());
+    int id_equipo = validate_data.ValidarEntero(Console.ReadLine());
 
     Console.WriteLine("Partidos jugados del equipo: ");
     int partidos_jugados = validate_data.ValidarEntero(Console.ReadLine());
@@ -153,6 +154,7 @@ public class MenuEstadisticaEquipo
     // crear la estadistica de equipo
     var estadistica = new EstadisticaEquipo
     {
+      IdEquipo = id_equipo,
       PartidosJugados = partidos_jugados,
       PartidosGanados = partidos_ganados,
       PartidosEmpatados = partidos_empatados,
@@ -293,7 +295,7 @@ public class MenuEstadisticaEquipo
     await _estadisticaEquipoService.EliminarEstadisticaEquipoAsync(id_estadistica);
     Console.WriteLine("🗑️ Estadistica de jugador eliminada.");
   }
-  private async Task MostrarEstadisticaEquiposAsync()
+  private async Task MostrarTodasLasEstadisticasEquiposAsync()
   {
     var estadisticas_equipos = await _estadisticaEquipoService.MostrarEstadisticaEquiposAsync();
     if (!estadisticas_equipos.Any())
@@ -308,7 +310,7 @@ public class MenuEstadisticaEquipo
       Console.WriteLine($"ID: {ej.Id} | Partidos ganados {ej.PartidosGanados} | Partidos empatados {ej.PartidosEmpatados} | Partidos perdidos {ej.PartidosPerdidos} | Goles a favor {ej.GolesAFavor} | Goles en contra {ej.GolesEnContra} | Fecha de creacion: {ej.FechaCreacion}\n"); 
     }
   }
-  private async Task ObtenerEstadisticaEquipoPorIdAsync()
+  private async Task BuscarEstadisticaEquipoPorIdAsync()
   {
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());

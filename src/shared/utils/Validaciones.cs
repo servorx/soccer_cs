@@ -9,43 +9,82 @@ public class Validaciones
 {
   public string ValidarTexto(string? text)
   {
-    // TODO: hacer que esto sea un condicionales porque si es un bucle se ejecuta constantemente el error de  
-    while (string.IsNullOrWhiteSpace(text))
+    do
     {
-      Console.WriteLine("error al ingresar un texto vacio, presione una tecla para continuar");
-      text = Console.ReadLine();
-    }
-    // el trim sirve para quitar todos los caracteres de espacio en blanco iniciales y finales de la cadena actual, sirve para arreglar errores mios como copiar "hola " en lugar de "hola"
+      if (string.IsNullOrWhiteSpace(text))
+      {
+        Console.WriteLine("Error al ingresar un texto vacío. Presione una tecla para continuar...");
+        Console.Write("Ingrese de nuevo el valor solicitado: "); 
+        text = Console.ReadLine();
+      }
+      else
+      {
+        break; // si es válido, sale del ciclo
+      }
+    } while (true);
     return text.Trim();
   }
   public int ValidarEntero(string? num)
   {
     int resultado = 0;
-    while (!int.TryParse(num, out resultado))
+    do
     {
-      Console.WriteLine("error al tratar de ingresar un valor entero");
-      num = Console.ReadLine();
-    }
+      if (!int.TryParse(num, out resultado))
+      {
+        Console.WriteLine("Error al tratar de ingresar un valor entero. Presione una tecla para continuar...");
+        // pausa hasta que el usuario presione una tecla
+        Console.ReadKey(); 
+        Console.Write("Ingrese de nuevo el valor solicitado: "); 
+        num = Console.ReadLine();
+      }
+      else
+      {
+        break; // si es válido, salimos
+      }
+    } while (true);
+
     return resultado;
   }
   public decimal ValidarDecimal(string? valor_decimal)
   {
-    decimal resultado;
-    while (!decimal.TryParse(valor_decimal, out resultado))
+    decimal resultado = 0;
+    do
     {
-      Console.WriteLine("error al tratar de ingresar un valor decimal valido");
-      valor_decimal = Console.ReadLine();
-    }
+      if (!decimal.TryParse(valor_decimal, out resultado))
+      {
+        Console.WriteLine("Error al tratar de ingresar un valor decimal. Presione una tecla para continuar...");
+        // pausa hasta que el usuario presione una tecla
+        Console.ReadKey(); 
+        Console.Write("Ingrese de nuevo el valor solicitado: "); 
+        valor_decimal = Console.ReadLine();
+      }
+      else
+      {
+        break; // si es válido, salimos
+      }
+    } while (true);
+
     return resultado;
   }
   public float ValidarFloat(string? valor_float)
   {
-    float resultado;
-    while (!float.TryParse(valor_float, out resultado))
+    float resultado = 0;
+    do
     {
-      Console.WriteLine("error al tratar de ingresar un valor float valido");
-      valor_float = Console.ReadLine();
-    }
+      if (!float.TryParse(valor_float, out resultado))
+      {
+        Console.WriteLine("Error al tratar de ingresar un valor float. Presione una tecla para continuar...");
+        // pausa hasta que el usuario presione una tecla
+        Console.ReadKey(); 
+        Console.Write("Ingrese de nuevo el valor solicitado: "); 
+        valor_float = Console.ReadLine();
+      }
+      else
+      {
+        break; // si es válido, salimos
+      }
+    } while (true);
+
     return resultado;
   }
   public bool ValidarBoleano(string? boleano)
@@ -73,12 +112,20 @@ public class Validaciones
   }
   public DateTime ValidarFecha(string? fecha)
   {
+    // esta validacion se hace con el fin de que el usuario ingrese una fecha en formato validado, y pueda tener varias opcione sde ingreso de datos usando el System.Globalization  
     DateTime resultado;
-    while (!DateTime.TryParse(fecha, out resultado))
+    // lista de formatos aceptados
+    string[] formatos = { "dd/MM/yyyy", "d/M/yyyy", "yyyy-MM-dd", "dd-MM-yyyy" };
+
+    while (!DateTime.TryParseExact(fecha, formatos, 
+                                  System.Globalization.CultureInfo.InvariantCulture,
+                                  System.Globalization.DateTimeStyles.None,
+                                  out resultado))
     {
-      Console.WriteLine("error al tratar de ingresar una fecha valida");
+      Console.WriteLine("⚠️ Error: ingrese una fecha válida en formato (ej: 19/08/2025 o 19-08-2025).");
       fecha = Console.ReadLine();
     }
+
     return resultado;
   }
 }

@@ -190,219 +190,206 @@ Cada sección cuenta con su respectivo submenú con acciones CRUD y específicas
 
 ## 🧱 Estructura General del Proyecto
 
-```code
-/soccer_cs/
-│
-├── Program.cs
-├── soccer_csharp.csproj
-├── soccer_csharp.sln
-├── README.md
-├── appsettings.json
-├── .gitignore
-│
-├── src/                        
+├── .git/ 🚫 (auto-hidden)
+├── bin/ 🚫 (auto-hidden)
+├── obj/ 🚫 (auto-hidden)
+├── src/
 │   ├── modules/
-|   │   ├── cuerpo_medico/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── ICuerpoMedicoRepository.cs
-|   |   |   |   │   └── ICuerpoMedicoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── CuerpoMedicoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── CuerpoMedico.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └──  repositories/
-|   |   |   |       └── CuerpoMedicoRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuCuerpoMedico.cs 
-|   |
-|   │   ├── cuerpo_tecnico/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── ICuerpoTecnicoRepository.cs
-|   |   |   |   │   └── ICuerpoTecnicoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── CuerpoTecnicoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── CuerpoTecnico.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   |       └── CuerpoTecnicoRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuCuerpoTecnico.cs 
-|   |
-|   │   ├── equipo/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IEquipoRepository.cs
-|   |   |   |   │   └── IEquipoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── EquipoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── Equipo.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── EquipoRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuEquipo.cs  
-|   |
-|   │   ├── equipo_jugador/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IEquipoJugadorRepository.cs
-|   |   |   |   │   └── IEquipoJugadorService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── EquipoJugadorService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── EquipoJugador.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── EquipoJugadorRepository.cs
-|   |
-|   │   ├── estadistica_equipo/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IEstadisticaEquipoRepository.cs
-|   |   |   |   │   └── IEstadisticaEquipoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── EstadisticaEquipoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── EstadisticaEquipo.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── EstadisticaEquipoRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuEstadisticaEquipo.cs 
-|   |
-|   │   ├── estadistica_jugador/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IEstadisticaJugadorRepository.cs
-|   |   |   |   │   └── IEstadisticaJugadorService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── EstadisticaJugadorService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── EstadisticaJugador.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── EstadisticaJugadorRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuEstadisticaJugador.cs 
-|   |
-|   │   ├── jugador/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IJugadorRepository.cs
-|   |   |   |   │   └── IJugadorService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── JugadorService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── Jugador.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── JugadorRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuJugador.cs 
-|   |
-|   │   ├── persona/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── IPersonaRepository.cs
-|   |   |   |   │   └── IPersonaService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── PersonaService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── Persona.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── PersonaRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuPersona.cs 
-|   |
-|   │   ├── torneo/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── ITorneoRepository.cs
-|   |   |   |   │   └── ITorneoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── TorneoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── Torneo.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── TorneoRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuTorneo.cs 
-|   |
-|   │   ├── torneo_equipo/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── ITorneoEquipoRepository.cs
-|   |   |   |   │   └── ITorneoEquipoService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── TorneoEquipoService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── TorneoEquipo.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── TorneoEquipoRepository.cs
-|   |   
-|   │   ├── transferencia/
-|   │   │   ├── application/
-|   |   |   |   ├── interfaces/
-|   |   |   |   |   ├── ITransferenciaRepository.cs
-|   |   |   |   │   └── ITransferenciaService.cs
-|   |   |   |   └── services/
-|   |   |   |       └── TransferenciaService.cs
-|   │   │   ├── domain/
-|   |   |   |   └── models/
-|   │   │   |       └── Transferencia.cs
-|   │   │   ├── instrastructure/
-│   |   |   |   └── repositories/
-|   │   │   │       └── TransferenciaRepository.cs
-|   |   |   ├── ui/       
-|   |   |       └── MenuNotificacion.cs 
-|
+│   │   ├── cuerpo_medico/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── ICuerpoMedicoRepository.cs
+│   │   │   │   │   └── ICuerpoMedicoService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── CuerpoMedicoService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── CuerpoMedico.cs
+│   │   │   ├── infrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── CuerpoMedicoRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuCuerpoMedico.cs
+│   │   ├── cuerpo_tecnico/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── ICuerpoTecnicoRepository.cs
+│   │   │   │   │   └── ICuerpoTecnicoService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── CuerpoTecnicoService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── CuerpoTecnico.cs
+│   │   │   ├── insfrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── CuerpoTecnicoRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuCuerpoTecnico.cs
+│   │   ├── equipo/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── IEquipoRepository.cs
+│   │   │   │   │   └── IEquipoService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── EquipoService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── Equipo.cs
+│   │   │   ├── insfrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── EquipoRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuEquipo.cs
+│   │   ├── equipo_jugador/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── IEquipoJugadorRepository.cs
+│   │   │   │   │   └── IEquipoJugadorService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── EquipoJugadorService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── EquipoJugador.cs
+│   │   │   └── infrastructure/
+│   │   │       └── repositories/
+│   │   │           └── EquipoJugadorRepository.cs
+│   │   ├── estadistica_equipo/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── IEstadisticaEquipoRepository.cs
+│   │   │   │   │   └── IEstadisticaEquipoService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── EstadisticaEquipoService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── EstadisticaEquipo.cs
+│   │   │   ├── infrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── EstadisticaEquipoRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuEstadisticaEquipo.cs
+│   │   ├── estadistica_jugador/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── IEstadisticaJugadorRepository.cs
+│   │   │   │   │   └── IEstadisticaJugadorService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── EstadisticaJugadorService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── EstadisticaJugador.cs
+│   │   │   ├── infrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── EstadisticaJugadorRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuEstadisticaJugador.cs
+│   │   ├── jugador/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── IJugadorRepository.cs
+│   │   │   │   │   └── IJugadorService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── JugadorService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── Jugador.cs
+│   │   │   ├── infrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── JugadorRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuJugador.cs
+│   │   ├── persona/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── IPersonaRepository.cs
+│   │   │   │   │   └── IPersonaService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── PersonaService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── Persona.cs
+│   │   │   ├── infrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── PersonaRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuPersona.cs
+│   │   ├── torneo/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── ITorneoRepository.cs
+│   │   │   │   │   └── ITorneoService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── TorneoService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── Torneo.cs
+│   │   │   ├── infrastructure/
+│   │   │   │   └── repositories/
+│   │   │   │       └── TorneoRepository.cs
+│   │   │   └── ui/
+│   │   │       └── MenuTorneo.cs
+│   │   ├── torneo_equipo/
+│   │   │   ├── application/
+│   │   │   │   ├── interfaces/
+│   │   │   │   │   ├── ITorneoEquipoRepository.cs
+│   │   │   │   │   └── ITorneoEquipoService.cs
+│   │   │   │   └── services/
+│   │   │   │       └── TorneoEquipoService.cs
+│   │   │   ├── domain/
+│   │   │   │   └── models/
+│   │   │   │       └── TorneoEquipo.cs
+│   │   │   └── infrastructure/
+│   │   │       └── repositories/
+│   │   │           └── TorneoEquipoRepository.cs
+│   │   └── transferencia/
+│   │       ├── application/
+│   │       │   ├── interfaces/
+│   │       │   │   ├── ITransferenciaRepository.cs
+│   │       │   │   └── ITransferenciaService.cs
+│   │       │   └── services/
+│   │       │       └── TransferenciaService.cs
+│   │       ├── domain/
+│   │       │   └── models/
+│   │       │       └── Transferencia.cs
+│   │       ├── infrastructure/
+│   │       │   └── repositories/
+│   │       │       └── TransferenciaRepository.cs
+│   │       └── ui/
+│   │           └── MenuTransferencia.cs
 │   ├── shared/
-|   |   ├── configurations/
-│   │   |   ├──  CuerpoMedicoConfig.cs
-│   │   |   ├──  CuerpoTecnicoConfig.cs
-│   │   |   ├──  EquipoConfig.cs
-│   │   |   ├──  EquipoCuerpoMedicoConfig.cs
-│   │   |   ├──  EquipoCuerpoTecnicoConfig.cs
-│   │   |   ├──  EquipoJugadorConfig.cs
-│   │   |   ├──  EstadisticaEquipoConfig.cs
-│   │   |   ├──  EstadisticaJugadorConfig.cs
-│   │   |   ├──  JugadorConfig.cs
-│   │   |   ├──  PersonaConfig.cs
-│   │   |   ├──  TorneoConfig.cs
-│   │   |   ├──  TorneoEquipoConfig.cs
-│   │   |   └──  TransferenciaConfig.cs
+│   │   ├── configurations/
+│   │   │   ├── CuerpoMedicoConfig.cs
+│   │   │   ├── CuerpoTecnicoConfig.cs
+│   │   │   ├── EquipoConfig.cs
+│   │   │   ├── EquipoJugadorConfig.cs
+│   │   │   ├── EstadisticaEquipoConfig.cs
+│   │   │   ├── EstadisticaJugadorConfig.cs
+│   │   │   ├── JugadorConfig.cs
+│   │   │   ├── PersonaConfig.cs
+│   │   │   ├── TorneoConfig.cs
+│   │   │   ├── TorneoEquipoConfig.cs
+│   │   │   └── TransferenciaConfig.cs
 │   │   ├── context/
-│   │   |   └── AppDbContext.cs
+│   │   │   └── AppDbContext.cs
 │   │   ├── data/
-│   │   │   └── ddl.sql
+│   │   │   └── data.sql
 │   │   ├── helpers/
 │   │   │   ├── DbContextFactory.cs
-│   |   |   └── MySqlVersionResolver.cs
-│   │   ├── utils/
-│   │   │   ├── DbInstaller.cs
-│   │   │   └── Validaciones.cs 
-|   ├── ui/
-|   │   └── MenuPrincipal.cs      # Menú general
+│   │   │   └── MySqlVersionResolver.cs
+│   │   └── utils/
+│   │       └── Validaciones.cs
+│   └── ui/
+│       └── MenuPrincipal.cs
+├── .gitignore
+├── Program.cs
+├── README.md
+├── appsettings.json
+├── soccer_cs.csproj
+└── soccer_cs.sln
 ```
 
+---
+*Generated by FileTree Pro Extension*
 ---
 
 ## 🧠 Principios Aplicados

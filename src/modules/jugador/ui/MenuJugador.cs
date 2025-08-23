@@ -1,8 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using persona.src.persona.ui;
-using soccer_cs.src.modules.cuerpo_medico.application.interfaces;
-using soccer_cs.src.modules.cuerpo_medico.application.services;
-using soccer_cs.src.modules.jugador.application.interfaces;
 using soccer_cs.src.modules.jugador.application.services;
 using soccer_cs.src.modules.jugador.domain.models;
 using soccer_cs.src.modules.jugador.infrastructure.repositories;
@@ -14,14 +11,11 @@ using soccer_cs.src.shared.utils;
 namespace soccer_cs.src.modules.jugador.ui;
 public class MenuJugador
 {
-    private readonly Validaciones validate_data = new Validaciones();
-  // esto con el fin de que se pueda acceder a la clase de servicio de jugador
-  // private readonly JugadorService _service = null!;
-  // private readonly IJugadorService _JugadorService;
-  private readonly PersonaService personaService = null!;
-  private readonly JugadorService _jugadorService;
+  private readonly Validaciones validate_data = new Validaciones();
+  // esto con el fin de que se pueda acceder a los servicis de persona y jugador
+  private readonly JugadorService _jugadorService = null!;
   // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
-  private readonly MenuPersona _menuPersona;
+  private readonly MenuPersona _menuPersona = null!;
   // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
   public MenuJugador(AppDbContext _context)
   {
@@ -36,7 +30,7 @@ public class MenuJugador
     "Crear jugador",
     "Actualizar jugador",
     "Eliminar jugador",
-    "Mostrar todos los cuerpos medicos",
+    "Mostrar todos los jugadores",
     "Buscar jugador por id",
     "Buscar jugador por nombre",
     "Registrar jugador a equipo",
@@ -103,7 +97,7 @@ public class MenuJugador
     {
       case 0:
         Console.Clear();
-        await AgregarJugadorAsync();
+        await CrearJugadorAsync();
         break;
       case 1:
         Console.Clear();
@@ -115,25 +109,26 @@ public class MenuJugador
         break;
       case 3:
         Console.Clear();
-        await MostrarJugadorsAsync();
+        await MostrarTodosLosJugadoresAsync();
         break;
       case 4:
         Console.Clear();
-        await ObtenerJugadorPorIdAsync();
+        await BuscarJugadorPorIdAsync();
         break;
       case 5:
         Console.Clear();
-        await ObtenerJugadorPorNombreAsync();
+        await BuscarJugadorPorNombreAsync();
         break;
       case 6:
         Console.Clear();
-        await RegistrarJugadoraEquipoAsync();
+        await RegistrarJugadorAEquipoAsync();
         break;
       case 7:
         Console.Clear();
         await EliminarJugadorDeEquipoAsync();
         break;
       case 8:
+        Console.WriteLine("Presionte cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -143,7 +138,7 @@ public class MenuJugador
     }
     return true;
   }
-  private async Task AgregarJugadorAsync()
+  private async Task CrearJugadorAsync()
   {
     Console.Clear(); 
     Console.WriteLine("---- Registrar jugador ----");
@@ -189,7 +184,7 @@ public class MenuJugador
   private async Task ActualizarJugadorAsync()
   {
     // mostrar todos los jugadores disponibles
-    await MostrarJugadorsAsync();
+    await MostrarTodosLosJugadoresAsync();
     Console.Write("ID del jugador a actualizar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
@@ -268,7 +263,7 @@ public class MenuJugador
   private async Task EliminarJugadorAsync()
   {
     Console.Clear();
-    await MostrarJugadorsAsync();
+    await MostrarTodosLosJugadoresAsync();
     Console.Write("ID del jugadora eliminar: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
@@ -283,7 +278,7 @@ public class MenuJugador
     await _jugadorService.EliminarJugadorAsync(id);
     Console.WriteLine("🗑️ Jugador eliminado.");
   }
-  private async Task MostrarJugadorsAsync()
+  private async Task MostrarTodosLosJugadoresAsync()
   {
     var jugador = await _jugadorService.MostrarJugadorsAsync();
     if (!jugador.Any())
@@ -299,10 +294,10 @@ public class MenuJugador
       Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
     }
   }
-  private async Task ObtenerJugadorPorIdAsync()
+  private async Task BuscarJugadorPorIdAsync()
   {
     // mostrar todos los jugadores disponibles
-    await MostrarJugadorsAsync();
+    await MostrarTodosLosJugadoresAsync();
     Console.Write("ID del jugador a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
 
@@ -315,10 +310,10 @@ public class MenuJugador
 
     Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
   }
-  private async Task ObtenerJugadorPorNombreAsync()
+  private async Task BuscarJugadorPorNombreAsync()
   {
     // mostrar todos los jugadores disponibles
-    await MostrarJugadorsAsync();
+    await MostrarTodosLosJugadoresAsync();
     Console.Write("Escriba el nombre del jugador (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
 
@@ -335,7 +330,7 @@ public class MenuJugador
     }
     Console.WriteLine($"ID: {j.Id} | Nombre: {j.Persona.Nombre} | Posicion: {j.Posicion} | Numero de dorsal: {j.NumeroDorsal} | Pie habil: {j.PieHabil} | Valor del jugador: {j.ValorMercado}");
   }
-  public async Task RegistrarJugadoraEquipoAsync()
+  public async Task RegistrarJugadorAEquipoAsync()
   {
     Console.Write("ID jugador: ");
     int id_jugador = validate_data.ValidarEntero(Console.ReadLine());

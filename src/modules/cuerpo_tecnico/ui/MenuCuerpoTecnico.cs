@@ -100,7 +100,7 @@ public class MenuCuerpoTecnico
     {
       case 0:
         Console.Clear();
-        await AgregarCuerpoTecnicoAsync();
+        await CrearCuerpoTecnicoAsync();
         break;
       case 1:
         Console.Clear();
@@ -112,25 +112,26 @@ public class MenuCuerpoTecnico
         break;
       case 3:
         Console.Clear();
-        await MostrarCuerpoTecnicosAsync();
+        await MostrarCuerposTecnicosAsync();
         break;
       case 4:
         Console.Clear();
-        await ObtenerCuerpoTecnicoPorIdAsync();
+        await MostrarCuerpoTecnicoPorIdAsync();
         break;
       case 5:
         Console.Clear();
-        await ObtenerCuerpoTecnicoPorNombreAsync();
+        await MostrarCuerpoTecnicoPorNombreAsync();
         break;
       case 6:
         Console.Clear();
-        await RegistrarCuerpoTecnicoaEquipoAsync();
+        await RegistrarCuerpoTecnicoAEquipoAsync();
         break;
       case 7:
         Console.Clear();
         await EliminarCuerpoTecnicoDeEquipoAsync();
         break;
       case 8:
+        Console.WriteLine("Presione cualquier tecla para regresar al menú...");
         return false;
       default:
         Console.Clear();
@@ -140,7 +141,7 @@ public class MenuCuerpoTecnico
     }
     return true;
   }
-  private async Task AgregarCuerpoTecnicoAsync()
+  private async Task CrearCuerpoTecnicoAsync()
   {
     // TODO: antes de crear el cuerpo tecnico se debe de crear primeo la persona y se le asigna el id de la ultima persona creada
     Persona persona = new Persona();
@@ -268,7 +269,7 @@ public class MenuCuerpoTecnico
     await _cuerpoTecnicoservice.EliminarCuerpoTecnicoAsync(id);
     Console.WriteLine("🗑️ Cuerpo tecnico eliminado.");
   }
-  private async Task MostrarCuerpoTecnicosAsync()
+  private async Task MostrarCuerposTecnicosAsync()
   {
     // TODO: tengo que revisar si esto esta bien por el nombre del servicio ya que son los mismos en el servicio, o no entiendo
     var cuerpo_tecnico = await _cuerpoTecnicoservice.MostrarCuerpoTecnicosAsync();
@@ -285,7 +286,7 @@ public class MenuCuerpoTecnico
       Console.WriteLine($"ID: {ct.Id} | Nombre: {ct.Persona.Nombre} | Rol: {ct.Rol} | Años de experiencia: {ct.AniosExperiencia}");
     }
   }
-  private async Task ObtenerCuerpoTecnicoPorIdAsync()
+  private async Task MostrarCuerpoTecnicoPorIdAsync()
   {
     Console.Write("ID a obtener: ");
     int id = validate_data.ValidarEntero(Console.ReadLine());
@@ -307,7 +308,7 @@ public class MenuCuerpoTecnico
 
     Console.WriteLine($"Cuerpo Médico: ID={ct.Id} | Nombre={ct.Persona?.Nombre} {ct.Persona?.Apellido} | Rol={ct.Rol} | Años de experiencia={ct.AniosExperiencia} | Nacionalidad={ct.Persona.Nacionalidad} | Documento={ct.Persona.DocumentoIdentidad}");
   }
-  private async Task ObtenerCuerpoTecnicoPorNombreAsync()
+  private async Task MostrarCuerpoTecnicoPorNombreAsync()
   {
     Console.Write("Nombre (o parte del nombre): ");
     var nombre = Console.ReadLine()?.Trim();
@@ -326,7 +327,7 @@ public class MenuCuerpoTecnico
     Console.WriteLine($"Cuerpo Médico: ID={ct.Id} | Nombre={ct.Persona?.Nombre} {ct.Persona?.Apellido} | Rol={ct.Rol} | Años de experiencia={ct.AniosExperiencia} | Nacionalidad={ct.Persona?.Nacionalidad} | Documento={ct.Persona?.DocumentoIdentidad}");
     Console.ReadKey();
   }
-  public async Task RegistrarCuerpoTecnicoaEquipoAsync()
+  public async Task RegistrarCuerpoTecnicoAEquipoAsync()
   {
     Console.Write("ID cuerpo tecnico: ");
     int id_cuerpo_tecnico = validate_data.ValidarEntero(Console.ReadLine());
