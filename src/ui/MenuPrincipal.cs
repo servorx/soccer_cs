@@ -20,8 +20,16 @@ public class MenuPrincipal
   // esto es un contructor que se encarga de inicializr un mensaje de bienvenida al ejecutar el programa
   public void MostrarBienvenida()
   {
+    string titulo = "⚽ BIENVENIDO AL SISTEMA DE FÚTBOL ⚽";
     Console.Clear();
-    DibujarBanner("⚽ BIENVENIDO AL SISTEMA DE FÚTBOL ⚽");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("╔══════════════════════════════════════════════════════╗");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"║{titulo.PadLeft((54 + titulo.Length) / 2).PadRight(52)}║");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("╚══════════════════════════════════════════════════════╝");
+    Console.ResetColor();
+    Console.WriteLine();
 
     EscribirConPausa("\nEste sistema permite gestionar:", 40);
     EscribirConPausa("- Torneos", 40);
@@ -41,16 +49,6 @@ public class MenuPrincipal
     EscribirConPausa("\nPresiona cualquier tecla para comenzar el programa...", 40);
     Console.ResetColor();
     Console.ReadKey(true);
-  }
-  private void DibujarBanner(string titulo)
-  {
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("==========================================================");
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine($"         {titulo}         ");
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("==========================================================");
-    Console.ResetColor();
   }
   // este es el metodo que se encarga de escribir el texto con pausa 
   private void EscribirConPausa(string texto, int milisegundos)
@@ -76,26 +74,46 @@ public class MenuPrincipal
   // este es el metodo del menu principal en la consola con las flechas de arriba y abajo
   private void DibujarMenu()
   {
+    string titulo = "🏟️  Menu Principal 🏟️";
     Console.Clear();
-    DibujarBanner("🏟️ MENÚ PRINCIPAL 🏟️");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("╔══════════════════════════════════════════════════════╗");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"║{titulo.PadLeft((54 + titulo.Length) / 2).PadRight(58)}║");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("╚══════════════════════════════════════════════════════╝");
+    Console.ResetColor();
     Console.WriteLine();
 
     for (int i = 0; i < opcionesMenu.Length; i++)
     {
+      string opcion = opcionesMenu[i];
+
       if (i == opcionSeleccionada)
       {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"▶ {opcionesMenu[i]}");
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($" ▶ {opcion.PadRight(40)} ");
         Console.ResetColor();
       }
       else
       {
-        Console.WriteLine($"  {opcionesMenu[i]}");
+        // Colorear según tipo de módulo
+        if (opcion.Contains("torneo")) Console.ForegroundColor = ConsoleColor.DarkGreen;
+        else if (opcion.Contains("equipo")) Console.ForegroundColor = ConsoleColor.Blue;
+        else if (opcion.Contains("jugador")) Console.ForegroundColor = ConsoleColor.Cyan;
+        else if (opcion.Contains("cuerpo")) Console.ForegroundColor = ConsoleColor.Magenta;
+        else if (opcion.Contains("Transferencias")) Console.ForegroundColor = ConsoleColor.DarkYellow;
+        else if (opcion.Contains("Estadísticas")) Console.ForegroundColor = ConsoleColor.DarkCyan;
+        else Console.ForegroundColor = ConsoleColor.Gray;
+
+        Console.WriteLine($"   {opcion}");
+        Console.ResetColor();
       }
     }
 
     Console.ForegroundColor = ConsoleColor.DarkGray;
-    Console.WriteLine("\nUsa las flechas ↑ ↓ para moverte y Enter para seleccionar.");
+    Console.WriteLine("\n[↑] [↓] Moverse   [Enter] Seleccionar");
     Console.ResetColor();
   }
   // este es el metodo que se encarga de ejecutar el menu principal, donde se va a manejar la logica del menu y de los inputs
@@ -136,50 +154,57 @@ public class MenuPrincipal
   {
     Console.Clear();
     var context = DbContextFactory.Create();
+
     switch (opcion_seleccionada)
     {
       case 0:
         await new MenuTorneo(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 1:
         await new MenuEquipo(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 2:
         await new MenuJugador(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 3:
         await new MenuCuerpoMedico(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 4:
         await new MenuCuerpoTecnico(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 5:
         await new MenuTransferencia(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 6:
         await new MenuEstadisticaEquipo(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 7:
         await new MenuEstadisticaJugador(context).EjecutarMenu();
-        Console.ReadKey(true);
         return true;
       case 8:
-        DibujarBanner("🙌 ¡GRACIAS POR JUGAR! 🙌");
-        Console.WriteLine("Esperamos que tu experiencia haya sido excelente. ⚽💻");
-        Console.WriteLine("\n¡Johlver coloqueme buena nota porfa 🙏!");
-        Console.WriteLine("\nPresiona cualquier tecla para salir...");
-        Console.ReadKey();
-        return false; // salir del ciclo
-      default:
+        string titulo = "🙌 ¡GRACIAS POR USAR EL SISTEMA! 🙌";
         Console.Clear();
-        Console.WriteLine("error al ingresar dato, intentelo de nuevo");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("╔══════════════════════════════════════════════════════╗");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"║{titulo.PadLeft((54 + titulo.Length) / 2).PadRight(54)}║");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("╚══════════════════════════════════════════════════════╝");
+        Console.ResetColor();
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Esperamos que tu experiencia haya sido excelente. ⚽💻");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("\n👨‍💻 Desarrollado por Ángel Pinzón");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("\nPresiona cualquier tecla para salir...");
+        Console.ResetColor();
+        Console.ReadKey();
+        return false;
+      default:
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("❌ Opción inválida. Inténtalo de nuevo.");
+        Console.ResetColor();
         Console.ReadKey(true);
         return true;
     }

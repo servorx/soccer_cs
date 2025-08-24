@@ -10,7 +10,7 @@ public class MenuPersona
   private readonly Validaciones validate_data = new Validaciones();
   private readonly IPersonaService _personaService;
   public MenuPersona(IPersonaService personaService) => _personaService = personaService;
-  public async Task<Persona?> AgregarPersonaAsync()
+  public async Task<Persona?> CrearPersonaAsync()
   {
     Console.Clear();
     Console.WriteLine("---- Registrar Persona ----");
@@ -40,21 +40,21 @@ public class MenuPersona
     var opcion = validate_data.ValidarBoleano(Console.ReadLine());
     if (opcion == false) return null;
 
-    // se crea el nuevo torneo
+    // se crea la nueva persona 
     var persona = new Persona
     {
-      Nombre = nombre,
-      Apellido = apellido,
-      Edad = edad,
-      Nacionalidad = nacionalidad,
-      DocumentoIdentidad = documento_identidad,
-      Genero = genero
+        Nombre = nombre,
+        Apellido = apellido,
+        Edad = edad,
+        Nacionalidad = nacionalidad,
+        DocumentoIdentidad = documento_identidad,
+        Genero = genero
     };
+    // aqui esta como tal el error porquqe no muestra el mensaje de confirmacion
     await _personaService.AgregarPersonaAsync(persona);
     Console.WriteLine("Persona creada exitosamente.");
-    Console.WriteLine("Presiona enter para continuar...");
-    Console.ReadLine();
-    return persona;
+    // se devuelve la persona creada para poder trabajar con el id de la fk
+    return persona; 
   }
   public async Task<Persona?> ActualizarPersonaAsync()
   {

@@ -73,6 +73,7 @@ public class Validaciones
       if (string.IsNullOrWhiteSpace(boleano))
       {
         Console.WriteLine("error al tratar de ingresar una respuesta válida (s/n): ");
+        Console.Write("Ingrese de nuevo la respuesta: ");
         boleano = Console.ReadLine();
         continue;
       }
@@ -86,6 +87,7 @@ public class Validaciones
         return false;
 
       Console.WriteLine("error al tratar de validar un valor boleano");
+      Console.Write("Ingrese de nuevo la respuesta: ");
       boleano = Console.ReadLine();
     }
   }
@@ -102,6 +104,7 @@ public class Validaciones
                                   out resultado))
     {
       Console.WriteLine("⚠️ Error: ingrese una fecha válida en formato (ej: 19/08/2025 o 19-08-2025).");
+      Console.Write("Ingrese de nuevo la fecha: ");
       fecha = Console.ReadLine();
     }
 

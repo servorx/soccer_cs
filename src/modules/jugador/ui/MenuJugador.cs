@@ -17,7 +17,7 @@ public class MenuJugador
   private readonly Validaciones validate_data = new Validaciones();
   private readonly IJugadorService _jugadorService;
   private readonly MenuPersona _menuPersona;
-  private readonly AppDbContext _context;
+  public readonly AppDbContext _context;
   public MenuJugador(AppDbContext context)
   {
     _context = context;
@@ -32,47 +32,78 @@ public class MenuJugador
   } 
   private int opcionSeleccionada = 0;
   // se declara un arreglo de strings que contiene las opciones del menu principal
-  private readonly string[] opcionesMenu =
+  private readonly string[] opcionesMenuJugador =
   {
-    "Crear jugador",
-    "Actualizar jugador",
-    "Eliminar jugador",
-    "Mostrar todos los jugadores",
-    "Buscar jugador por id",
-    "Buscar jugador por nombre",
-    "Registrar jugador a equipo",
-    "Eliminar jugador de un equipo",
-    "Regresar al menú principal"
+    "[CRUD] Crear jugador",
+    "[CRUD] Actualizar jugador",
+    "[CRUD] Eliminar jugador",
+    "[LISTAR] Mostrar todos los jugadores",
+    "[BUSCAR] Buscar por ID",
+    "[BUSCAR] Buscar por nombre",
+    "[RELACIÓN] Asignar a equipo",
+    "[RELACIÓN] Quitar de equipo",
+    "↩ Volver al menú principal"
   };
   // este es el metodo del menu principal en la consola con las flechas de arriba y abajo
-  public void DibujarMenu()
+  private void DibujarMenu(string titulo, string[] opciones, int opcionSeleccionada)
   {
     Console.Clear();
+
+    // ===== CABECERA =====
     Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("========== MENÚ JUGADORES ==========\n");
+    Console.WriteLine("╔══════════════════════════════════════════╗");
+    Console.WriteLine($"║   {titulo.ToUpper().PadLeft((40 + titulo.Length) / 2).PadRight(36)}   ║");
+    Console.WriteLine("╚══════════════════════════════════════════╝");
     Console.ResetColor();
-    // este ciclo se encarga de dibujar las opciones del menu principal de acuerdo a la opcion seleccioada, recorriendo el arreglo de opcionesMenu definidco previamente
-    for (int i = 0; i < opcionesMenu.Length; i++)
+    Console.WriteLine();
+
+    // ===== OPCIONES =====
+    for (int i = 0; i < opciones.Length; i++)
     {
+      string opcion = opciones[i];
+
       if (i == opcionSeleccionada)
       {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"▶ {opcionesMenu[i]}");
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($" ▶ {opcion} ");
         Console.ResetColor();
       }
       else
       {
-        Console.WriteLine($"  {opcionesMenu[i]}");
+        // Colores según categoría detectada en el prefijo
+        if (opcion.StartsWith("[CRUD]"))
+          Console.ForegroundColor = ConsoleColor.Green;
+        else if (opcion.StartsWith("[BUSCAR]"))
+          Console.ForegroundColor = ConsoleColor.Blue;
+        else if (opcion.StartsWith("[LISTAR]"))
+          Console.ForegroundColor = ConsoleColor.Magenta;
+        else if (opcion.StartsWith("[RELACIÓN]"))
+          Console.ForegroundColor = ConsoleColor.DarkCyan;
+        else if (opcion.StartsWith("[TOP]"))
+          Console.ForegroundColor = ConsoleColor.DarkYellow;
+        else if (opcion.StartsWith("[TORNEO]"))
+          Console.ForegroundColor = ConsoleColor.DarkGreen;
+        else
+          Console.ForegroundColor = ConsoleColor.Gray;
+
+        Console.WriteLine($"   {opcion}");
+        Console.ResetColor();
       }
     }
-    Console.WriteLine("\nUsa las flechas ↑ ↓ para moverte y Enter para seleccionar.");
+
+    // ===== PIE DE PÁGINA =====
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine("Usa ↑ ↓ para moverte, Enter para seleccionar, Esc para salir.");
+    Console.ResetColor();
   }
   public async Task EjecutarMenu()
   {
     bool validate_menu = true;
     do
     {
-      DibujarMenu();
+      DibujarMenu("MENÚ JUGADOR", opcionesMenuJugador, opcionSeleccionada);
       // lee la tecla presionada por el usuario
       var tecla_input = Console.ReadKey(true);
 
@@ -82,13 +113,13 @@ public class MenuJugador
         case ConsoleKey.UpArrow:
           opcionSeleccionada--;
           // si la opcion seleccionada es menor a 0, se asigna el ultimo elemento del arreglo de opcionesMenu
-          if (opcionSeleccionada < 0) opcionSeleccionada = opcionesMenu.Length - 1;
+          if (opcionSeleccionada < 0) opcionSeleccionada = opcionesMenuJugador.Length - 1;
           break;
         // si es la flecha hacia abajo se aumenta la opcion seleccionada en el arreglo de opcionesMenu
         case ConsoleKey.DownArrow:
           opcionSeleccionada++;
           // si la opcion seleccionada es mayor o igual al largo del arreglo de opcionesMenu, se asigna 0
-          if (opcionSeleccionada >= opcionesMenu.Length) opcionSeleccionada = 0;
+          if (opcionSeleccionada >= opcionesMenuJugador.Length) opcionSeleccionada = 0;
           break;
         // si se preisona Enter se ejecuta el metodo de EjecutarOpcion con la opcion seleccionada
         case ConsoleKey.Enter:
@@ -148,27 +179,37 @@ public class MenuJugador
   private async Task CrearJugadorAsync()
   {
     Console.Clear(); 
-    Console.WriteLine("---- Registrar jugador ----");
     // Crear la persona primero y obtener su Id
-    var persona = await _menuPersona.AgregarPersonaAsync();
-    
+    var persona = await _menuPersona.CrearPersonaAsync();
+    // 🚨 Validar si el usuario canceló la creacion de la persona
+    if (persona == null)
+    {
+      Console.WriteLine("Creación de persona cancelada. No se registrará el jugador.");
+      Console.WriteLine("Presiona enter para continuar...");
+      Console.ReadLine();
+      return;
+    }
+    // TODO aqui sale id 0
+    Console.WriteLine($"Persona creada con Id: {persona.Id}");
+    Console.WriteLine("---- Registrar jugador ----");
+
     Console.Write("Posicion: ");
     var posicion = validate_data.ValidarTexto(Console.ReadLine());
 
     Console.Write("Numero de dorsal: ");
     var numero_dorsal = validate_data.ValidarEntero(Console.ReadLine());
 
-    Console.WriteLine("Pie habil (izquierdo/derecho): ");
+    Console.Write("Pie habil (izquierdo/derecho): ");
     var pie_habil = validate_data.ValidarTexto(Console.ReadLine());
 
-    Console.WriteLine("Valor del jugador en el mercado: ");
+    Console.Write("Valor del jugador en el mercado: ");
     var valor_jugador = validate_data.ValidarEntero(Console.ReadLine());
     // hacer que el id persona sea el ultimo id creado en la base de datos ya que al crear el jugador se crea una persona primero
 
     // verifica si el usuario quiere confirmar los cambios
     Console.Clear();
     Console.WriteLine("Datos ingresados: \n");
-    Console.WriteLine($"Nombre: {posicion} | Numero de dorsal: {numero_dorsal} | Pie habil: {pie_habil} | Valor del jugador: {valor_jugador}");
+    Console.WriteLine($"Nombre: {persona?.Nombre} | Posicion: {posicion} | Numero de dorsal: {numero_dorsal} | Pie habil: {pie_habil} | Valor del jugador: {valor_jugador}");
     Console.Write("¿Desea registrar el jugador con los datos introducidos? (S/N): ");
     var opcion = validate_data.ValidarBoleano(Console.ReadLine());
     if (opcion == false) return;
@@ -176,6 +217,7 @@ public class MenuJugador
     // se crea el nuevo torneo
     var jugador = new Jugador
     {
+      IdPersona = persona.Id,
       Persona = persona,
       Posicion = posicion,
       NumeroDorsal = numero_dorsal,
@@ -183,6 +225,7 @@ public class MenuJugador
       ValorMercado = valor_jugador 
     };
     await _jugadorService.AgregarJugadorAsync(jugador);
+    // aca no aparecen los mensajes si no que se cierra el programa
     Console.WriteLine("Jugador creado exitosamente.");
     Console.WriteLine("Presiona enter para continuar...");  
     Console.ReadLine();

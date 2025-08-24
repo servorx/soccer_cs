@@ -28,47 +28,78 @@ public class MenuCuerpoTecnico
   // se declara la variable que se va a utilizar para el menu principal
   private int opcionSeleccionada = 0;
   // se declara un arreglo de strings que contiene las opciones del menu principal
-  private readonly string[] opcionesMenu =
+  private readonly string[] opcionesMenuCuerpoTecnico =
   {
-    "Crear cuerpo tecnico",
-    "Actualizar cuerpo tecnico",
-    "Eliminar cuerpo tecnico",
-    "Mostrar todos los cuerpos medicos",
-    "Buscar cuerpo tecnico por id",
-    "Buscar cuerpo tecnico por nombre",
-    "Registrar cuerpo tecnico a equipo",
-    "Eliminar cuerpo tecnico de un equipo",
-    "Regresar al menú principal"
+    "[CRUD] Crear cuerpo técnico",
+    "[CRUD] Actualizar cuerpo técnico",
+    "[CRUD] Eliminar cuerpo técnico",
+    "[LISTAR] Mostrar todos los cuerpos técnicos",
+    "[BUSCAR] Buscar por ID",
+    "[BUSCAR] Buscar por nombre",
+    "[RELACIÓN] Asignar a equipo",
+    "[RELACIÓN] Quitar de equipo",
+    "↩ Volver al menú principal"
   };
   // este es el metodo del menu principal en la consola con las flechas de arriba y abajo
-  public void DibujarMenu()
+  private void DibujarMenu(string titulo, string[] opciones, int opcionSeleccionada)
   {
     Console.Clear();
+
+    // ===== CABECERA =====
     Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("========== MENÚ CUERPO TECNICO ==========\n");
+    Console.WriteLine("╔══════════════════════════════════════════╗");
+    Console.WriteLine($"║   {titulo.ToUpper().PadLeft((40 + titulo.Length) / 2).PadRight(36)}   ║");
+    Console.WriteLine("╚══════════════════════════════════════════╝");
     Console.ResetColor();
-    // este ciclo se encarga de dibujar las opciones del menu principal de acuerdo a la opcion seleccioada, recorriendo el arreglo de opcionesMenu definidco previamente
-    for (int i = 0; i < opcionesMenu.Length; i++)
+    Console.WriteLine();
+
+    // ===== OPCIONES =====
+    for (int i = 0; i < opciones.Length; i++)
     {
+      string opcion = opciones[i];
+
       if (i == opcionSeleccionada)
       {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"▶ {opcionesMenu[i]}");
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($" ▶ {opcion} ");
         Console.ResetColor();
       }
       else
       {
-        Console.WriteLine($"  {opcionesMenu[i]}");
+        // Colores según categoría detectada en el prefijo
+        if (opcion.StartsWith("[CRUD]"))
+          Console.ForegroundColor = ConsoleColor.Green;
+        else if (opcion.StartsWith("[BUSCAR]"))
+          Console.ForegroundColor = ConsoleColor.Blue;
+        else if (opcion.StartsWith("[LISTAR]"))
+          Console.ForegroundColor = ConsoleColor.Magenta;
+        else if (opcion.StartsWith("[RELACIÓN]"))
+          Console.ForegroundColor = ConsoleColor.DarkCyan;
+        else if (opcion.StartsWith("[TOP]"))
+          Console.ForegroundColor = ConsoleColor.DarkYellow;
+        else if (opcion.StartsWith("[TORNEO]"))
+          Console.ForegroundColor = ConsoleColor.DarkGreen;
+        else
+          Console.ForegroundColor = ConsoleColor.Gray;
+
+        Console.WriteLine($"   {opcion}");
+        Console.ResetColor();
       }
     }
-    Console.WriteLine("\nUsa las flechas ↑ ↓ para moverte y Enter para seleccionar.");
+
+    // ===== PIE DE PÁGINA =====
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine("Usa ↑ ↓ para moverte, Enter para seleccionar, Esc para salir.");
+    Console.ResetColor();
   }
   public async Task EjecutarMenu()
   {
     bool validate_menu = true;
     do
     {
-      DibujarMenu();
+      DibujarMenu("MENÚ CUERPO TECNICO", opcionesMenuCuerpoTecnico, opcionSeleccionada);
       // lee la tecla presionada por el usuario
       var tecla_input = Console.ReadKey(true);
 
@@ -78,13 +109,13 @@ public class MenuCuerpoTecnico
         case ConsoleKey.UpArrow:
           opcionSeleccionada--;
           // si la opcion seleccionada es menor a 0, se asigna el ultimo elemento del arreglo de opcionesMenu
-          if (opcionSeleccionada < 0) opcionSeleccionada = opcionesMenu.Length - 1;
+          if (opcionSeleccionada < 0) opcionSeleccionada = opcionesMenuCuerpoTecnico.Length - 1;
           break;
         // si es la flecha hacia abajo se aumenta la opcion seleccionada en el arreglo de opcionesMenu
         case ConsoleKey.DownArrow:
           opcionSeleccionada++;
           // si la opcion seleccionada es mayor o igual al largo del arreglo de opcionesMenu, se asigna 0
-          if (opcionSeleccionada >= opcionesMenu.Length) opcionSeleccionada = 0;
+          if (opcionSeleccionada >= opcionesMenuCuerpoTecnico.Length) opcionSeleccionada = 0;
           break;
         // si se preisona Enter se ejecuta el metodo de EjecutarOpcion con la opcion seleccionada
         case ConsoleKey.Enter:

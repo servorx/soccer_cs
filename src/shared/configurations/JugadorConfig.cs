@@ -27,11 +27,13 @@ public class JugadorConfig : IEntityTypeConfiguration<Jugador>
     // Relación uno a uno con Persona
     builder.HasOne(j => j.Persona)
         .WithOne(p => p.Jugador)
-        .HasForeignKey<Jugador>(j => j.IdPersona);
+        .HasForeignKey<Jugador>(j => j.IdPersona)
+        .OnDelete(DeleteBehavior.Cascade);
 
     // Relación muchos a muchos (jugador - equipo) a través de EquipoJugador
     builder.HasMany(j => j.EquipoJugadors)
         .WithOne(ej => ej.Jugador)
-        .HasForeignKey(ej => ej.IdJugador);
-}
+        .HasForeignKey(ej => ej.IdJugador)
+        .OnDelete(DeleteBehavior.Cascade);
+  }
 }
