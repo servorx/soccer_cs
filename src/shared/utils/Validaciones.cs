@@ -66,27 +66,6 @@ public class Validaciones
 
     return resultado;
   }
-  public float ValidarFloat(string? valor_float)
-  {
-    float resultado = 0;
-    do
-    {
-      if (!float.TryParse(valor_float, out resultado))
-      {
-        Console.WriteLine("Error al tratar de ingresar un valor float. Presione una tecla para continuar...");
-        // pausa hasta que el usuario presione una tecla
-        Console.ReadKey(); 
-        Console.Write("Ingrese de nuevo el valor solicitado: "); 
-        valor_float = Console.ReadLine();
-      }
-      else
-      {
-        break; // si es válido, salimos
-      }
-    } while (true);
-
-    return resultado;
-  }
   public bool ValidarBoleano(string? boleano)
   {
     while (true)

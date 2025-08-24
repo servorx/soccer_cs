@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using persona.src.persona.ui;
+using soccer_cs.src.modules.jugador.application.interfaces;
 using soccer_cs.src.modules.jugador.application.services;
 using soccer_cs.src.modules.jugador.domain.models;
 using soccer_cs.src.modules.jugador.infrastructure.repositories;
+using soccer_cs.src.modules.persona.application.interfaces;
 using soccer_cs.src.modules.persona.application.services;
+using soccer_cs.src.modules.persona.infrastructure.repositories;
 using soccer_cs.src.shared.context;
 using soccer_cs.src.shared.helpers;
 using soccer_cs.src.shared.utils;
@@ -12,17 +15,21 @@ namespace soccer_cs.src.modules.jugador.ui;
 public class MenuJugador
 {
   private readonly Validaciones validate_data = new Validaciones();
-  // esto con el fin de que se pueda acceder a los servicis de persona y jugador
-  private readonly JugadorService _jugadorService = null!;
-  // esto se implemente con el fin de poder llamar a la clase de menu de persona para algunas funciones como el crear persona al ingresar un cuerpo medico
-  private readonly MenuPersona _menuPersona = null!;
-  // este codigo se hace con el fin de que cuando se ejecute el programa se pueda ve el menu de la aplicacion
-  public MenuJugador(AppDbContext _context)
+  private readonly IJugadorService _jugadorService;
+  private readonly MenuPersona _menuPersona;
+  private readonly AppDbContext _context;
+  public MenuJugador(AppDbContext context)
   {
-    var repo = new JugadorRepository(_context);
-    _jugadorService = new JugadorService(repo); 
-  }
-  // se declara la variable que se va a utilizar para el menu principal
+    _context = context;
+
+    var jugadorRepository = new JugadorRepository(context);
+    _jugadorService = new JugadorService(jugadorRepository);
+
+    var personaRepository = new PersonaRepository(context);
+    var personaService = new PersonaService(personaRepository);
+
+    _menuPersona = new MenuPersona(personaService);
+  } 
   private int opcionSeleccionada = 0;
   // se declara un arreglo de strings que contiene las opciones del menu principal
   private readonly string[] opcionesMenu =
@@ -157,7 +164,6 @@ public class MenuJugador
     Console.WriteLine("Valor del jugador en el mercado: ");
     var valor_jugador = validate_data.ValidarEntero(Console.ReadLine());
     // hacer que el id persona sea el ultimo id creado en la base de datos ya que al crear el jugador se crea una persona primero
-    var id_persona = await DbContextFactory.Create().Personas.MaxAsync(p => p.Id);
 
     // verifica si el usuario quiere confirmar los cambios
     Console.Clear();
@@ -229,7 +235,7 @@ public class MenuJugador
 
     Console.Write($"Nuevo valor del jugador (actual: {existente.ValorMercado}), presiona enter para mantener el mismo valor: ");
     var nuevoValorStr = Console.ReadLine();
-    if (!string.IsNullOrWhiteSpace(nuevoValorStr) && float.TryParse(nuevoValorStr, out float nuevoValor))
+    if (!string.IsNullOrWhiteSpace(nuevoValorStr) && decimal.TryParse(nuevoValorStr, out decimal nuevoValor))
       existente.ValorMercado = nuevoValor;
 
     // Mostrar resumen de los nuevos datos

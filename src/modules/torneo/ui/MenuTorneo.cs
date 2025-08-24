@@ -159,7 +159,7 @@ public class MenuTorneo
     var fecha_final = validate_data.ValidarFecha(Console.ReadLine());
 
     Console.Write("Premio del torneo: ");
-    var premio_torneo = validate_data.ValidarFloat(Console.ReadLine());
+    var premio_torneo = validate_data.ValidarDecimal(Console.ReadLine());
 
     // verifica si el usuario quiere confirmar los cambios
     Console.Clear();
@@ -247,7 +247,7 @@ public class MenuTorneo
     var nuevoPremioStr = Console.ReadLine();
     if (!string.IsNullOrEmpty(nuevoPremioStr))
     {
-      if (float.TryParse(nuevoPremioStr, out var nuevoPremio))
+      if (decimal.TryParse(nuevoPremioStr, out var nuevoPremio))
         existente.Premio = nuevoPremio;
       else
         Console.WriteLine("⚠️ Formato de dato flotante inválido, se conserva la actual.");

@@ -1,5 +1,4 @@
-hacer la parte de verfiicar el array de las opciones de los menu porque no me funcionan algunos
-
+revisar por que cuando ingreso la persona en jugador, se me sale del programa
 verficiar las consultas de la base de datos
 
 verificar los registros y todo el crud basico 

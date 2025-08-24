@@ -14,10 +14,10 @@ public class Torneo
   public string? Ubicacion { get; set; }
   public DateTime FechaInicio { get; set; }
   public DateTime FechaFinal { get; set; }
-  public float? Premio { get; set; }
+  public decimal? Premio { get; set; }
   // deficion de que forma parte de la fk de TorneoEquipo
   public ICollection<TorneoEquipo> TorneosEquipos { get; set; } = new List<TorneoEquipo>();
-  public Torneo(int id, string? nombre, string? tipo, string? ubicacion, DateTime fechaInicio, DateTime fechaFinal, float? premio)
+  public Torneo(int id, string? nombre, string? tipo, string? ubicacion, DateTime fechaInicio, DateTime fechaFinal, decimal? premio)
   {
     Id = id;
     Nombre = nombre;
