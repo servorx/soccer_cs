@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// programa realizado por Angel David con el objetivo de tener un control completo con persistencia de datos del futbol completo 
+using Microsoft.EntityFrameworkCore;
 using soccer_cs.src.shared.helpers;
 using soccer_cs.src.ui;
 

@@ -15,7 +15,8 @@ namespace soccer_cs.src.modules.jugador.ui;
 public class MenuJugador
 {
   private readonly Validaciones validate_data = new Validaciones();
-  private readonly IJugadorService _jugadorService;
+  private readonly JugadorService _jugadorService;
+  private readonly PersonaService _personaService;
   private readonly MenuPersona _menuPersona;
   public readonly AppDbContext _context;
   public MenuJugador(AppDbContext context)
@@ -181,16 +182,7 @@ public class MenuJugador
     Console.Clear(); 
     // Crear la persona primero y obtener su Id
     var persona = await _menuPersona.CrearPersonaAsync();
-    // 🚨 Validar si el usuario canceló la creacion de la persona
-    if (persona == null)
-    {
-      Console.WriteLine("Creación de persona cancelada. No se registrará el jugador.");
-      Console.WriteLine("Presiona enter para continuar...");
-      Console.ReadLine();
-      return;
-    }
-    // TODO aqui sale id 0
-    Console.WriteLine($"Persona creada con Id: {persona.Id}");
+    
     Console.WriteLine("---- Registrar jugador ----");
 
     Console.Write("Posicion: ");
@@ -224,7 +216,23 @@ public class MenuJugador
       PieHabil = pie_habil,
       ValorMercado = valor_jugador 
     };
+    Console.WriteLine($"Agregado persona... {persona.Id}");
+    var hola = await _personaService.AgregarPersonaAsync(persona);
+    Console.WriteLine($"Agregado persona... {persona.Id}");
+    if (hola == null || hola.Id == 0)
+    {
+      Console.WriteLine("❌ No se pudo crear la persona. Cancelando creación de jugador...");
+      Console.ReadLine();
+      return;
+    }
+    Console.WriteLine($"Jugador creada con Id: {persona.Id}");
     await _jugadorService.AgregarJugadorAsync(jugador);
+    if (jugador == null || jugador.Id == 0)
+    {
+      Console.WriteLine("❌ No se pudo crear el jugador jasdfdasflajsdlf");
+      Console.ReadLine();
+      return;
+    }
     // aca no aparecen los mensajes si no que se cierra el programa
     Console.WriteLine("Jugador creado exitosamente.");
     Console.WriteLine("Presiona enter para continuar...");  

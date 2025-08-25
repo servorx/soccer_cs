@@ -12,7 +12,7 @@ public class JugadorRepository : IJugadorRepository
   public JugadorRepository(AppDbContext context) =>_context = context;    
   // se agrega pero luego toca guardar los cambios manuamente con el metodo SaveChanges
   public void Add(Jugador jugador) => _context.Jugadores.Add(jugador);
-  public void Update(Jugador entity) => _context.SaveChanges();
+  public void Update(Jugador entity) => _context.Jugadores.Update(entity); 
   public void Remove(Jugador entity) => _context.Jugadores.Remove(entity);
   public async Task<IEnumerable<Jugador?>> GetAllAsync() => await _context.Jugadores.ToListAsync();
   public async Task<Jugador?> GetByIdAsync(int id) => await _context.Jugadores.FirstOrDefaultAsync(j => j.Id == id);

@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS soccer_cs;
 CREATE DATABASE IF NOT EXISTS soccer_cs;
 USE soccer_cs;
 
@@ -17,7 +18,7 @@ CREATE TABLE IF NOT EXISTS personas (
   apellido VARCHAR(80) NOT NULL,
   edad INT NOT NULL,
   nacionalidad VARCHAR(50) NOT NULL,
-  documento_identidad INT UNIQUE,
+  documento_identidad INT NOT NULL UNIQUE,
   genero VARCHAR(50)
 ) ENGINE=INNODB;
 
@@ -44,10 +45,10 @@ CREATE TABLE IF NOT EXISTS cuerpo_tecnico (
 CREATE TABLE IF NOT EXISTS jugadores (
   id INT PRIMARY KEY AUTO_INCREMENT,
   id_persona INT NOT NULL,
-  posicion VARCHAR(40),
-  numero_dorsal INT,
-  pie_habil VARCHAR(15),
-  valor_mercado DECIMAL(12,2),
+  posicion VARCHAR(40) NOT NULL,
+  numero_dorsal INT NOT NULL,
+  pie_habil VARCHAR(15) NOT NULL,
+  valor_mercado DECIMAL(12,2) NOT NULL,
   id_equipo_actual INT,
   CONSTRAINT fk_id_jugador_persona FOREIGN KEY (id_persona) REFERENCES personas(id),
   CONSTRAINT fk_id_equipo_actual_jugadores FOREIGN KEY (id_equipo_actual) REFERENCES equipos(id)
@@ -55,26 +56,26 @@ CREATE TABLE IF NOT EXISTS jugadores (
 
 CREATE TABLE IF NOT EXISTS estadistica_jugador (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  id_jugador INT,
-  goles INT,
-  asistencias INT,
-  partidos_jugados INT,
-  estatura DECIMAL(3,2),
-  peso DECIMAL(5,2),
-  tarjetas_amarillas INT,
-  tarjetas_rojas INT,
+  id_jugador INT NOT NULL,
+  goles INT NOT NULL,
+  asistencias INT NOT NULL,
+  partidos_jugados INT NOT NULL,
+  estatura DECIMAL(3,2) NOT NULL,
+  peso DECIMAL(5,2) NOT NULL,
+  tarjetas_amarillas INT NOT NULL,
+  tarjetas_rojas INT NOT NULL,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_est_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
 ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS estadistica_equipo (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  id_equipo INT,
-  partidos_ganados INT,
-  partidos_empatados INT,
-  partidos_perdidos INT,
-  goles_a_favor INT,
-  goles_en_contra INT,
+  id_equipo INT NOT NULL,
+  partidos_ganados INT NOT NULL,
+  partidos_empatados INT NOT NULL,
+  partidos_perdidos INT NOT NULL,
+  goles_a_favor INT NOT NULL,
+  goles_en_contra INT NOT NULL,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_id_equipo_ee FOREIGN KEY (id_equipo) REFERENCES equipos(id)
 ) ENGINE=INNODB;
@@ -82,8 +83,8 @@ CREATE TABLE IF NOT EXISTS estadistica_equipo (
 CREATE TABLE IF NOT EXISTS equipo_jugador (
   id_equipo INT,
   id_jugador INT,
-  fecha_inicio DATE,
-  fecha_fin DATE,    
+  fecha_inicio DATE NOT NULL,
+  fecha_fin DATE NOT NULL,    
   PRIMARY KEY (id_equipo, id_jugador),
   CONSTRAINT fk_id_equipo_equipo_jugador FOREIGN KEY (id_equipo) REFERENCES equipos(id),
   CONSTRAINT fk_id_jugador_equipo_jugador FOREIGN KEY (id_jugador) REFERENCES jugadores(id)
@@ -91,12 +92,12 @@ CREATE TABLE IF NOT EXISTS equipo_jugador (
 
 CREATE TABLE IF NOT EXISTS torneos (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(255) UNIQUE,
-  tipo VARCHAR(30),
-  ubicacion VARCHAR(255),
-  fecha_inicio DATE,
-  fecha_final DATE,
-  premio DECIMAL(15,2)
+  nombre VARCHAR(255) UNIQUE NOT NULL,
+  tipo VARCHAR(30) NOT NULL,
+  ubicacion VARCHAR(255) NOT NULL,
+  fecha_inicio DATE NOT NULL,
+  fecha_final DATE NOT NULL,
+  premio DECIMAL(15,2) NOT NULL
 ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS torneo_equipo (
@@ -109,12 +110,12 @@ CREATE TABLE IF NOT EXISTS torneo_equipo (
 
 CREATE TABLE IF NOT EXISTS transferencia (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  id_jugador INT,
-  id_equipo_origen INT,
-  id_equipo_destino INT, 
-  tipo_transferencia VARCHAR(120), 
-  valor_transferencia DECIMAL(12,2),
-  fecha_transferencia DATE,
+  id_jugador INT NOT NULL,
+  id_equipo_origen INT NOT NULL,
+  id_equipo_destino INT NOT NULL, 
+  tipo_transferencia VARCHAR(120) NOT NULL, 
+  valor_transferencia DECIMAL(12,2) NOT NULL,
+  fecha_transferencia DATE NOT NULL,
   CONSTRAINT fk_id_jugador_transferencia FOREIGN KEY (id_jugador) REFERENCES jugadores(id),
   CONSTRAINT fk_id_equipo_origen_transferencia FOREIGN KEY (id_equipo_origen) REFERENCES equipos(id),
   CONSTRAINT fk_id_equipo_destino_transferencia FOREIGN KEY (id_equipo_destino) REFERENCES equipos(id)

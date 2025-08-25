@@ -17,7 +17,7 @@ public class TransferenciaConfig : IEntityTypeConfiguration<Transferencia>
 
     // creacion de la columnas
     builder.Property(t => t.TipoTransferencia).IsRequired().HasMaxLength(120);
-    builder.Property(t => t.ValorTransferencia).HasColumnType("decimal(12,2)");
+    builder.Property(t => t.ValorTransferencia).IsRequired().HasColumnType("decimal(12,2)");
     builder.Property(t => t.FechaTransferencia).IsRequired();
 
     // Relación con Jugador

@@ -29,7 +29,7 @@ public class PersonaConfig : IEntityTypeConfiguration<Persona>
     builder.Property(p => p.Nacionalidad).HasMaxLength(50).IsRequired();
     builder.Property(p => p.DocumentoIdentidad).IsRequired().HasColumnType("int");
     builder.HasIndex(p => p.DocumentoIdentidad).IsUnique();
-    builder.Property(p => p.Genero).HasMaxLength(50);
+    builder.Property(p => p.Genero).IsRequired().HasMaxLength(50);
 
     // TODO: revisar la parte de las relaciona a pesar de que herede de persona ya que es una relacion de uno a uno 
     // ? no se colocan relaciones ya que las clases heredan directamente de persona

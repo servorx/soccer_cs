@@ -12,10 +12,22 @@ public class PersonaService : IPersonaService
   private readonly IPersonaRepository _personaRepository;
   // estas son las funcionalidades basicas del crud con las cuales va a interactura el usuario y que se van a implementar en el menu de su respectiva entidad
   public PersonaService(IPersonaRepository personaRepository) => _personaRepository = personaRepository;
-  public async Task AgregarPersonaAsync(Persona persona)
+  public async Task<Persona> AgregarPersonaAsync(Persona persona)
   {
-    _personaRepository.Add(persona);
-    await _personaRepository.SaveAsync();
+    try
+    {
+      _personaRepository.Add(persona);
+      await _personaRepository.SaveAsync();
+      Console.WriteLine("✅ Persona creada con éxito");
+      return persona; // aquí EF ya habrá asignado el Id
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine($"❌ Error al crear la persona: {ex.Message}");
+      if (ex.InnerException != null)
+        Console.WriteLine($"🔎 InnerException: {ex.InnerException.Message}");
+      throw; // importante: vuelve a lanzar para que lo capture tu menú
+    }
   }
   public async Task ActualizarPersonaAsync(int id, Persona persona)
   {
@@ -42,4 +54,5 @@ public class PersonaService : IPersonaService
     }
   }
   public async Task<Persona?> ObtenerPersonaPorIdAsync(int id) => await _personaRepository.GetByIdAsync(id);
+  public async Task<IEnumerable<Persona>> GetAllPersonasAsync() => await _personaRepository.GetAllAsync();
 }

@@ -16,11 +16,12 @@ public class CuerpoMedico
   public int AniosExperiencia { get; set; }
   // relaciones de clases foraneas 
   public int? IdEquipo { get; set; }
-  public Equipo? Equipo { get; set; } = null!;
+  public Equipo? Equipo { get; set; }
   public Persona Persona { get; set; } = null!;
-  public CuerpoMedico(int id, string? especialidad, int aniosExperiencia)
+  public CuerpoMedico(int id, int id_persona, string? especialidad, int aniosExperiencia)
   {
     Id = id;
+    IdPersona = id_persona;
     Especialidad = especialidad;
     AniosExperiencia = aniosExperiencia;
   }

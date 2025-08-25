@@ -39,22 +39,39 @@ public class MenuPersona
     Console.Write("¿Desea registrar la persona con los datos introducidos? (S/N): ");
     var opcion = validate_data.ValidarBoleano(Console.ReadLine());
     if (opcion == false) return null;
-
     // se crea la nueva persona 
     var persona = new Persona
     {
-        Nombre = nombre,
-        Apellido = apellido,
-        Edad = edad,
-        Nacionalidad = nacionalidad,
-        DocumentoIdentidad = documento_identidad,
-        Genero = genero
+      Nombre = nombre,
+      Apellido = apellido,
+      Edad = edad,
+      Nacionalidad = nacionalidad,
+      DocumentoIdentidad = documento_identidad,
+      Genero = genero
     };
-    // aqui esta como tal el error porquqe no muestra el mensaje de confirmacion
-    await _personaService.AgregarPersonaAsync(persona);
-    Console.WriteLine("Persona creada exitosamente.");
-    // se devuelve la persona creada para poder trabajar con el id de la fk
-    return persona; 
+    try
+    {
+
+      Console.WriteLine("Persona creada exitosamente.");
+      Console.WriteLine($"Id generado: {persona.Id}");
+      Console.WriteLine("Presiona Enter para continuar...");
+      Console.ReadLine();
+      return persona;
+    }
+    catch (Exception ex)
+    {
+      Console.ForegroundColor = ConsoleColor.Red;
+      Console.WriteLine("❌ Error al crear la persona: " + ex.Message);
+
+      if (ex.InnerException != null)
+      {
+        Console.WriteLine("🔎 InnerException: " + ex.InnerException.Message);
+      }
+
+      Console.ResetColor();
+      Console.ReadLine();
+      return null;
+    }
   }
   public async Task<Persona?> ActualizarPersonaAsync()
   {

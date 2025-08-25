@@ -5,9 +5,10 @@ namespace soccer_cs.src.modules.persona.application.interfaces;
 // se usa para declarar metodos que se van a usar en PersonaRepository.cs y PersonaService.cs
 public interface IPersonaRepository
 {
-  void Add(Persona entity);
+  void Add(Persona persona);
   void Update(Persona entity);
   void Remove(Persona entity);
   Task<Persona?> GetByIdAsync(int id);
+  Task<IEnumerable<Persona>> GetAllAsync();
   Task SaveAsync();
 }

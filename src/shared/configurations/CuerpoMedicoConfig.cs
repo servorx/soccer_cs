@@ -22,7 +22,7 @@ public class CuerpoMedicoConfig : IEntityTypeConfiguration<CuerpoMedico>
     // configuracion de la clave foranea hacia equipo, en este caso con relacion de uno a muchos
     builder.HasOne(cm => cm.Equipo)
         .WithMany(e => e.CuerpoMedicos)
-        .HasForeignKey(cm => cm.Equipo)
+        .HasForeignKey(cm => cm.IdEquipo)
         .OnDelete(DeleteBehavior.Cascade);
     // relacio uno a uno con persona
     builder.HasOne(cm => cm.Persona)

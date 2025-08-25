@@ -11,9 +11,10 @@ public class PersonaRepository : IPersonaRepository
   private readonly AppDbContext _context;
   public PersonaRepository(AppDbContext context) =>_context = context;    
   // se agrega pero luego toca guardar los cambios manuamente con el metodo SaveChanges
-  public void Add(Persona cuerpoMedico) => _context.Personas.Add(cuerpoMedico);
-  public void Update(Persona entity) => _context.SaveChanges();
+  public void Add(Persona persona) => _context.Personas.Add(persona);
+  public void Update(Persona entity) => _context.Personas.Update(entity);
   public void Remove(Persona entity) => _context.Personas.Remove(entity);
   public async Task<Persona?> GetByIdAsync(int id) => await _context.Personas.FirstOrDefaultAsync(p => p.Id == id);
+  public async Task<IEnumerable<Persona>> GetAllAsync() => await _context.Personas.ToListAsync();
   public async Task SaveAsync() => await _context.SaveChangesAsync();
 }
